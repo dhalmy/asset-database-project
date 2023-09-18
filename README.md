@@ -24,16 +24,19 @@ Error messages after attempted submission
 When forwarding a page, the browser keeps the client on the same URL while internally changing what the client sees on the page. Redirect sends a brand new URL to the client, meaning a new request and typically a new page. Both are very useful at completing different purposes.
 
 
+
 **2. How would you be validating user submissions without the Bean Validation API 
 standard?**
 
 I would be writing custom code to check the user inputs. Such as checking if the number is > 0 and writing regular expressions to make sure the data fits the parameters I want.
 
 
+
 **3. How do you think this MVC approach would scale to a real application with 100's of 
 entities?**
 
 This MVC approach seems to be fine at this current scale, but I think there would need to be changes made before scaling it up. There's a lot of work to be done here because we are developing the API from scratch, whereas when coding to scale for 100s of entities we'd be better off using a developed framework.
+
 
 
 **4. Why didn't we need to include any additional dependencies (i.e. Bean Validation, 
