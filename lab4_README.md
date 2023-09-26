@@ -22,7 +22,8 @@ My deleteTest() function creates test data, verifies its in the database, then r
     @Test
     public void deleteTest(){}
 <hr>
-![image](https://github.com/itmd4515/itmd4515-f23-fp-dhalmy/assets/91496056/fb2caedf-756c-466f-8dff-63fe1df89a0b)
+![image](https://github.com/itmd4515/itmd4515-f23-fp-dhalmy/assets/91496056/a92f8387-68b9-407b-ab8b-250ba702411a)
+
 
 
 My validateValidEmployee() function creates a valid employee John Doe with all correct information, then makes sure there's no violation.
