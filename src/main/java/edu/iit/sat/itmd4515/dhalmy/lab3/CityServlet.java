@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package edu.iit.sat.itmd4515.dhalmy.web;
+package edu.iit.sat.itmd4515.dhalmy.lab3;
 
-import edu.iit.sat.itmd4515.dhalmy.model.City;
+import edu.iit.sat.itmd4515.dhalmy.lab3.City;
 import jakarta.annotation.Resource;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

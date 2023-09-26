@@ -17,7 +17,7 @@ import jakarta.enterprise.context.ApplicationScoped;
         className = "com.mysql.cj.jdbc.MysqlDataSource",
         serverName = "localhost",
         portNumber = 3306,
-        databaseName = "world",
+        databaseName = "itmd4515",
         user = "itmd4515",
         password = "itmd4515",
         properties = {
