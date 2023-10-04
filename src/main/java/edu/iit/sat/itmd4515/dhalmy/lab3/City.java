@@ -4,6 +4,10 @@
  */
 package edu.iit.sat.itmd4515.dhalmy.lab3;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -14,10 +18,12 @@ import jakarta.validation.constraints.Size;
  *
  * @author David
  */
+@Entity
 public class City {
     
-    
+    @Id
     @NotNull
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Pattern(regexp = "\\d+", message = "ID must contain only numbers")
     private String ID;
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Only letters are allowed for country name")

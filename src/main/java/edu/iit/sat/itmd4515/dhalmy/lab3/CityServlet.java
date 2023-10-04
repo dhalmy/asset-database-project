@@ -6,12 +6,20 @@ package edu.iit.sat.itmd4515.dhalmy.lab3;
 
 import edu.iit.sat.itmd4515.dhalmy.lab3.City;
 import jakarta.annotation.Resource;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import java.io.IOException;
@@ -35,6 +43,12 @@ public class CityServlet extends HttpServlet {
     
     @Resource(name = "java:app/jdbc/itmd4515DS")
     DataSource ds;
+    
+    @PersistenceContext(name = "itmd4515PU")
+    EntityManager em;
+    
+    @Resource
+    UserTransaction tx;
 
     private static final Logger LOG = Logger.getLogger(CityServlet.class.getName());
     
@@ -87,7 +101,7 @@ public class CityServlet extends HttpServlet {
             RequestDispatcher rd = req.getRequestDispatcher("city.jsp");
             rd.forward(req, resp);
         } else{
-            createACity(c);
+            createACityJDBC(c);
             //user passed validation
             req.setAttribute("city", c);
             RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/confirmation.jsp");
@@ -102,7 +116,28 @@ public class CityServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/city.jsp");
     }
     
-    private void createACity(City c) {
+    
+    private void createACityJPA(City c) throws NotSupportedException, SystemException{
+        tx.begin();
+        em.persist(c);
+        try {
+            tx.commit();
+        } catch (RollbackException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+           LOG.log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    private void createACityJDBC(City c) {
         String insertCity = "insert into city "
                 + "(id,`name`,countrycode,district,population) "
                 + "values (?,?,?,?,?)";

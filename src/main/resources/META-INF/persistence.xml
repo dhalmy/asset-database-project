@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
-    
-    <persistence-unit name="itmd4515testPU" transaction-type="RESOURCE_LOCAL">
-
-        <class>edu.iit.sat.itmd4515.dhalmy.domain.Employee</class>
-        <properties>
-            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"></property>
-            <property name="jakarta.persistence.jdbc.user" value="itmd4515"></property>
-            <property name="jakarta.persistence.jdbc.password" value="itmd4515"></property>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/itmd4515?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;useSSL=false"></property>
-            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-        </properties>
-    </persistence-unit>
+<persistence version="3.1" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd">
+  <persistence-unit name="itmd4515PU" transaction-type="JTA">
+    <jta-data-source>java:app/jdbc/itmd4515DS</jta-data-source>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
 </persistence>
