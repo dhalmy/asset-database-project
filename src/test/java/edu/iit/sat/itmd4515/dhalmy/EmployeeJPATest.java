@@ -4,6 +4,8 @@
  */
 package edu.iit.sat.itmd4515.dhalmy;
 
+import edu.iit.sat.itmd4515.dhalmy.domain.Cubicle;
+import edu.iit.sat.itmd4515.dhalmy.domain.DockingStation;
 import edu.iit.sat.itmd4515.dhalmy.domain.Employee;
 import edu.iit.sat.itmd4515.dhalmy.domain.EmployeeDepartment;
 import jakarta.persistence.EntityManager;
@@ -67,7 +69,7 @@ public class EmployeeJPATest {
         Employee e = em.createQuery("select e from Employee e where e.username = 'ssmith'",Employee.class).getSingleResult();
         
         assertNotNull(e);
-        assertTrue(e.getId() > 0);
+        assertTrue(e.getEmployeeID() > 0);
         assertEquals("ssmith",e.getUsername());
     }
     
@@ -92,7 +94,7 @@ public class EmployeeJPATest {
         
         //read back from db and assert updated field was changed
         
-        Employee employeeReadBackFromDatabaseForTestCase = em.find(Employee.class, e.getId());
+        Employee employeeReadBackFromDatabaseForTestCase = em.find(Employee.class, e.getEmployeeID());
         
         assertEquals("Samuel", employeeReadBackFromDatabaseForTestCase.getFirstName());
         
@@ -117,12 +119,84 @@ public class EmployeeJPATest {
         tx.commit();
 
         // verify removal
-        Employee deletedEmployee = em.find(Employee.class, retrievedEmployee.getId());
+        Employee deletedEmployee = em.find(Employee.class, retrievedEmployee.getEmployeeID());
         assertNull(deletedEmployee);
     }
     
     
     
+    @Test
+    public void uniDirectionalRelationshipsTest(){
+        DockingStation d = new DockingStation("F04046", "ZVT08294", "X92723");
+        Cubicle c = new Cubicle(435);
+        
+        c.setDockingStation(d);
+        tx.begin();
+        em.persist(d);
+        em.persist(c);
+        tx.commit();
+         
+        Cubicle readBackFromDB = em.find(Cubicle.class, c.getCubicleID());
+         
+        assertEquals("F04046",readBackFromDB.getDockingStation().getAssetTag());
+        
+        //remove test data
+        tx.begin();
+        em.remove(readBackFromDB);
+        em.remove(d);
+        em.remove(c);
+        tx.commit();
+
+        //verify that the data has been removed
+        DockingStation deletedDock = em.find(DockingStation.class, d.getDockID());
+        assertNull(deletedDock);
+
+        Cubicle deletedCubicle = em.find(Cubicle.class, c.getCubicleID());
+        assertNull(deletedCubicle);
+    }
+    
+    
+    @Test
+    public void biDirectionalRelationshipsTest(){
+        Employee e = new Employee("zoe","smith","zsmith");
+        Cubicle c = new Cubicle(435);
+        
+        e.addCubicle(c);
+        
+        e.setCubicle(c);
+        tx.begin();
+        em.persist(c);
+        em.persist(e);
+        tx.commit();
+         
+        Employee readBackFromDB = em.find(Employee.class, e.getEmployeeID());
+         
+        assertEquals(435,readBackFromDB.getCubicle().getCubicleID());
+        
+        assertFalse(c.getEmployees().isEmpty());
+        assertNotNull(e.getEmployeeID());
+        assertNotNull(c.getCubicleID());
+        
+//        System.out.println("from owning side:" + e.getCubicle().toString());
+//        System.out.println("from inverse side " + c.getEmployees());
+        
+        
+//        remove test data
+        tx.begin();
+        em.remove(readBackFromDB);
+        e.removeCubicle(c);
+        em.remove(c);
+        em.remove(e);
+        tx.commit();
+
+        //verify that the data has been removed
+        Employee deletedEmployee = em.find(Employee.class, e.getEmployeeID());
+        assertNull(deletedEmployee);
+
+        Cubicle deletedCubicle = em.find(Cubicle.class, c.getCubicleID());
+        assertNull(deletedCubicle);
+    }
+   
     @AfterEach
     public void afterEach(){
         Employee e = em.createQuery("select e from Employee e where e.username = 'ssmith'",Employee.class).getSingleResult();
