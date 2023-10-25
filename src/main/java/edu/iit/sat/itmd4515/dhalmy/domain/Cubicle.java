@@ -4,6 +4,7 @@
  */
 package edu.iit.sat.itmd4515.dhalmy.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -26,6 +28,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Cubicles")
+@NamedQuery(name = "Cubicle.findAll", query = "select c from Cubicle c")
 public class Cubicle {
     @Id
     @Column(name = "Cubicle_Number")
@@ -40,10 +43,15 @@ public class Cubicle {
     //i could make it a "monitor pair" but it wouldn't be very modular, say if one monitor needs replacement
     //i would need to insert the new pair instead of removing the one old monitor and replacing with the new
     
-//owning side of uni-directional 1:M    
+    
+    
     @OneToMany
-    @JoinColumn(name = "Monitor_ID")
+    @JoinColumn(name = "cubicle_id")
     private List<Monitor> monitors = new ArrayList<>();
+    
+//now inverse side?
+//    @OneToMany(mappedBy = "cubicle")
+//    private List<Monitor> monitors;
 
     //i want the center of the database to be focused around the employee. from the employee
     //you know their laptop, their cube, and from their cube you can find out the cube's information
@@ -72,6 +80,18 @@ public class Cubicle {
     public void removeMonitor(Monitor m){
         if(this.monitors.contains(m)){
             this.monitors.remove(m);            
+        }
+    }
+    
+    public void addDockingStation(DockingStation dockingStation) {
+        if (this.dockingStation != dockingStation) {
+            this.dockingStation = dockingStation;
+        }
+    }
+
+    public void removeDockingStation() {
+        if (this.dockingStation != null) {
+            this.dockingStation = null;
         }
     }
     
@@ -111,6 +131,8 @@ public class Cubicle {
     public void setDockingStation(DockingStation dockingStation) {
         this.dockingStation = dockingStation;
     }
+    
+    
 
     @Override
     public String toString() {

@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Monitors")
+@NamedQuery(name = "Monitor.findAll", query = "select m from Monitor m")
 public class Monitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +43,14 @@ public class Monitor {
     private String serialNum;
     
     @NotBlank(message = "Make and model is required")
-    @Pattern(regexp = "^[a-zA-Z0-9]*", message = "Make and model must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*", message = "Make and model must contain only letters and numbers")
     @Column(nullable = false, name = "Make_and_Model")
     private String makeModel;
-    
+//    
 //    @ManyToOne
 //    @JoinColumn(name = "cubicle_id")
 //    private Cubicle cubicle;
-//    
+    
     
 
 
@@ -123,7 +125,7 @@ public class Monitor {
     public void setAssetTag(String assetTag) {
         this.assetTag = assetTag;
     }
-
+    
 //    public Cubicle getCubicle() {
 //        return cubicle;
 //    }

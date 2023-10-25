@@ -14,12 +14,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.List;
 
@@ -29,6 +31,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Employees")
+@NamedQuery(name = "Employee.findAll", query = "select e from Employee e")
 public class Employee {
 
     @Id
@@ -67,7 +70,7 @@ public class Employee {
     //manyToOne and be the inverse
     @OneToMany(mappedBy = "employee")
 //    @JoinColumn(name = "laptop_id")
-    private List<Laptop> laptops;
+    private List<Laptop> laptops = new ArrayList<>();
 
     public Employee() {
 
@@ -235,6 +238,8 @@ public class Employee {
 
     public void setCubicle(Cubicle cubicle) {
         this.cubicle = cubicle;
+        cubicle.getEmployees().add(this);
+        
     }
 
  

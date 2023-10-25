@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +25,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Laptops")
+@NamedQuery(name = "Laptop.findAll", query = "select a from Laptop a")
 public class Laptop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +41,7 @@ public class Laptop {
     private String name;
 
     @NotBlank(message = "Make and model is required")
-    @Pattern(regexp = "^[a-zA-Z0-9]*", message = "Make and model must contain only letters and numbers")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*", message = "Make and model must contain only letters and numbers")
     @Column(nullable = false, name = "Make_and_Model")
     private String makeModel;
 
@@ -147,15 +149,16 @@ public class Laptop {
         this.serialNum = serialNum;
     }
     public Employee getEmployee() {
-        return employee;
+        return this.employee;
     }
     public void setEmployee(Employee employee) {
         this.employee = employee;
+        employee.getLaptops().add(this);
     }
 
     @Override
     public String toString() {
-        return "Laptop{" + "laptopID=" + laptopID + ", assetTag=" + assetTag + ", name=" + name + ", makeModel=" + makeModel + ", serialNum=" + serialNum + ", employee=" + employee + '}';
+        return "Laptop{" + "laptopID=" + laptopID + ", assetTag=" + assetTag + ", name=" + name + ", makeModel=" + makeModel + ", serialNum=" + serialNum + ", employeeID=" + (employee != null ? employee.getEmployeeID() : "null") + '}';
     }
 
     

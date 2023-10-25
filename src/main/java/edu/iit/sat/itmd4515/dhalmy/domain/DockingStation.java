@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Docks")
+@NamedQuery(name = "DockingStation.findAll", query = "select d from DockingStation d")
 public class DockingStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +44,10 @@ public class DockingStation {
     @Column(unique = true)
     @Pattern(regexp = "^X[0-9]*", message = "Key must start with 'X' and contain only numbers")
     private String unlock_key;
+
     
-    
-//    @OneToOne
-//    @JoinColumn(name = "cubicle_id")
-//    private Cubicle cubicle;
+    @OneToOne(mappedBy = "dockingStation")
+    private Cubicle cubicle;
 
     public DockingStation() {
     }
@@ -136,5 +137,13 @@ public class DockingStation {
     public void setUnlock_key(String unlock_key) {
         this.unlock_key = unlock_key;
     }
-    
+
+    public Cubicle getCubicle() {
+        return cubicle;
+    }
+
+    public void setCubicle(Cubicle cubicle) {
+        this.cubicle = cubicle;
+    }
+
 }
