@@ -18,6 +18,7 @@ public enum EmployeeDepartment {
     PLANNING,
     GOVAFFAIRS, //government affairs
     HR,
-    ExEmployee
+    ExEmployee,
+    empty
     
 }
