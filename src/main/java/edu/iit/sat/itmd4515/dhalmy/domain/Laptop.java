@@ -151,9 +151,23 @@ public class Laptop {
     public Employee getEmployee() {
         return this.employee;
     }
-    public void setEmployee(Employee employee) {
+    
+    public void addEmployee(Employee employee) {
+        if(this.employee != null){
+            this.employee.getLaptops().remove(this);
+        }
         this.employee = employee;
-        employee.getLaptops().add(this);
+        if(employee != null && !employee.getLaptops().contains(this)){
+            employee.getLaptops().add(this);
+        }
+    }
+    
+    public void removeEmployee(){
+        if(this.employee != null){
+            Employee tempEmployee = this.employee;
+            this.employee = null;
+            tempEmployee.getLaptops().remove(this);
+        }
     }
 
     @Override

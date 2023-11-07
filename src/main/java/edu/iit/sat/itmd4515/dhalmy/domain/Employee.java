@@ -5,6 +5,7 @@
 package edu.iit.sat.itmd4515.dhalmy.domain;
 
 
+import edu.iit.sat.itmd4515.dhalmy.security.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.PastOrPresent;
@@ -48,7 +50,7 @@ public class Employee {
 
     @Column(nullable = false, unique = true)
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must contain only letters and numbers")
-    private String username;
+    private String auto_username;
 
     @PastOrPresent
     private LocalDate hireDate;
@@ -58,8 +60,15 @@ public class Employee {
     private EmployeeDepartment type;
     
 //    @Email
-    //validator not needed because email is statically generated based off of the username
+    //validator not needed because email is statically generated based off of the auto_username
     private String email;
+    
+    
+    @OneToOne
+    @JoinColumn(name = "SECURITY_USERNAME")
+    private User user;
+    
+    
     
     
     @ManyToOne
@@ -72,6 +81,7 @@ public class Employee {
 //    @JoinColumn(name = "laptop_id")
     private List<Laptop> laptops = new ArrayList<>();
 
+
     public Employee() {
 
     }
@@ -80,7 +90,7 @@ public class Employee {
     public Employee(String firstName, String lastName, String username, LocalDate hireDate, EmployeeDepartment type) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.auto_username = username;
         this.hireDate = hireDate;
         this.type = type;
         this.email = username + "@cats.illinois.gov";
@@ -90,33 +100,41 @@ public class Employee {
     public Employee(String firstName, String lastName, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+        this.auto_username = username;
         this.email = username + "@cats.illinois.gov";
     }
 
     
     //helper methods
-    public void addLaptop(Laptop lt){
-        if(!this.laptops.contains(lt)){
-            this.laptops.add(lt);   
+    public void addLaptop(Laptop lt) {
+        if (lt != null && !this.laptops.contains(lt)) {
+            this.laptops.add(lt);
+            lt.addEmployee(this);  // Ensures the other side of the relationship is updated
         }
     }
     
-    public void removeLaptop(Laptop lt){
-        if(this.laptops.contains(lt)){
-        this.laptops.remove(lt);            
+    public void removeLaptop(Laptop lt) {
+        if (lt != null && this.laptops.contains(lt)) {
+            this.laptops.remove(lt);
+            lt.removeEmployee();
         }
     }
     
     public void addCubicle(Cubicle c){
-        if(!c.getEmployees().contains(this)){
-            c.getEmployees().add(this);            
+        //checks if there's already a cubicle attached; if yes remove then add. if not just add.
+        if(c != null && (this.cubicle == null || !this.cubicle.equals(c))){
+            if(this.cubicle != null){
+                this.cubicle.getEmployees().remove(this);
+            }
+            c.getEmployees().add(this);
+            this.cubicle = c;
         }
     }
     
-    public void removeCubicle(Cubicle c){
-        if(c.getEmployees().contains(this)){
-            c.getEmployees().remove(this);            
+    public void removeCubicle() {
+        if (this.cubicle != null) {
+            this.cubicle.removeEmployee(this);
+            this.cubicle = null;
         }
     }
     /**
@@ -153,12 +171,12 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAuto_username() {
+        return auto_username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAuto_username(String auto_username) {
+        this.auto_username = auto_username;
     }
 
     public LocalDate getHireDate() {
@@ -229,7 +247,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" + "employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username + ", hireDate=" + hireDate + ", type=" + type + ", email=" + email + ", cubicle=" + cubicle + ", laptops=" + laptops + '}';
+        return "Employee{" + "employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + auto_username + ", hireDate=" + hireDate + ", type=" + type + ", email=" + email + ", cubicle=" + cubicle + ", laptops=" + laptops + '}';
     }
 
     public Cubicle getCubicle() {
@@ -240,6 +258,12 @@ public class Employee {
         this.cubicle = cubicle;
         cubicle.getEmployees().add(this);
         
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
  

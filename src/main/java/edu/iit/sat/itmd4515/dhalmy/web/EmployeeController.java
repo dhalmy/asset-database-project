@@ -67,9 +67,9 @@ public class EmployeeController implements Serializable{
     
     //helper method to auto-fill email
     public String getGeneratedEmail() {
-    if (employee.getUsername() != null && !employee.getUsername().isEmpty()) {
-        employee.setEmail(employee.getUsername() + "@cats.illinois.gov");
-        return employee.getUsername() + "@cats.illinois.gov";
+    if (employee.getAuto_username() != null && !employee.getAuto_username().isEmpty()) {
+        employee.setEmail(employee.getAuto_username() + "@cats.illinois.gov");
+        return employee.getAuto_username() + "@cats.illinois.gov";
     }
     return "";
 }
@@ -79,8 +79,8 @@ public class EmployeeController implements Serializable{
     String firstName = employee.getFirstName();
     String lastName = employee.getLastName();
 //    LOG.info("FirstName: " + firstName + ", LastName: " + lastName);
-    if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
-        employee.setUsername(firstName.substring(0, 1) + lastName);
+    if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()){
+        employee.setAuto_username(firstName.substring(0, 1) + lastName);
 //        LOG.info(employee.getUsername());  
         }
     }

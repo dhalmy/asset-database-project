@@ -8,6 +8,9 @@
         <class>edu.iit.sat.itmd4515.dhalmy.domain.Cubicle</class>
         <class>edu.iit.sat.itmd4515.dhalmy.domain.Monitor</class>
         <class>edu.iit.sat.itmd4515.dhalmy.domain.DockingStation</class>
+        <class>edu.iit.sat.itmd4515.dhalmy.domain.EmployeeDepartment</class>
+        <class>edu.iit.sat.itmd4515.dhalmy.security.Group</class>
+        <class>edu.iit.sat.itmd4515.dhalmy.security.User</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"></property>
             <property name="jakarta.persistence.jdbc.user" value="itmd4515"></property>

@@ -64,7 +64,7 @@ public class EmployeeValidationTest {
     @Test
     public void validateInvalidUsername() {
         //set invalid username
-        employee.setUsername("johndoe@123");
+        employee.setAuto_username("johndoe@123");
 
         Set<ConstraintViolation<Employee>> constraintViolations = validator.validate(employee);
 

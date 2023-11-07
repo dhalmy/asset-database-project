@@ -72,29 +72,43 @@ public class Cubicle {
     
     //helper methods
     public void addMonitor(Monitor m){
-        if(!this.monitors.contains(m)){
+        if(m != null && !this.monitors.contains(m)){
             this.monitors.add(m);            
         }
     }
     
     public void removeMonitor(Monitor m){
-        if(this.monitors.contains(m)){
+        if(m != null && this.monitors.contains(m)){
             this.monitors.remove(m);            
         }
     }
     
-    public void addDockingStation(DockingStation dockingStation) {
-        if (this.dockingStation != dockingStation) {
-            this.dockingStation = dockingStation;
-        }
-    }
+//    public void addDockingStation(DockingStation dockingStation) {
+//        if (dockingStation != null && this.dockingStation != dockingStation) {
+//            dockingStation.setCubicle(this);
+//            this.dockingStation = dockingStation;
+//        }
+//    }
 
-    public void removeDockingStation() {
-        if (this.dockingStation != null) {
-            this.dockingStation = null;
+//    public void removeDockingStation() {
+//        if (this.dockingStation != null) {
+//            this.dockingStation.setCubicle(null);
+//            this.dockingStation = null;
+//        }
+//    }
+    
+    public void addEmployee(Employee e) {
+        if (e != null && !this.employees.contains(e)) {
+            this.employees.add(e);
+            e.setCubicle(this);
         }
     }
-    
+    public void removeEmployee(Employee e) {
+        if (e != null && this.employees.contains(e)) {
+            this.employees.remove(e);
+            e.setCubicle(null);
+        }
+    }
     
     
     

@@ -11,7 +11,9 @@ import edu.iit.sat.itmd4515.dhalmy.domain.EmployeeDepartment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -36,12 +38,19 @@ public class EmployeeJPATest {
     }
     @BeforeEach
     public void beforeEach(){
-     em = emf.createEntityManager();
-     tx = em.getTransaction();
-     Employee e = new Employee("Sam", "Smith", "ssmith", LocalDate.of(2022, 12, 05), EmployeeDepartment.IT);
-     tx.begin();
-     em.persist(e);
-     tx.commit();
+        em = emf.createEntityManager();
+        tx = em.getTransaction();
+        TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e WHERE e.auto_username = :auto_username", Employee.class);
+        query.setParameter("auto_username", "ssmith");
+        try {
+            Employee existingEmployee = query.getSingleResult();
+        } catch (NoResultException nre) {
+            Employee e = new Employee("Sam", "Smith", "ssmith", LocalDate.of(2022, 12, 05), EmployeeDepartment.IT);
+            tx.begin();
+            em.persist(e);
+            tx.commit();
+        }
+            
     }
     @Test
     public void createTest(){
@@ -52,8 +61,8 @@ public class EmployeeJPATest {
         tx.commit();
         
         assertNotNull(p);
-        Employee retrievedEmployee = em.createQuery("select e from Employee e where e.username = 'djones'", Employee.class).getSingleResult();
-        assertEquals("djones",retrievedEmployee.getUsername());
+        Employee retrievedEmployee = em.createQuery("select e from Employee e where e.auto_username = 'djones'", Employee.class).getSingleResult();
+        assertEquals("djones",retrievedEmployee.getAuto_username());
         
         tx.begin();
         em.remove(retrievedEmployee);
@@ -66,18 +75,18 @@ public class EmployeeJPATest {
         //read back sample data
         //verify it was retrieved
         //assert it matches expected
-        Employee e = em.createQuery("select e from Employee e where e.username = 'ssmith'",Employee.class).getSingleResult();
+        Employee e = em.createQuery("select e from Employee e where e.auto_username = 'ssmith'",Employee.class).getSingleResult();
         
         assertNotNull(e);
         assertTrue(e.getEmployeeID() > 0);
-        assertEquals("ssmith",e.getUsername());
+        assertEquals("ssmith",e.getAuto_username());
     }
     
     @Test
     public void updateTest(){
         //either make new data or use beforeEach data
         //data is data
-        Employee e = em.createQuery("select e from Employee e where e.username = 'ssmith'",Employee.class).getSingleResult();
+        Employee e = em.createQuery("select e from Employee e where e.auto_username = 'ssmith'",Employee.class).getSingleResult();
         //modify something while adhereing to logic rules
         //Sam -> Samuel
         //if i changed the first letter of the first name, or changed the last name at all, I would have to modify whole username
@@ -110,7 +119,7 @@ public class EmployeeJPATest {
         tx.commit();
 
         // verify that the new employee is in the database
-        Employee retrievedEmployee = em.createQuery("select e from Employee e where e.username = 'djones'", Employee.class).getSingleResult();
+        Employee retrievedEmployee = em.createQuery("select e from Employee e where e.auto_username = 'djones'", Employee.class).getSingleResult();
         assertNotNull(retrievedEmployee);
 
         //remove the employee
@@ -163,7 +172,7 @@ public class EmployeeJPATest {
         
         e.addCubicle(c);
         
-        e.setCubicle(c);
+//        e.setCubicle(c);
         tx.begin();
         em.persist(c);
         em.persist(e);
@@ -184,7 +193,7 @@ public class EmployeeJPATest {
 //        remove test data
         tx.begin();
         em.remove(readBackFromDB);
-        e.removeCubicle(c);
+//        e.removeCubicle();
         em.remove(c);
         em.remove(e);
         tx.commit();
@@ -199,7 +208,7 @@ public class EmployeeJPATest {
    
     @AfterEach
     public void afterEach(){
-        Employee e = em.createQuery("select e from Employee e where e.username = 'ssmith'",Employee.class).getSingleResult();
+        Employee e = em.createQuery("select e from Employee e where e.auto_username = 'ssmith'",Employee.class).getSingleResult();
         
         tx.begin();
         em.remove(e);

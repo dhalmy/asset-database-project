@@ -1,18 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/templates/demoTemplate.xhtml"
-                xmlns:h="jakarta.faces.html"
-                xmlns:f="jakarta.faces.core"
-                xmlns:p="jakarta.faces.passthrough">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="jakarta.faces.passthrough">
+    <h:head>
+        <title>Create New Employee Form</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+        
+    </h:head>
+    <h:body>
+        <ui:debug hotkey="z"/>
+        Create a new Employee
 
-    <ui:define name="title">
-        Create an Employee
-    </ui:define>
 
-    <ui:define name="content">
-                <h:form>
+        <h:form>
 
             <p>       
                 <h:panelGroup layout="block">
@@ -92,6 +97,17 @@
 
 
         </h:form>
-    </ui:define>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </h:body>
+</html>
 
-</ui:composition>
+<!--/*
+public Employee(String firstName, String lastName, String username, LocalDate hireDate, EmployeeDepartment type) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.hireDate = hireDate;
+        this.type = type;
+        this.email = username + "@cats.illinois.gov";
+    }
+    */-->

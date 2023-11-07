@@ -10,6 +10,37 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin Content</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN_ROLE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>HR View</web-resource-name>
+            <url-pattern>/hr/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HR_ROLE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>IT Content</web-resource-name>
+            <url-pattern>/it/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>IT_ROLE</role-name>
+        </auth-constraint>
+    </security-constraint>
+    
 </web-app>

@@ -1,14 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/templates/demoTemplate.xhtml">
-
-    <ui:define name="title">
-        Confirmation Page
-    </ui:define>
-
-    <ui:define name="content">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+    <h:head>
+        <title>Confirmation Page</title>
+    </h:head>
+    <h:body>
         I hereby confirm you have reached the page!
 
         <ul>
@@ -20,6 +17,6 @@
             <li>#{employeeController.employee.hireDate}</li>
             <li>#{employeeController.employee.type}</li>
         </ul>
-    </ui:define>
 
-</ui:composition>
+    </h:body>
+</html>

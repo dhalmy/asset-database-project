@@ -46,8 +46,8 @@ public class DockingStation {
     private String unlock_key;
 
     
-    @OneToOne(mappedBy = "dockingStation")
-    private Cubicle cubicle;
+//    @OneToOne(mappedBy = "dockingStation")
+//    private Cubicle cubicle;
 
     public DockingStation() {
     }
@@ -138,12 +138,12 @@ public class DockingStation {
         this.unlock_key = unlock_key;
     }
 
-    public Cubicle getCubicle() {
-        return cubicle;
-    }
-
-    public void setCubicle(Cubicle cubicle) {
-        this.cubicle = cubicle;
-    }
+//    public Cubicle getCubicle() {
+//        return cubicle;
+//    }
+//
+//    public void setCubicle(Cubicle cubicle) {
+//        this.cubicle = cubicle;
+//    }
 
 }

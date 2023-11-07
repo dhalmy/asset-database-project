@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author David
  */
-abstract class AbstractService<T> {
+public abstract class AbstractService<T> {
     
     @PersistenceContext(name = "itmd4515PU")
     public EntityManager em;
