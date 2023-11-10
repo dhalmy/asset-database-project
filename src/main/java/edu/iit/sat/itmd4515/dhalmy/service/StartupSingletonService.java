@@ -56,6 +56,10 @@ public class StartupSingletonService {
         Group ITGroup = new Group("IT_GROUP", "This group is dedicated to the IT department for general use and interns");
         Group adminGroup = new Group("ADMIN_GROUP", "This group is also for the IT department, but includes delete permissions");
         
+        //admin group is highest priviledge. admin has access to IT AND HR
+        //IT has priviledge over IT and HR
+        //HR can only access HR
+        //HR view is just a view-only IT view
         groupSvc.create(HRGroup);
         groupSvc.create(ITGroup);
         groupSvc.create(adminGroup);
@@ -69,13 +73,18 @@ public class StartupSingletonService {
         HR2.addGroup(HRGroup);
         userSvc.create(HR2);
         
+        
+        //this IT user is just an intern. they don't need to have admin perms.
         User IT1 = new User("IT1", "IT1", true);
         IT1.addGroup(ITGroup);
+        IT1.addGroup(HRGroup);
         userSvc.create(IT1);
         
+        //this IT user is a super user. has admin perms, but is still IT
         User IT2 = new User("IT2", "IT2", true);
         IT2.addGroup(ITGroup);
         IT2.addGroup(adminGroup);
+        IT2.addGroup(HRGroup);
         userSvc.create(IT2);
         
         User admin = new User("admin", "admin", true);

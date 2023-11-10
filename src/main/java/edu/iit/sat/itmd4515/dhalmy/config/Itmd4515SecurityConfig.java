@@ -17,7 +17,7 @@ import jakarta.security.enterprise.identitystore.DatabaseIdentityStoreDefinition
  */
 @Named
 @ApplicationScoped
-@DeclareRoles({"ADMIN_ROLE","IT_ROLE","HR_ROLE"})
+@DeclareRoles({Itmd4515SecurityRoles.ADMIN_ROLE, Itmd4515SecurityRoles.IT_ROLE, Itmd4515SecurityRoles.HR_ROLE})
 @DatabaseIdentityStoreDefinition(dataSourceLookup = "java:app/jdbc/itmd4515DS",
         callerQuery = "select PASSWORD from sec_user where USERNAME = ?",
         groupsQuery = "select GROUPNAME from sec_user_groups where USERNAME = ?")

@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,8 +24,11 @@ import java.util.List;
 @Entity
 @Table(name = "SEC_USER")
 @NamedQuery(name = "User.findAll", query = "select u from User u")
+@NamedQuery(name = "User.findByUsernameWithGroups", query = "select u from User u left join fetch u.groups where u.username = :username")
 @EntityListeners(UserPasswordHash.class)
 public class User {
+
+    private static final Logger LOG = Logger.getLogger(User.class.getName());
     
     @Id
     @NotBlank(message = "Username field must not be left blank")
@@ -42,7 +46,7 @@ public class User {
     private List<Group> groups = new ArrayList<>();
 
 
-
+    
     
     public User() {
     }
@@ -72,7 +76,7 @@ public class User {
         }
     }
     
-
+    
     /**
      * Get the value of username
      *

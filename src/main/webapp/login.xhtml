@@ -1,37 +1,41 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="jakarta.faces.passthrough">
     <h:head>
         <title>Login Page</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
-
+        <h:outputStylesheet library="css" name="login.css"/>
     </h:head>
-    <h:body>
-
+    <h:body class="d-flex align-items-center py-4 bg-body-tertiary">
+        <main class="form-signin w-100 m-auto">
         <h:form>
-            <p>
-            <h:panelGroup layout="block">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <h:panelGroup styleClass="form-floating" layout="block">
+                <h:inputText
+                     binding="#{uname}"
+                     p:placeholder="Username"
+                     styleClass="#{uname.valid ? 'form-control' : 'form-control is-invalid'}"
+                     id="username"
+                     value="#{loginController.user.username}"></h:inputText>
                 <h:outputLabel for="username" value="Username"></h:outputLabel>
-                <h:inputText id="username" value="#{loginController.user.username}"></h:inputText>
-                <h:message for="username"/>
+                <h:message for="username" styleClass="text-danger" />
             </h:panelGroup>
-            </p>
 
-            <p>
-            <h:panelGroup layout="block">
+            <h:panelGroup styleClass="form-floating" layout="block">
+                <h:inputSecret binding="#{pwd}" p:placeholder="Username" styleClass="#{pwd.valid ? 'form-control' : 'form-control is-invalid'}" id="password" value="#{loginController.user.password}"></h:inputSecret>
                 <h:outputLabel for="password" value="Password"></h:outputLabel>
-                <h:inputSecret id="password" value="#{loginController.user.password}"></h:inputSecret>
-                <h:message for="password"/>
+                <h:message for="password" styleClass="text-danger" />
             </h:panelGroup>
-            </p>
             
             
-            <h:commandButton action="#{loginController.login()}" value="Login" />
+            <h:commandButton styleClass="btn btn-primary w-100 py-2" action="#{loginController.login()}" value="Login" />
         </h:form>
 
+        </main>
         
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

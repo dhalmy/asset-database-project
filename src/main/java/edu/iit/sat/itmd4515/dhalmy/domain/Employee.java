@@ -65,7 +65,7 @@ public class Employee {
     
     
     @OneToOne
-    @JoinColumn(name = "SECURITY_USERNAME")
+    @JoinColumn(name = "user")
     private User user;
     
     

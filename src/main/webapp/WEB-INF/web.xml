@@ -13,6 +13,15 @@
         <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
     
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errors/authz.xhtml</location>
+    </error-page>
+    
+    <error-page>
+        <location>/errors/errors.xhtml</location>
+    </error-page>
+    
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin Content</web-resource-name>

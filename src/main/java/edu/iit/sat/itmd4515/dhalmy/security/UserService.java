@@ -6,6 +6,7 @@ package edu.iit.sat.itmd4515.dhalmy.security;
 
 import edu.iit.sat.itmd4515.dhalmy.service.AbstractService;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.NoResultException;
 import java.util.List;
 /**
  *
@@ -20,6 +21,16 @@ public class UserService extends AbstractService<User> {
     
     public List<User> findAll(){
         return super.findAll("User.findAll");
+    }
+    
+    public User findUserWithGroupsByUsername(String username) {
+        try {
+            return em.createNamedQuery("User.findByUsernameWithGroups", User.class)
+                     .setParameter("username", username)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     
