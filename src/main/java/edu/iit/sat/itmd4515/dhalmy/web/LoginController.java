@@ -8,6 +8,7 @@ import edu.iit.sat.itmd4515.dhalmy.config.Itmd4515SecurityRoles;
 import edu.iit.sat.itmd4515.dhalmy.security.Group;
 import edu.iit.sat.itmd4515.dhalmy.security.User;
 import edu.iit.sat.itmd4515.dhalmy.security.UserService;
+import edu.iit.sat.itmd4515.dhalmy.web.SessionBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
@@ -26,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -34,19 +36,17 @@ import java.util.ArrayList;
  * @author David
  */
 @Named
-@SessionScoped
-public class LoginController implements Serializable {
+@RequestScoped
+public class LoginController {
 
     private static final Logger LOG = Logger.getLogger(LoginController.class.getName());
     
     private User user;
     
+    @Inject SessionBean sb;
     @Inject SecurityContext securityContext;
     @Inject FacesContext facesContext;
     @EJB UserService userSvc;
-    
-    String returnPage = "";
-
 
     
     public LoginController() {
@@ -104,46 +104,55 @@ public class LoginController implements Serializable {
                 return "/error.xhtml";
         }
         
-        this.returnPage = "";
-        return returnHighestPrivilege();
+        returnHighestPrivilege();
+        return sb.getReturnPage();
 
     }
     
-    //this was created before isCallerInRole was demod to us in the lecture.
-    //i now recognize there exists a better way to implement this, i may change it next deliverable
-    //QUESTION: this workaround requires this bean to be SessionScoped. will this possibly introduce more issues down the line?
-    public String returnHighestPrivilege(){
+
+    public void returnHighestPrivilege(){
         
-        //this ensures the whole process only needs to run once
-        if(!returnPage.isEmpty()){
-            return returnPage;
+        if(isAdmin()){
+            sb.setReturnPage("/admin/admin-dashboard.xhtml?faces-redirect=true");
         }
+        else if(isIT()){
+            sb.setReturnPage("/it/it-dashboard.xhtml?faces-redirect=true");
+        }
+        else if(isHR()){
+            sb.setReturnPage("/hr/hr-dashboard.xhtml?faces-redirect=true");
+        }
+        else
+            sb.setReturnPage("/error.xhtml?faces-redirect=true");
         
-        User currGroups = userSvc.findUserWithGroupsByUsername(this.getCurrentUser());
-            LOG.info(currGroups.getGroups().get(0).getGroupName());
-            // checks for highest priority group the user belongs to, redirects to proper welcome page
-            ArrayList<String> allGroups = new ArrayList<>();
-            for(Group group : currGroups.getGroups()) {
-                allGroups.add(group.getGroupName());
-            }
-            
-            if(allGroups.contains("ADMIN_GROUP")){
-                returnPage = "/admin/admin-dashboard.xhtml?faces-redirect=true";
-                return "/admin/admin-dashboard.xhtml?faces-redirect=true";
-            }
-                
-            else if(allGroups.contains("IT_GROUP")){
-                returnPage = "/it/it-dashboard.xhtml?faces-redirect=true";
-                return "/it/it-dashboard.xhtml?faces-redirect=true";
-            }
-                
-            else if(allGroups.contains("HR_GROUP")){
-                returnPage = "/hr/hr-dashboard.xhtml?faces-redirect=true";
-                return "/hr/hr-dashboard.xhtml?faces-redirect=true";
-            }
-                
-            
-        return "/error.xhtml?faces-redirect=true";
+        //this was created before isCallerInRole was demod to us in the lecture. it required this bean's scope to change from RequestScoped to SessionScoped
+        //this workaround required this bean to be SessionScoped. this created a problem with form data persisting after submission
+        
+//        User currGroups = userSvc.findUserWithGroupsByUsername(this.getCurrentUser());
+//            LOG.info(currGroups.getGroups().get(0).getGroupName());
+//            // checks for highest priority group the user belongs to, redirects to proper welcome page
+//            ArrayList<String> allGroups = new ArrayList<>();
+//            for(Group group : currGroups.getGroups()) {
+//                allGroups.add(group.getGroupName());
+//            }
+//            
+//            if(allGroups.contains("ADMIN_GROUP")){
+//                returnPage = "/admin/admin-dashboard.xhtml?faces-redirect=true";
+//                return "/admin/admin-dashboard.xhtml?faces-redirect=true";
+//            }
+//                
+//            else if(allGroups.contains("IT_GROUP")){
+//                returnPage = "/it/it-dashboard.xhtml?faces-redirect=true";
+//                return "/it/it-dashboard.xhtml?faces-redirect=true";
+//            }
+//                
+//            else if(allGroups.contains("HR_GROUP")){
+//                returnPage = "/hr/hr-dashboard.xhtml?faces-redirect=true";
+//                return "/hr/hr-dashboard.xhtml?faces-redirect=true";
+//            }
+//                
+//            
+//        return "/error.xhtml?faces-redirect=true";
+
     } 
 
     
@@ -169,11 +178,4 @@ public class LoginController implements Serializable {
         this.user = user;
     }
 
-    public String getReturnPage() {
-        return returnPage;
-    }
-
-    public void setReturnPage(String returnPage) {
-        this.returnPage = returnPage;
-    }
 }

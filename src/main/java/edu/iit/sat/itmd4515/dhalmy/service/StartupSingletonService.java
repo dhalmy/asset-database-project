@@ -18,6 +18,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.logging.Logger;
 
 /**
@@ -143,7 +145,7 @@ public class StartupSingletonService {
         e3.setCubicle(c3);
         e3.setUser(HR1);
         
-        Employee e4 = new Employee("david", "halmy", "dhalmy");
+        Employee e4 = new Employee("david", "halmy", "dhalmy", LocalDate.of(1999,01,01), EmployeeDepartment.IT);
         e4.setType(EmployeeDepartment.IT);
         e4.setCubicle(c3);
         e4.setUser(IT2);

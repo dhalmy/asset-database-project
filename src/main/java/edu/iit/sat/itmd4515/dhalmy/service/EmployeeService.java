@@ -6,6 +6,7 @@ package edu.iit.sat.itmd4515.dhalmy.service;
 
 import edu.iit.sat.itmd4515.dhalmy.domain.Employee;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @author David
  */
+@Named
 @Stateless
 public class EmployeeService {
     

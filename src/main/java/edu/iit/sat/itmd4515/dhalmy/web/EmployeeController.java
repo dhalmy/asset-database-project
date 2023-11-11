@@ -61,11 +61,16 @@ public class EmployeeController implements Serializable{
         
         LOG.info("EmployeeController.saveEmployee has been invoked EJV call " + employee.toString());
         
-        return "confirmation.xhtml";
+        return "/confirmation.xhtml";
     }
     
     
     //helper method to auto-fill email
+    public void initEmployee(){
+        employee = new Employee();
+    }
+    
+    
     public String getGeneratedEmail() {
     if (employee.getAuto_username() != null && !employee.getAuto_username().isEmpty()) {
         employee.setEmail(employee.getAuto_username() + "@cats.illinois.gov");
