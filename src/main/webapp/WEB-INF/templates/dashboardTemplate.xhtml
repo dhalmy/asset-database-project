@@ -310,6 +310,14 @@
                                     <h:outputText value=" #{eachlt.name}"/>
                                 </ui:repeat>
                             </h:column>
+                            
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
+                                    <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>
 
 
                         </h:dataTable>

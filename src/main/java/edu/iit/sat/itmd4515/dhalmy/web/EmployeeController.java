@@ -11,6 +11,7 @@ import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -30,6 +31,9 @@ public class EmployeeController implements Serializable{
     private Employee employee;
     
     @EJB EmployeeService emSvc;
+    
+    @Inject
+    private SessionBean sb;
 
     public EmployeeController() {
     }
@@ -46,12 +50,56 @@ public class EmployeeController implements Serializable{
         return "confirmation.xhtml";
     }
     
+    
+    //MVC action methods
+    public String displayReadEmployeePage(Employee e){
+        this.employee = e;
+        LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
+        
+        return "/read-entity/readEmployee.xhtml";
+    }
+    
+    public String displayUpdateEmployeePage(Employee e){
+        this.employee = e;
+        LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
+        
+        return "/update-entity/updateEmployee.xhtml";
+    }
+    
+    public String displayDeleteEmployeePage(Employee e){
+        this.employee = e;
+        LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
+        
+        return "/delete-entity/deleteEmployee.xhtml";
+    }
+    
+    
+    
+    
+    
     public Employee getEmployee() {
         return employee;
     }
     
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    
+    public String updateEmployee(){
+        LOG.info("EmployeeController.updateEmployee has been invoked with employee " + employee.toString());
+        
+        emSvc.updateEmployeeWRTRelationships(employee);
+        
+        String returnPage = sb.getReturnPage();
+        sb.returnHighestPrivilege();
+        return returnPage;
+    }
+    
+    public String deleteEmployee(){
+        LOG.info("EmployeeController.deleteEmployee has been invoked with employee " + employee.toString());
+        String returnPage = sb.getReturnPage();
+        sb.returnHighestPrivilege();
+        return returnPage;
     }
     
     public String saveEmployee(){
@@ -61,7 +109,12 @@ public class EmployeeController implements Serializable{
         
         LOG.info("EmployeeController.saveEmployee has been invoked EJV call " + employee.toString());
         
-        return "/confirmation.xhtml";
+        String returnPage = sb.getReturnPage();
+        sb.returnHighestPrivilege();
+        
+//        LOG.info("THIS IS MY RETURN PAGE FIND ME 123"+sb.getReturnPage());
+        
+        return returnPage;
     }
     
     

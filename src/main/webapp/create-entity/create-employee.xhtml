@@ -5,7 +5,8 @@
                 template="../WEB-INF/templates/createTemplate.xhtml"
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
-                xmlns:p="jakarta.faces.passthrough">
+                xmlns:p="jakarta.faces.passthrough"
+                xmlns:ezcomp="jakarta.faces.composite/ezcomp">
     
     <f:metadata>
         <f:viewAction action="#{employeeController.initEmployee}" />
@@ -16,83 +17,9 @@
     </ui:define>
 
     <ui:define name="content">
-                <h:form>
-
-            <p>       
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="employeeFirstName" value="Employee First Name"></h:outputLabel>
-                    <h:inputText id="employeeFirstName" value="#{employeeController.employee.firstName}">
-                        <f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeUsername"/>
-                    </h:inputText>
-                    <h:message for="employeeFirstName"/>
-                </h:panelGroup>
-            </p>
-               
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="employeeLastName" value="Employee Last Name"></h:outputLabel>
-                    <h:inputText id="employeeLastName" value="#{employeeController.employee.lastName}">
-                        <f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeUsername"/>
-                        <f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeEmail" />
-                    </h:inputText>
-                    <h:message for="employeeLastName"/>
-                </h:panelGroup>
-            </p>
-            
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="employeeUsername" value="Employee Username"></h:outputLabel>
-                        <h:inputText id="employeeUsername" value="#{employeeController.employee.auto_username}">
-                    </h:inputText>
-                    <h:message for="employeeUsername"/>
-                    
-                </h:panelGroup>
-            </p>
-            
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="employeeEmail" value="Employee Email"></h:outputLabel>
-                    <h:inputText id="employeeEmail" value="#{employeeController.generatedEmail}" readonly="true" style="background-color: #e0e0e0; border-color: #e0e0e0;">
-                    </h:inputText>
-                </h:panelGroup>
-            </p>
-            
-            
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="hireDate" value="Hire Date"></h:outputLabel>
-                    <h:inputText p:type="date" id="hireDate" value="#{employeeController.employee.hireDate}">
-                        <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"></f:convertDateTime>
-                    </h:inputText>
-                    <h:message for="employeeHireDate"/>
-                </h:panelGroup>
-            </p>
-            
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="employeeType" value="Employee Type"></h:outputLabel>
-                    <h:selectOneMenu id="employeeType" value="#{employeeController.employee.type}">
-                        <f:selectItem itemValue="empty" itemLabel="empty"/>
-                        <f:selectItem itemValue="RPI" itemLabel="RPI"/>
-                        <f:selectItem itemValue="RAP" itemLabel="Research and Planning"/>
-                        <f:selectItem itemValue="FINANCE" itemLabel="Finance"/>
-                        <f:selectItem itemValue="COMMS" itemLabel="Communications"/>
-                        <f:selectItem itemValue="EXECUTIVE" itemLabel="Executive"/>
-                        <f:selectItem itemValue="IT" itemLabel="IT"/>
-                        <f:selectItem itemValue="PLANNING" itemLabel="Planning"/>
-                        <f:selectItem itemValue="GOVAFFAIRS" itemLabel="Government Affairs"/>
-                        <f:selectItem itemValue="HR" itemLabel="Human Resources"/>
-                        <f:selectItem itemValue="ExEmployee" itemLabel="Former Employee"/>
-                    </h:selectOneMenu>
-                </h:panelGroup>
-            </p>
-            
-            <p>
-                <h:commandButton action="#{employeeController.saveEmployee()}" value="Create Employee"/>
-            </p>
-
-
-        </h:form>
+        <ezcomp:employee employee="#{employeeController.employee}"
+                         operation="create"
+                         action="#{employeeController.saveEmployee()}"/>
     </ui:define>
 
 </ui:composition>

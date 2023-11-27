@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="jakarta.faces.passthrough">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="employee" type="edu.iit.sat.itmd4515.dhalmy.domain.Employee" required="true" />
+        <cc:attribute name="action" method-signature="java.lang.String action()" required="false" />
+        <cc:attribute name="operation" type="java.lang.String" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+
+
+            <p>       
+                <h:panelGroup layout="block" rendered="#{not cc.attrs.operation.equalsIgnoreCase('create')}">
+                    <h:outputLabel for="employeeID" value="Employee ID #{cc.attrs.employee.employeeID}" />
+                    <h:inputHidden id="employeeID" value="#{cc.attrs.employee.employeeID}" />
+                    <h:message for="employeeID"/>
+                </h:panelGroup>
+            </p>
+
+
+
+
+
+
+
+            <p>       
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employeeFirstName" value="Employee First Name"></h:outputLabel>
+                    <h:inputText id="employeeFirstName"
+                                 value="#{cc.attrs.employee.firstName}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <f:ajax event="blur" listener="#{employeeController}" render="employeeUsername"/>
+                    </h:inputText>
+                    <h:message for="employeeFirstName"/>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employeeLastName" value="Employee Last Name"></h:outputLabel>
+                    <h:inputText id="employeeLastName"
+                                 value="#{cc.attrs.employee.lastName}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeUsername"/>
+                        <f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeEmail" />
+                    </h:inputText>
+                    <h:message for="employeeLastName"/>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employeeUsername" value="Employee Username"></h:outputLabel>
+                    <h:inputText id="employeeUsername"
+                                 value="#{cc.attrs.employee.auto_username}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                    </h:inputText>
+                    <h:message for="employeeUsername"/>
+
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employeeEmail" value="Employee Email"></h:outputLabel>
+                    <h:inputText id="employeeEmail"
+                                 value="#{employeeController.generatedEmail}"
+                                 readonly="true"
+                                 style="background-color: #e0e0e0; border-color: #e0e0e0;">
+                    </h:inputText>
+                </h:panelGroup>
+            </p>
+
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="hireDate" value="Hire Date"></h:outputLabel>
+                    <h:inputText p:type="date"
+                                 id="hireDate"
+                                 value="#{cc.attrs.employee.hireDate}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"></f:convertDateTime>
+                    </h:inputText>
+                    <h:message for="employeeHireDate"/>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employeeType" value="Employee Type"></h:outputLabel>
+                    <h:selectOneMenu id="employeeType"
+                                     value="#{cc.attrs.employee.type}"
+                                     readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                     disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                     style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <f:selectItem itemValue="empty" itemLabel="empty"/>
+                        <f:selectItem itemValue="RPI" itemLabel="RPI"/>
+                        <f:selectItem itemValue="RAP" itemLabel="Research and Planning"/>
+                        <f:selectItem itemValue="FINANCE" itemLabel="Finance"/>
+                        <f:selectItem itemValue="COMMS" itemLabel="Communications"/>
+                        <f:selectItem itemValue="EXECUTIVE" itemLabel="Executive"/>
+                        <f:selectItem itemValue="IT" itemLabel="IT"/>
+                        <f:selectItem itemValue="PLANNING" itemLabel="Planning"/>
+                        <f:selectItem itemValue="GOVAFFAIRS" itemLabel="Government Affairs"/>
+                        <f:selectItem itemValue="HR" itemLabel="Human Resources"/>
+                        <f:selectItem itemValue="ExEmployee" itemLabel="Former Employee"/>
+                    </h:selectOneMenu>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('create')}"
+                    action="#{cc.attrs.action}"
+                    value="Create Employee"/>
+            </p>
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}"
+                    action="#{cc.attrs.action}"
+                    value="Update Employee"/>
+            </p>
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('delete')}"
+                    action="#{cc.attrs.action}"
+                    value="Delete Employee"/>
+            </p>
+
+
+        </h:form>
+    </cc:implementation>
+</html>

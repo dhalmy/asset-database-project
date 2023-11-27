@@ -38,6 +38,16 @@ public class EmployeeService {
         
     }
     
+    public void updateEmployeeWRTRelationships(Employee e){
+        Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
+        
+        managedEmployeeRef.setFirstName(e.getFirstName());
+        managedEmployeeRef.setLastName(e.getLastName());
+        managedEmployeeRef.setAuto_username(e.getAuto_username());
+        
+        em.merge(managedEmployeeRef);
+    }
+    
     public void delete(Employee e){
         em.remove(em.merge(e));
     }

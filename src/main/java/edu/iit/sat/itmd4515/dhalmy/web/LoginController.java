@@ -52,6 +52,15 @@ public class LoginController {
     public LoginController() {
     }
     
+    public boolean isAdmin(){
+        return securityContext.isCallerInRole(Itmd4515SecurityRoles.ADMIN_ROLE);
+    }
+    public boolean isIT(){
+        return securityContext.isCallerInRole(Itmd4515SecurityRoles.IT_ROLE);
+    }
+    public boolean isHR(){
+        return securityContext.isCallerInRole(Itmd4515SecurityRoles.HR_ROLE);
+    }
     
     
     
@@ -66,15 +75,7 @@ public class LoginController {
         return facesContext.getExternalContext().getRemoteUser();
     }
     
-    public boolean isAdmin(){
-        return securityContext.isCallerInRole(Itmd4515SecurityRoles.ADMIN_ROLE);
-    }
-    public boolean isIT(){
-        return securityContext.isCallerInRole(Itmd4515SecurityRoles.IT_ROLE);
-    }
-    public boolean isHR(){
-        return securityContext.isCallerInRole(Itmd4515SecurityRoles.HR_ROLE);
-    }
+    
     
     
     
@@ -104,25 +105,13 @@ public class LoginController {
                 return "/error.xhtml";
         }
         
-        returnHighestPrivilege();
+        sb.returnHighestPrivilege();
         return sb.getReturnPage();
 
     }
     
 
-    public void returnHighestPrivilege(){
-        
-        if(isAdmin()){
-            sb.setReturnPage("/admin/admin-dashboard.xhtml?faces-redirect=true");
-        }
-        else if(isIT()){
-            sb.setReturnPage("/it/it-dashboard.xhtml?faces-redirect=true");
-        }
-        else if(isHR()){
-            sb.setReturnPage("/hr/hr-dashboard.xhtml?faces-redirect=true");
-        }
-        else
-            sb.setReturnPage("/error.xhtml?faces-redirect=true");
+    
         
         //this was created before isCallerInRole was demod to us in the lecture. it required this bean's scope to change from RequestScoped to SessionScoped
         //this workaround required this bean to be SessionScoped. this created a problem with form data persisting after submission
@@ -153,7 +142,6 @@ public class LoginController {
 //            
 //        return "/error.xhtml?faces-redirect=true";
 
-    } 
 
     
     public String logout() {
