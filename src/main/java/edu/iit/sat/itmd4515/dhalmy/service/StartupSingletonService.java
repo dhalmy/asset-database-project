@@ -168,6 +168,8 @@ public class StartupSingletonService {
         ltSvc.create(t3);
         
         
+        
+        
 
         
         LOG.info("=-=-=-=-=- JPA Relationships =-=-=-=-=-");

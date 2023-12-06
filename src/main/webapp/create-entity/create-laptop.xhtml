@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../WEB-INF/templates/createTemplate.xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:p="jakarta.faces.passthrough"
+                xmlns:ezcomp="jakarta.faces.composite/ezcomp">
+
+    <ui:define name="title">
+        Create a Laptop
+    </ui:define>
+
+    <ui:define name="content">
+        <ezcomp:laptop laptop="#{laptopController.laptop}"
+                         operation="create"
+                         action="#{laptopController.saveLaptop()}"/>
+    </ui:define>
+
+</ui:composition>

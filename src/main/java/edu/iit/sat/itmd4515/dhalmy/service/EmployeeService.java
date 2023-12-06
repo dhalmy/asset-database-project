@@ -4,12 +4,16 @@
  */
 package edu.iit.sat.itmd4515.dhalmy.service;
 
+import edu.iit.sat.itmd4515.dhalmy.domain.Cubicle;
 import edu.iit.sat.itmd4515.dhalmy.domain.Employee;
+import edu.iit.sat.itmd4515.dhalmy.domain.Laptop;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +22,8 @@ import java.util.List;
 @Named
 @Stateless
 public class EmployeeService {
+
+    private static final Logger LOG = Logger.getLogger(EmployeeService.class.getName());
     
     @PersistenceContext(name = "itm4515PU")
     protected EntityManager em;
@@ -37,6 +43,22 @@ public class EmployeeService {
         em.merge(e);
         
     }
+    
+    public void deleteEmployeeWRTRelationships(Employee e) {
+        Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
+        Cubicle cb = managedEmployeeRef.getCubicle();
+        LOG.info("removing employee: " + managedEmployeeRef.getAuto_username() + " from cubicle:" + cb.getCubicleID());
+        cb.removeEmployee(managedEmployeeRef);
+        em.merge(cb);
+        
+        for(Laptop laptop : new ArrayList<Laptop>(managedEmployeeRef.getLaptops())) {
+            LOG.info("Removing laptop from employee: " + laptop.getName());
+            laptop.removeEmployee();
+            em.merge(laptop);
+        }
+        em.remove(managedEmployeeRef);
+    }
+    
     
     public void updateEmployeeWRTRelationships(Employee e){
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());

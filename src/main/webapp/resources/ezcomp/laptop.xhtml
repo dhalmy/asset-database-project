@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="jakarta.faces.passthrough">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="laptop" type="edu.iit.sat.itmd4515.dhalmy.domain.Laptop" required="true" />
+        <cc:attribute name="action" method-signature="java.lang.String action()" required="false" />
+        <cc:attribute name="operation" type="java.lang.String" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+
+
+            <p>       
+                <h:panelGroup layout="block" rendered="#{not cc.attrs.operation.equalsIgnoreCase('create')}">
+                    <h:outputLabel for="laptopID" value="Laptop ID #{cc.attrs.laptop.laptopID}" />
+                    <h:inputHidden id="laptopID" value="#{cc.attrs.laptop.laptopID}" />
+                    <h:message for="laptopID"/>
+                </h:panelGroup>
+            </p>
+
+
+
+
+
+
+
+            <p>       
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="assetTag" value="Laptop Asset Tag"></h:outputLabel>
+                    <h:inputText id="assetTag"
+                                 value="#{cc.attrs.laptop.assetTag}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <!--<f:ajax event="blur" listener="#{laptopController}" render="assetTag"/>-->
+                    </h:inputText>
+                    <h:message for="assetTag"/>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="serialNum" value="Laptop Serial Number"></h:outputLabel>
+                    <h:inputText id="serialNum"
+                                 value="#{cc.attrs.laptop.serialNum}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                        <!--<f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeUsername"/>-->
+                        <!--<f:ajax event="blur" listener="#{employeeController.generateUsername}" render="employeeEmail" />-->
+                    </h:inputText>
+                    <h:message for="serialNum"/>
+                </h:panelGroup>
+            </p>
+
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="ADName" value="Active Directory Name"></h:outputLabel>
+                    <h:inputText id="ADName"
+                                 value="#{cc.attrs.laptop.name}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                    </h:inputText>
+                    <h:message for="ADName"/>
+                </h:panelGroup>
+            </p>
+            
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="makeModel" value="Make and Model"></h:outputLabel>
+                    <h:inputText id="makeModel"
+                                 value="#{cc.attrs.laptop.makeModel}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                    </h:inputText>
+                    <h:message for="makeModel"/>
+                </h:panelGroup>
+            </p>
+
+
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('create')}"
+                    action="#{cc.attrs.action}"
+                    value="Create Laptop"/>
+            </p>
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}"
+                    action="#{cc.attrs.action}"
+                    value="Update Laptop"/>
+            </p>
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('delete')}"
+                    action="#{cc.attrs.action}"
+                    value="Delete Laptop"/>
+            </p>
+
+
+        </h:form>
+    </cc:implementation>
+</html>

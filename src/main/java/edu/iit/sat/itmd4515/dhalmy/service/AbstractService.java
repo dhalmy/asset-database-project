@@ -4,30 +4,34 @@
  */
 package edu.iit.sat.itmd4515.dhalmy.service;
 
-import edu.iit.sat.itmd4515.dhalmy.domain.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author David
  */
 public abstract class AbstractService<T> {
+
+    private static final Logger LOG = Logger.getLogger(AbstractService.class.getName());
+    
+    
     
     @PersistenceContext(name = "itmd4515PU")
-    public EntityManager em;
+    protected EntityManager em;
     
-    public Class<T> entityClass;
+    protected Class<T> entityClass;
 
-    public AbstractService(Class<T> entityClass) {
+    protected AbstractService(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-
-    
     
     public void create(T entity){
+        LOG.info("INSIDE THE ABSTRACT SERVICE CREATE METHOD" + entity.toString());
         em.persist(entity);
+//        LOG.info("INSIDE THE ABSTRACT SERVICE CREATE METHOD AFTER PERSISTING " + entity.toString() );
     }
     
     public T read(Long id){
@@ -36,7 +40,6 @@ public abstract class AbstractService<T> {
     
     public void update(T entity){
         em.merge(entity);
-        
     }
     
     public void delete(T entity){

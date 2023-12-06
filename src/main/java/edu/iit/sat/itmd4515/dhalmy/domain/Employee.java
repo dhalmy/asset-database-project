@@ -254,11 +254,16 @@ public class Employee {
         return cubicle;
     }
 
-    public void setCubicle(Cubicle cubicle) {
-        this.cubicle = cubicle;
-        cubicle.getEmployees().add(this);
-        
+    public void setCubicle(Cubicle newCubicle) {
+        if (this.cubicle != null) {
+            this.cubicle.getEmployees().remove(this);
+        }
+        this.cubicle = newCubicle;
+        if (newCubicle != null) {
+            newCubicle.getEmployees().add(this);
+        }
     }
+    
     public User getUser() {
         return user;
     }

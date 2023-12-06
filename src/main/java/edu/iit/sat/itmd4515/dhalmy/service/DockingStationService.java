@@ -6,12 +6,14 @@ package edu.iit.sat.itmd4515.dhalmy.service;
 
 import edu.iit.sat.itmd4515.dhalmy.domain.DockingStation;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 import java.util.List;
 
 /**
  *
  * @author David
  */
+@Named
 @Stateless
 public class DockingStationService extends AbstractService<DockingStation>{
 

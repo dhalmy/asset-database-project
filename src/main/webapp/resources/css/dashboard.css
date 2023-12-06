@@ -46,3 +46,22 @@
 .navbar .form-control {
   padding: .75rem 1rem;
 }
+
+#searchInput {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
+    border: 1px solid #007bff;
+}
+
+#searchInput:focus {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    border-color: #0056b3;
+}
+
+.input-group > .btn-outline-secondary {
+    border-color: #007bff;
+}
+
+.input-group > .btn-outline-secondary:hover {
+    background-color: #007bff;
+    color: white;
+}

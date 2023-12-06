@@ -97,6 +97,9 @@ public class EmployeeController implements Serializable{
     
     public String deleteEmployee(){
         LOG.info("EmployeeController.deleteEmployee has been invoked with employee " + employee.toString());
+        
+        emSvc.deleteEmployeeWRTRelationships(employee);
+        
         String returnPage = sb.getReturnPage();
         sb.returnHighestPrivilege();
         return returnPage;

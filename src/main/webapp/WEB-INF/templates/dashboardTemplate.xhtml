@@ -183,19 +183,19 @@
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                                         <!--<svg class="bi"><use xlink:href="#people"/></svg>-->
-                                        Customers
+                                        replace
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                                         <!--<svg class="bi"><use xlink:href="#graph-up"/></svg>-->
-                                        Reports
+                                        replace
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                                         <!--<svg class="bi"><use xlink:href="#puzzle"/></svg>-->
-                                        Integrations
+                                        replace
                                     </a>
                                 </li>
                             </ul>
@@ -215,10 +215,10 @@
                                     <h:link class='nav-link d-flex align-items-center gap-2' outcome='/create-entity/create-employee.xhtml'>Create Employee</h:link>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center gap-2" href="#">
+                                    <li class="nav-item">
                                         <!--<svg class="bi"><use xlink:href="#file-earmark-text"/></svg>-->
-                                        Create Laptop
-                                    </a>
+                                    <h:link class='nav-link d-flex align-items-center gap-2' outcome='/create-entity/create-laptop.xhtml'>Create Laptop</h:link>
+                                </li>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center gap-2" href="#">
@@ -254,22 +254,89 @@
                 </div>
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2"><ui:insert name="dashboardSpecify">Dashboard default content, replace</ui:insert></h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group me-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                            </div>
-                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
-                                <!--<svg class="bi"><use xlink:href="#calendar3"/></svg>-->
-                                This week
-                            </button>
+                    <div class="row pt-3 pb-2 mb-3 border-bottom">
+                        <div>
+                            <h1 class="col-12 text-center">
+                            <ui:insert name="dashboardSpecify">Dashboard default content, replace</ui:insert>
+                        </h1>
                         </div>
+                        
+                        <div class="col-12 col-md-6 offset-md-3">
+                        <h:form onsubmit="performSearch(); return false;">
+                            <div class="input-group mb-3">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search..."/>
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </h:form>
+                        </div>
+
                     </div>
 
 
-                    <h2>Section title</h2>
+
+                    <h2>General View Table</h2>
+                    <div class="table-responsive small">
+                        <h:dataTable 
+                            styleClass="table table-striped table-sm table-hover table-group-divider"
+                            id="yourTableId"
+                            value='#{employeeService.findAll()}' var='employee'>
+                            <h:column>
+                                <f:facet name="header">Employee ID</f:facet>
+                                <h:outputText value="#{employee.employeeID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cubicle</f:facet>
+                                <h:outputText value="#{employee.cubicle.cubicleID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Username</f:facet>
+                                <h:outputText value="#{employee.auto_username}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">First Name</f:facet>
+                                <h:outputText value="#{employee.firstName}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Last Name</f:facet>
+                                <h:outputText value="#{employee.lastName}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Department</f:facet>
+                                <h:outputText value="#{employee.type}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Laptops</f:facet>
+                                <!--<h:outputText value="#{employee.laptops.size()}"/>-->
+
+
+                                <ui:repeat value="#{employee.laptops}" var="eachlt">
+                                    <h:outputText value=" #{eachlt.name}"/>
+                                </ui:repeat>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cubicle Monitors</f:facet>
+                                <ui:repeat value="#{employee.cubicle.monitors}" var="eachmon">
+                                    <h:outputText value=" #{eachmon.assetTag}"/>
+                                </ui:repeat>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Monitors Make and Model</f:facet>
+                                <ui:repeat value="#{employee.cubicle.monitors}" var="eachmonitor">
+                                    <h:outputText value=" #{eachmonitor.makeModel}"/>
+                                </ui:repeat>
+                            </h:column>
+                            
+<!--                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
+                                    <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>-->
+                        </h:dataTable>
+                    </div>
+                    
+                    <h2>Employee Table</h2>
                     <div class="table-responsive small">
                         <h:dataTable 
                             styleClass="table table-striped table-sm table-hover table-group-divider"
@@ -277,6 +344,10 @@
                             <h:column>
                                 <f:facet name="header">Employee ID</f:facet>
                                 <h:outputText value="#{employee.employeeID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Username</f:facet>
+                                <h:outputText value="#{employee.auto_username}" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header">First Name</f:facet>
@@ -297,18 +368,8 @@
                                 </h:outputText>
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Laptops</f:facet>
-                                <h:outputText value="#{employee.laptops}" />
-                            </h:column>
-
-                            <h:column>
-                                <f:facet name="header"># Laptops and Names</f:facet>
-                                <h:outputText value="#{employee.laptops.size()}"/>
-
-
-                                <ui:repeat value="#{employee.laptops}" var="eachlt">
-                                    <h:outputText value=" #{eachlt.name}"/>
-                                </ui:repeat>
+                                <f:facet name="header">Email</f:facet>
+                                <h:outputText value="#{employee.email}" />
                             </h:column>
                             
                             <h:column>
@@ -318,20 +379,124 @@
                                     <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
                                 </h:form>
                             </h:column>
-
-
                         </h:dataTable>
-                        
-                        
-                        
-<!--                        <table class="table table-striped table-sm">
-                            
-                        </table>-->
+                    </div>
+                    
+                    <h2>Laptops Table</h2>
+                    <div class="table-responsive small">
+                        <h:dataTable 
+                            styleClass="table table-striped table-sm table-hover table-group-divider"
+                            value='#{laptopService.findAll()}' var='laptop'>
+                            <h:column>
+                                <f:facet name="header">Laptop ID</f:facet>
+                                <h:outputText value="#{laptop.laptopID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Asset Tag</f:facet>
+                                <h:outputText value="#{laptop.assetTag}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Serial Number</f:facet>
+                                <h:outputText value="#{laptop.serialNum}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Active Directory Name</f:facet>
+                                <h:outputText value="#{laptop.name}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Make and Model</f:facet>
+                                <h:outputText value="#{laptop.makeModel}" />
+                            </h:column>
+
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{laptopController.displayReadLaptopPage(laptop)}"/>
+                                    <h:commandButton value="Update" action="#{laptopController.displayUpdateLaptopPage(laptop)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{laptopController.displayDeleteLaptopPage(laptop)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    
+                    <h2>Cubicles Table</h2>
+                    <div class="table-responsive small">
+                        <h:dataTable 
+                            styleClass="table table-striped table-sm table-hover table-group-divider"
+                            value='#{cubicleService.findAll()}' var='cube'>
+                            <h:column>
+                                <f:facet name="header">Cube Number</f:facet>
+                                <h:outputText value="#{cube.cubicleID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Docking Station ID</f:facet>
+                                <h:outputText value="#{cube.dockingStation.dockID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Serial Number</f:facet>
+                                <h:outputText value="#{cube.dockingStation.assetTag}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dock Serial Number</f:facet>
+                                <h:outputText value="#{cube.dockingStation.serialNum}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Unlock Key</f:facet>
+                                <h:outputText value="#{cube.dockingStation.unlock_key}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Monitor Tags</f:facet>
+                                <ui:repeat value="#{cube.monitors}" var="eachmon">
+                                    <h:outputText value=" #{eachmon.assetTag}"/>
+                                </ui:repeat>
+                            </h:column>
+
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
+                                    <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    
+                    <h2>Monitors Table</h2>
+                    <div class="table-responsive small">
+                        <h:dataTable 
+                            styleClass="table table-striped table-sm table-hover table-group-divider"
+                            value='#{monitorService.findAll()}' var='mon'>
+                            <h:column>
+                                <f:facet name="header">Monitor ID</f:facet>
+                                <h:outputText value="#{mon.monitorID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Asset Tag</f:facet>
+                                <h:outputText value="#{mon.assetTag}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Serial Number</f:facet>
+                                <h:outputText value="#{mon.serialNum}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Make and Model</f:facet>
+                                <h:outputText value="#{mon.makeModel}" />
+                            </h:column>
+
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
+                                    <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
                     </div>
                 </main>
             </div>
         </div>
-        
+        <h:outputScript library="javascript" name="script.js" target="head" />
+
+        <!--<script src="./resources/javascript/script.js"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script>
         <script src="https://getbootstrap.com/docs/5.3/examples/dashboard/dashboard.js"></script>
         
