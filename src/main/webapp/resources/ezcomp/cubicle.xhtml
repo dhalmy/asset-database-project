@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="jakarta.faces.passthrough">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="cubicle" type="edu.iit.sat.itmd4515.dhalmy.domain.Cubicle" required="true" />
+        <cc:attribute name="action" method-signature="java.lang.String action()" required="false" />
+        <cc:attribute name="operation" type="java.lang.String" required="true" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:form>
+
+
+            <p>       
+                <h:panelGroup layout="block" rendered="#{not cc.attrs.operation.equalsIgnoreCase('create')}">
+                    <h:outputLabel for="cubicleID" value="Cubicle Number #{cc.attrs.cubicle.cubicleID}" />
+                    <h:inputHidden id="cubicleID" value="#{cc.attrs.laptop.cubicleID}" />
+                    <h:message for="cubicleID"/>
+                </h:panelGroup>
+            </p>
+
+
+
+
+
+
+
+            <p>       
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="dockID" value="Docking Station ID"></h:outputLabel>
+                    <h:inputText id="dockID"
+                                 value="#{cc.attrs.cubicle.dockingStation.dockID}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                    </h:inputText>
+                    <h:message for="dockID"/>
+                </h:panelGroup>
+            </p>
+
+
+            <p>
+                <h:commandButton
+                    rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}"
+                    action="#{cc.attrs.action}"
+                    value="Update Cubicle"/>
+            </p>
+
+
+
+        </h:form>
+    </cc:implementation>
+</html>

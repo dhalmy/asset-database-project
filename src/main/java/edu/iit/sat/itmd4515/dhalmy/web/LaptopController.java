@@ -109,7 +109,6 @@ public class LaptopController implements Serializable{
         String returnPage = sb.getReturnPage();
         sb.returnHighestPrivilege();
         
-//        LOG.info("THIS IS MY RETURN PAGE FIND ME 123"+sb.getReturnPage());
         
         return returnPage;
     }

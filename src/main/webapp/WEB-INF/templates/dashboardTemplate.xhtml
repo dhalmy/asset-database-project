@@ -229,7 +229,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                                         <!--<svg class="bi"><use xlink:href="#file-earmark-text"/></svg>-->
-                                        Year-end sale
+                                        Create Docking Station
                                     </a>
                                 </li>
                             </ul>
@@ -428,16 +428,8 @@
                                 <h:outputText value="#{cube.cubicleID}" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Docking Station ID</f:facet>
-                                <h:outputText value="#{cube.dockingStation.dockID}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Serial Number</f:facet>
+                                <f:facet name="header">Dock Asset Tag</f:facet>
                                 <h:outputText value="#{cube.dockingStation.assetTag}" />
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Dock Serial Number</f:facet>
-                                <h:outputText value="#{cube.dockingStation.serialNum}" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Unlock Key</f:facet>
@@ -449,12 +441,12 @@
                                     <h:outputText value=" #{eachmon.assetTag}"/>
                                 </ui:repeat>
                             </h:column>
+                            
 
                             <h:column>
                                 <h:form>
-                                    <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
-                                    <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
-                                    <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                    <h:commandButton value="Read" action="#{cubicleController.displayReadCubiclePage(cube)}"/>
+                                    <h:commandButton value="Update" action="#{cubicleController.displayUpdateCubiclePage(cube)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
                                 </h:form>
                             </h:column>
                         </h:dataTable>
@@ -487,6 +479,37 @@
                                     <h:commandButton value="Read" action="#{employeeController.displayReadEmployeePage(employee)}"/>
                                     <h:commandButton value="Update" action="#{employeeController.displayUpdateEmployeePage(employee)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
                                     <h:commandButton value="Delete" action="#{employeeController.displayDeleteEmployeePage(employee)}" rendered="#{sessionBean.admin}"/>
+                                </h:form>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                    
+                    <h2>Docking Stations Table</h2>
+                    <div class="table-responsive small">
+                        <h:dataTable
+                            styleClass="table table-striped table-sm table-hover table-group-divider"
+                            value='#{dockingStationService.findAll()}' var='dock'>
+                            <h:column>
+                                <f:facet name="header">Docking Station ID</f:facet>
+                                <h:outputText value="#{dock.dockID}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Serial Number</f:facet>
+                                <h:outputText value="#{dock.assetTag}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Dock Serial Number</f:facet>
+                                <h:outputText value="#{dock.serialNum}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Unlock Key</f:facet>
+                                <h:outputText value="#{dock.unlock_key}" />
+                            </h:column>
+                            <h:column>
+                                <h:form>
+                                    <h:commandButton value="Read" action="#{dockingStationController.displayReadDockingStationPage(dock)}"/>
+                                    <h:commandButton value="Update" action="#{dockingStationController.displayUpdateDockingStationPage(dock)}" rendered="#{sessionBean.IT or sessionBean.admin}"/>
+                                    <h:commandButton value="Delete" action="#{dockingStationController.displayDeleteDockingStationPage(dock)}" rendered="#{sessionBean.admin}"/>
                                 </h:form>
                             </h:column>
                         </h:dataTable>

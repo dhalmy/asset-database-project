@@ -63,6 +63,8 @@ public class EmployeeService {
     public void updateEmployeeWRTRelationships(Employee e){
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
         
+//        implement adding laptop add support
+        
         managedEmployeeRef.setFirstName(e.getFirstName());
         managedEmployeeRef.setLastName(e.getLastName());
         managedEmployeeRef.setAuto_username(e.getAuto_username());

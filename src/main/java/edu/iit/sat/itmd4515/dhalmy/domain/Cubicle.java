@@ -29,6 +29,7 @@ import java.util.List;
 @Entity
 @Table(name = "Cubicles")
 @NamedQuery(name = "Cubicle.findAll", query = "select c from Cubicle c")
+@NamedQuery(name = "Cubicle.findCubicleByDockingStationID", query = "select c from Cubicle c where c.dockingStation.dockID = :dockID")
 public class Cubicle {
     @Id
     @Column(name = "Cubicle_Number")
