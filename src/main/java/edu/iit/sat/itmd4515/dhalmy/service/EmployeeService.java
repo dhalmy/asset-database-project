@@ -60,16 +60,37 @@ public class EmployeeService {
     }
     
     
-    public void updateEmployeeWRTRelationships(Employee e){
+    public void updateEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
-        
-//        implement adding laptop add support
-        
+
+        managedEmployeeRef.setType(e.getType());
+        managedEmployeeRef.setHireDate(e.getHireDate());
         managedEmployeeRef.setFirstName(e.getFirstName());
         managedEmployeeRef.setLastName(e.getLastName());
         managedEmployeeRef.setAuto_username(e.getAuto_username());
         
+        List<Laptop> currentlyAssignedLaptops = em.createNamedQuery("Laptop.findByEmployeeID", Laptop.class)
+                                              .setParameter("employeeID", managedEmployeeRef.getEmployeeID())
+                                              .getResultList();
+
+
+        for (Laptop laptop : currentlyAssignedLaptops) {
+        if (!e.getLaptops().contains(laptop)) {
+            laptop.removeEmployee();
+            em.merge(laptop);
+        }
+    }
+
+        for (Laptop laptop : e.getLaptops()) {
+            if (!currentlyAssignedLaptops.contains(laptop)) {
+                Laptop managedLaptopRef = em.find(Laptop.class, laptop.getLaptopID());
+                managedLaptopRef.addEmployee(managedEmployeeRef);
+                em.merge(managedLaptopRef);
+            }
+        }
+
         em.merge(managedEmployeeRef);
+        
     }
     
     public void delete(Employee e){

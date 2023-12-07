@@ -26,6 +26,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "Laptops")
 @NamedQuery(name = "Laptop.findAll", query = "select a from Laptop a")
+@NamedQuery(name = "Laptop.findAllUnused", query = "SELECT l FROM Laptop l WHERE l.employee IS NULL")
+@NamedQuery(name = "Laptop.findAllAvailableForEmployee", 
+            query = "SELECT l FROM Laptop l WHERE l.employee IS NULL OR l.employee.employeeID = :employeeID")
+@NamedQuery(name = "Laptop.findByEmployeeID", 
+            query = "SELECT l FROM Laptop l WHERE l.employee.employeeID = :employeeID")
+
 public class Laptop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

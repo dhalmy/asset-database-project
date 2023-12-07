@@ -122,6 +122,26 @@
             </p>
 
             <p>
+                <h:panelGroup layout="block" rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}">
+                    <h:outputLabel for="laptops" value="Laptops" />
+                    <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      id="laptops" 
+                                      value="#{cc.attrs.employee.laptops}"
+                                      converter="laptopConverter">
+
+                        <f:selectItems value="#{laptopService.findAllAvailableForEmployee(cc.attrs.employee.employeeID)}"
+                                       var="laptop"
+                                       itemLabel="#{laptop.name}"
+                                       itemValue="#{laptop}" />
+
+                    </h:selectManyCheckbox>
+                    <h:message for="laptops" />
+                </h:panelGroup>
+            </p>
+
+
+            <p>
                 <h:commandButton
                     rendered="#{cc.attrs.operation.equalsIgnoreCase('create')}"
                     action="#{cc.attrs.action}"
