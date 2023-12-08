@@ -11,7 +11,11 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
- * JSF controller for -cubicle.xhtml
+ * JSF controller for managing cubicles in the application. This controller
+ * handles actions related to cubicles, such as displaying, updating, and saving
+ * cubicle information.
+ *
+ * @author David
  */
 @Named
 @SessionScoped
@@ -20,14 +24,14 @@ public class CubicleController implements Serializable {
     private static final Logger LOG = Logger.getLogger(CubicleController.class.getName());
     private Cubicle cubicle;
 
-    @EJB 
+    @EJB
     CubicleService cbSvc;
 
     @Inject
     private SessionBean sb;
 
     /**
-     *
+     * Constructs a new instance of CubicleController.
      */
     public CubicleController() {
     }
@@ -39,8 +43,9 @@ public class CubicleController implements Serializable {
     }
 
     /**
+     * A demo action for testing purposes.
      *
-     * @return
+     * @return The navigation outcome to confirmation.xhtml.
      */
     public String demoAction() {
         LOG.info("CubicleController.demoAction has been invoked with cubicle " + cubicle.toString());
@@ -48,11 +53,11 @@ public class CubicleController implements Serializable {
     }
 
     // MVC action methods
-
     /**
+     * Displays the read page for a specific cubicle.
      *
-     * @param c
-     * @return
+     * @param c The cubicle to be displayed.
+     * @return The navigation outcome to the readCubicle.xhtml page.
      */
     public String displayReadCubiclePage(Cubicle c) {
         this.cubicle = c;
@@ -62,9 +67,10 @@ public class CubicleController implements Serializable {
     }
 
     /**
+     * Displays the update page for a specific cubicle.
      *
-     * @param c
-     * @return
+     * @param c The cubicle to be updated.
+     * @return The navigation outcome to the updateCubicle.xhtml page.
      */
     public String displayUpdateCubiclePage(Cubicle c) {
         this.cubicle = c;
@@ -74,24 +80,27 @@ public class CubicleController implements Serializable {
     }
 
     /**
+     * Gets the current cubicle.
      *
-     * @return
+     * @return The current cubicle.
      */
     public Cubicle getCubicle() {
         return cubicle;
     }
 
     /**
+     * Sets the current cubicle.
      *
-     * @param cubicle
+     * @param cubicle The cubicle to set.
      */
     public void setCubicle(Cubicle cubicle) {
         this.cubicle = cubicle;
     }
 
     /**
+     * Updates the information of the current cubicle.
      *
-     * @return
+     * @return The navigation outcome based on the success of the update.
      */
     public String updateCubicle() {
         LOG.info("CubicleController.updateCubicle has been invoked with cubicle " + cubicle.toString());
@@ -103,22 +112,12 @@ public class CubicleController implements Serializable {
         return returnPage;
     }
 
-//    Cubicles are PERMANENT. no deleting office space
-//    public String deleteCubicle() {
-//        LOG.info("CubicleController.deleteCubicle has been invoked with cubicle " + cubicle.toString());
-//
-//        cbSvc.deleteCubicleWRTRelationships(cubicle);
-//
-//        String returnPage = sb.getReturnPage();
-//        sb.returnHighestPrivilege();
-//        return returnPage;
-//    }
-
     /**
+     * Saves a new cubicle.
      *
-     * @return
+     * @return The navigation outcome based on the success of the save
+     * operation.
      */
-
     public String saveCubicle() {
         LOG.info("CubicleController.saveCubicle has been invoked with cubicle " + cubicle.toString());
 

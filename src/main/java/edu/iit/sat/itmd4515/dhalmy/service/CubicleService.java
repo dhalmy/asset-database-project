@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * A service class for managing cubicles. It extends the AbstractService class
+ * and provides methods for CRUD operations and custom queries related to
+ * cubicles.
  *
  * @author David
  */
@@ -26,30 +29,35 @@ public class CubicleService extends AbstractService<Cubicle> {
     private static final Logger LOG = Logger.getLogger(CubicleService.class.getName());
 
     /**
-     *
+     * Constructs a CubicleService instance.
      */
     public CubicleService() {
         super(Cubicle.class);
     }
-    
+
     /**
+     * Retrieves a list of all cubicles.
      *
-     * @return
+     * @return A list of all cubicles in the persistence context.
      */
-    public List<Cubicle> findAll(){
+    public List<Cubicle> findAll() {
         return super.findAll("Cubicle.findAll");
     }
-    
+
     /**
+     * Finds and returns a list of available docking stations based on the
+     * current docking station ID. This method ensures that a cubicle's current
+     * docking station is excluded from the available options.
      *
-     * @param currentDockId
-     * @return
+     * @param currentDockId The ID of the current docking station.
+     * @return A list of available docking stations.
      */
     public List<DockingStation> findAvailableDockingStations(Long currentDockId) {
         List<DockingStation> availableDocks = em.createQuery("SELECT d FROM DockingStation d", DockingStation.class)
                 .getResultList();
-        
-        List<Cubicle> cubicles = em.createQuery("SELECT c FROM Cubicle c WHERE c.dockingStation IS NOT NULL AND c.dockingStation.dockID != :currentDockId", Cubicle.class)
+
+        List<Cubicle> cubicles = em.createQuery("SELECT c FROM Cubicle c WHERE c.dockingStation IS NOT NULL "
+                + "AND c.dockingStation.dockID != :currentDockId", Cubicle.class)
                 .setParameter("currentDockId", currentDockId == null ? -1 : currentDockId)
                 .getResultList();
 
@@ -66,23 +74,25 @@ public class CubicleService extends AbstractService<Cubicle> {
 
         return availableDocks;
     }
-    
+
     /**
+     * Updates the relationships of a cubicle with its associated docking
+     * station, monitors, and employees.
      *
-     * @param cb
+     * @param cb The cubicle to update.
      */
     public void updateCubicleWRTRelationships(Cubicle cb) {
         Cubicle managedCubicleRef = em.getReference(Cubicle.class, cb.getCubicleID());
 
-        // updates docking station
+        // Updates docking station
         managedCubicleRef.setDockingStation(cb.getDockingStation());
 
-        // update monitors
+        // Updates monitors
         List<Monitor> currentlyAssignedMonitors = em.createNamedQuery("Monitor.findByCubicleID", Monitor.class)
                 .setParameter("cubicleID", managedCubicleRef.getCubicleID())
                 .getResultList();
 
-        // removes outdated monitors
+        // Removes outdated monitors
         for (Monitor monitor : currentlyAssignedMonitors) {
             if (!cb.getMonitors().contains(monitor)) {
                 monitor.setCubicle(null);
@@ -90,7 +100,7 @@ public class CubicleService extends AbstractService<Cubicle> {
             }
         }
 
-        // updates / adds new monitors
+        // Updates/adds new monitors
         for (Monitor monitor : cb.getMonitors()) {
             if (!currentlyAssignedMonitors.contains(monitor)) {
                 Monitor managedMonitorRef = em.find(Monitor.class, monitor.getMonitorID());
@@ -98,15 +108,15 @@ public class CubicleService extends AbstractService<Cubicle> {
                 em.merge(managedMonitorRef);
             }
         }
-        
+
         managedCubicleRef.setMonitors(cb.getMonitors());
 
-        // updates employees
+        // Updates employees
         List<Employee> currentlyAssignedEmployees = em.createNamedQuery("Employee.findByCubicleID", Employee.class)
                 .setParameter("cubicleID", managedCubicleRef.getCubicleID())
                 .getResultList();
 
-        // removes outdated employees
+        // Removes outdated employees
         for (Employee employee : currentlyAssignedEmployees) {
             if (!cb.getEmployees().contains(employee)) {
                 employee.setCubicle(null);
@@ -114,7 +124,7 @@ public class CubicleService extends AbstractService<Cubicle> {
             }
         }
 
-        // updates / adds new employees
+        // Updates/adds new employees
         for (Employee employee : cb.getEmployees()) {
             if (!currentlyAssignedEmployees.contains(employee)) {
                 Employee managedEmployeeRef = em.find(Employee.class, employee.getEmployeeID());
@@ -122,10 +132,9 @@ public class CubicleService extends AbstractService<Cubicle> {
                 em.merge(managedEmployeeRef);
             }
         }
-        
+
         managedCubicleRef.setEmployees(cb.getEmployees());
 
         em.merge(managedCubicleRef);
     }
-    
 }

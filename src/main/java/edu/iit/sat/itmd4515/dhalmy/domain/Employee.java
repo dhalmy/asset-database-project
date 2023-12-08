@@ -32,7 +32,10 @@ import java.util.Objects;
 import java.util.List;
 
 /**
- *
+ * Represents an employee within the organization.
+ * Each employee is uniquely identified by an ID and has attributes such as first name, last name, username,
+ * hire date, department, and associated assets like laptops and cubicles.
+ * 
  * @author David
  */
 @Entity
@@ -78,14 +81,11 @@ public class Employee {
     @JoinColumn(name = "user")
     private User user;
     
-    
-    
-    
     @ManyToOne
     @JoinColumn(name = "Cubicle_Number")
     private Cubicle cubicle;
     
-    //had difficulty implementing employee as the owner of laptops and keep it bidrectional. can't have
+    //had difficulty implementing employee as the owner of laptops and keep it bidirectional. can't have
     //manyToOne and be the inverse
     
     @OneToMany(mappedBy = "employee")
@@ -94,19 +94,20 @@ public class Employee {
     private List<Laptop> laptops = new ArrayList<>();
 
     /**
-     *
+     * Constructs a new Employee object with default values.
      */
     public Employee() {
 
     }
     
     /**
-     *
-     * @param firstName
-     * @param lastName
-     * @param username
-     * @param hireDate
-     * @param type
+     * Constructs a new Employee object with the specified attributes.
+     * 
+     * @param firstName The first name of the employee.
+     * @param lastName The last name of the employee.
+     * @param username The username of the employee.
+     * @param hireDate The hire date of the employee.
+     * @param type The department of the employee.
      */
     public Employee(String firstName, String lastName, String username, LocalDate hireDate, EmployeeDepartment type) {
         this.firstName = firstName;
@@ -117,13 +118,12 @@ public class Employee {
         this.email = username + "@cats.illinois.gov";
     }
 
-    //only must have requirements to add a employee
-
     /**
-     *
-     * @param firstName
-     * @param lastName
-     * @param username
+     * Constructs a new Employee object with the specified first name, last name, and username.
+     * 
+     * @param firstName The first name of the employee.
+     * @param lastName The last name of the employee.
+     * @param username The username of the employee.
      */
     public Employee(String firstName, String lastName, String username) {
         this.firstName = firstName;
@@ -132,12 +132,12 @@ public class Employee {
         this.email = username + "@cats.illinois.gov";
     }
 
-    
     //helper methods
 
     /**
-     *
-     * @param lt
+     * Adds a laptop to the list of laptops associated with this employee.
+     * 
+     * @param lt The laptop to add.
      */
     public void addLaptop(Laptop lt) {
         if (lt != null && !this.laptops.contains(lt)) {
@@ -147,8 +147,9 @@ public class Employee {
     }
     
     /**
-     *
-     * @param lt
+     * Removes a laptop from the list of laptops associated with this employee.
+     * 
+     * @param lt The laptop to remove.
      */
     public void removeLaptop(Laptop lt) {
         if (lt != null && this.laptops.contains(lt)) {
@@ -158,8 +159,9 @@ public class Employee {
     }
     
     /**
-     *
-     * @param c
+     * Associates this employee with a cubicle, replacing any existing association.
+     * 
+     * @param c The cubicle to associate with.
      */
     public void addCubicle(Cubicle c){
         //checks if there's already a cubicle attached; if yes remove then add. if not just add.
@@ -173,7 +175,7 @@ public class Employee {
     }
     
     /**
-     *
+     * Disassociates this employee from any cubicle.
      */
     public void removeCubicle() {
         if (this.cubicle != null) {
@@ -182,122 +184,135 @@ public class Employee {
         }
     }
     /**
-     * Get the value of id
-     *
-     * @return the value of id
+     * Gets the unique identifier (ID) of the employee.
+     * 
+     * @return The ID of the employee.
      */
     public Long getEmployeeID() {
         return employeeID;
     }
 
     /**
-     * Set the value of id
-     *
-     * @param employeeID new value of id
+     * Sets the unique identifier (ID) of the employee.
+     * 
+     * @param employeeID The ID to set for the employee.
      */
     public void setEmployeeID(Long employeeID) {
         this.employeeID = employeeID;
     }
 
     /**
-     *
-     * @return
+     * Gets the first name of the employee.
+     * 
+     * @return The first name.
      */
     public String getFirstName() {
         return firstName;
     }
 
     /**
-     *
-     * @param firstName
+     * Sets the first name of the employee.
+     * 
+     * @param firstName The first name to set.
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     /**
-     *
-     * @return
+     * Gets the last name of the employee.
+     * 
+     * @return The last name.
      */
     public String getLastName() {
         return lastName;
     }
 
     /**
-     *
-     * @param lastName
+     * Sets the last name of the employee.
+     * 
+     * @param lastName The last name to set.
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     /**
-     *
-     * @return
+     * Gets the username of the employee.
+     * 
+     * @return The username.
      */
     public String getAuto_username() {
         return auto_username;
     }
 
     /**
-     *
-     * @param auto_username
+     * Sets the username of the employee.
+     * 
+     * @param auto_username The username to set.
      */
     public void setAuto_username(String auto_username) {
         this.auto_username = auto_username;
     }
 
     /**
-     *
-     * @return
+     * Gets the hire date of the employee.
+     * 
+     * @return The hire date.
      */
     public LocalDate getHireDate() {
         return hireDate;
     }
 
     /**
-     *
-     * @param hireDate
+     * Sets the hire date of the employee.
+     * 
+     * @param hireDate The hire date to set.
      */
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
     /**
-     *
-     * @return
+     * Gets the department of the employee.
+     * 
+     * @return The department.
      */
     public EmployeeDepartment getType() {
         return type;
     }
 
     /**
-     *
-     * @param type
+     * Sets the department of the employee.
+     * 
+     * @param type The department to set.
      */
     public void setType(EmployeeDepartment type) {
         this.type = type;
     }
     
     /**
-     *
-     * @return
+     * Gets the email address of the employee.
+     * 
+     * @return The email address.
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     *
-     * @param email
+     * Sets the email address of the employee.
+     * 
+     * @param email The email address to set.
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     *
-     * @return
+     * Computes the hash code of the employee based on its ID.
+     * 
+     * @return The hash code of the employee.
      */
     @Override
     public int hashCode() {
@@ -307,9 +322,11 @@ public class Employee {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Compares this employee to another object for equality.
+     * Two employees are considered equal if their IDs are equal.
+     * 
+     * @param obj The object to compare with.
+     * @return true if the objects are equal, false otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -324,9 +341,9 @@ public class Employee {
         }
         final Employee other = (Employee) obj;
 
-        //if we are relying on GeneratedValue for ID, we need to check
-        //whether either ID is null in order to rely on the field
-        //iff null, can't be equal
+        // If we are relying on GeneratedValue for ID, we need to check
+        // whether either ID is null in order to rely on the field
+        // iff null, can't be equal
         if (this.employeeID == null || other.employeeID == null) {
             return false;
         }
@@ -335,24 +352,28 @@ public class Employee {
     }
 
     /**
-     *
-     * @return
+     * Gets the list of laptops associated with the employee.
+     * 
+     * @return The list of laptops.
      */
     public List<Laptop> getLaptops() {
         return laptops;
     }
 
     /**
-     *
-     * @param laptops
+     * Sets the list of laptops associated with the employee.
+     * 
+     * @param laptops The list of laptops to set.
      */
     public void setLaptops(List<Laptop> laptops) {
         this.laptops = laptops;
     }
 
     /**
-     *
-     * @return
+     * Returns a string representation of the employee, including the ID, first name, last name, username, hire date,
+     * department, email, and associated laptops (excluding cubicle details because of overflow error).
+     * 
+     * @return A string representation of the employee.
      */
     @Override
     public String toString() {
@@ -360,16 +381,18 @@ public class Employee {
     }
 
     /**
-     *
-     * @return
+     * Gets the cubicle associated with the employee.
+     * 
+     * @return The associated cubicle.
      */
     public Cubicle getCubicle() {
         return cubicle;
     }
 
     /**
-     *
-     * @param newCubicle
+     * Sets the cubicle associated with the employee.
+     * 
+     * @param newCubicle The cubicle to associate with.
      */
     public void setCubicle(Cubicle newCubicle) {
         if (this.cubicle != null) {
@@ -382,22 +405,20 @@ public class Employee {
     }
     
     /**
-     *
-     * @return
+     * Gets the user associated with the employee.
+     * 
+     * @return The associated user.
      */
     public User getUser() {
         return user;
     }
 
     /**
-     *
-     * @param user
+     * Sets the user associated with the employee.
+     * 
+     * @param user The user to associate with.
      */
     public void setUser(User user) {
         this.user = user;
     }
-
- 
-
-
 }

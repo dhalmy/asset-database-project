@@ -10,16 +10,25 @@ import jakarta.persistence.PreUpdate;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 /**
+ * A class responsible for hashing user passwords using the Pbkdf2PasswordHash
+ * algorithm. This class is used as an entity listener to automatically hash
+ * passwords before persistence.
  *
  * @author David
  */
 public class UserPasswordHash {
-    
-    @Inject private Pbkdf2PasswordHash hash;
-    
+
+    @Inject
+    private Pbkdf2PasswordHash hash;
+
+    /**
+     * Hashes the user's password before persisting it.
+     *
+     * @param u The user entity for which to hash the password.
+     */
     @PrePersist
     @PreUpdate
-    private void passwordHash(User u){
+    private void passwordHash(User u) {
         u.setPassword(hash.generate(u.getPassword().toCharArray()));
     }
 }

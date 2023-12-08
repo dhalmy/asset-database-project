@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * Entity class representing user information including username, password, and group associations.
+ * This class is used for authentication and authorization in the application.
  *
  * @author David
  */
@@ -35,16 +37,15 @@ import java.util.logging.Logger;
 public class User {
 
     private static final Logger LOG = Logger.getLogger(User.class.getName());
-    
+
     @Id
     @NotBlank(message = "Username field must not be left blank")
     private String username;
     @NotBlank(message = "Password field must not be left blank")
     private String password;
     private Boolean enabled;
-    
-    
-    //owning side
+
+    // Owning side of the many-to-many relationship with groups
     @XmlTransient
     @ManyToMany
     @JoinTable(name = "SEC_USER_GROUPS",
@@ -53,118 +54,122 @@ public class User {
     private List<Group> groups = new ArrayList<>();
 
     /**
-     *
+     * Default constructor for the User class.
      */
     public User() {
     }
 
     /**
+     * Constructs a User object with the given username, password, and enabled status.
      *
-     * @param userName
-     * @param password
-     * @param enabled
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @param enabled  The enabled status of the user.
      */
-    public User(String userName, String password, Boolean enabled) {
-        this.username = userName;
+    public User(String username, String password, Boolean enabled) {
+        this.username = username;
         this.password = password;
         this.enabled = enabled;
     }
-    
-    //helper methods
 
     /**
+     * Add a group association to the user.
      *
-     * @param g
+     * @param group The group to add.
      */
-    public void addGroup(Group g) {
-        if (g != null && !this.groups.contains(g)) {
-            this.groups.add(g);
-            if (!g.getUsers().contains(this)) {
-                g.getUsers().add(this);
+    public void addGroup(Group group) {
+        if (group != null && !this.groups.contains(group)) {
+            this.groups.add(group);
+            if (!group.getUsers().contains(this)) {
+                group.getUsers().add(this);
             }
         }
     }
-    
+
     /**
+     * Remove a group association from the user.
      *
-     * @param g
+     * @param group The group to remove.
      */
-    public void removeGroup(Group g) {
-        if (g != null && this.groups.contains(g)) {
-            this.groups.remove(g);
-            if (g.getUsers().contains(this)) {
-                g.getUsers().remove(this);
+    public void removeGroup(Group group) {
+        if (group != null && this.groups.contains(group)) {
+            this.groups.remove(group);
+            if (group.getUsers().contains(this)) {
+                group.getUsers().remove(this);
             }
         }
     }
-    
-    
+
     /**
-     * Get the value of username
+     * Get the username of the user.
      *
-     * @return the value of username
+     * @return The username.
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Set the value of username
+     * Set the username of the user.
      *
-     * @param username new value of username
+     * @param username The new username.
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
+     * Get the password of the user.
      *
-     * @return
+     * @return The password.
      */
     public String getPassword() {
         return password;
     }
 
     /**
+     * Set the password of the user.
      *
-     * @param password
+     * @param password The new password.
      */
     public void setPassword(String password) {
         this.password = password;
     }
 
     /**
+     * Check if the user is enabled.
      *
-     * @return
+     * @return True if the user is enabled, false otherwise.
      */
     public Boolean isEnabled() {
         return enabled;
     }
 
     /**
+     * Set the enabled status of the user.
      *
-     * @param enabled
+     * @param enabled The new enabled status.
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
     /**
+     * Get the list of groups associated with the user.
      *
-     * @return
+     * @return The list of groups.
      */
     public List<Group> getGroups() {
         return groups;
     }
 
     /**
+     * Set the list of groups associated with the user.
      *
-     * @param groups
+     * @param groups The new list of groups.
      */
     public void setGroups(List<Group> groups) {
         this.groups = groups;
     }
-
-
-    
 }
+

@@ -23,6 +23,9 @@ import java.time.Month;
 import java.util.logging.Logger;
 
 /**
+ * A singleton service class responsible for startup operations and initializing
+ * data for various entities in the application.
+ * This class is automatically instantiated and executed on application startup.
  *
  * @author David
  */
@@ -38,32 +41,35 @@ public class StartupSingletonService {
     @EJB MonitorService monSvc;
     @EJB DockingStationService dockSvc;
     
-    //services for security domain
+    // Services for security domain
     @EJB UserService userSvc;
     @EJB GroupService groupSvc;
     
     /**
-     *
+     * Constructs a StartupSingletonService instance.
+     * Payara controls the instantiation of this class.
      */
     public StartupSingletonService() {
-        //not in control of when this instance is constructed, payara controls this
-        
+        // Not in control of when this instance is constructed; Payara controls this.
     }
     
+    /**
+     * Performs initialization tasks during post-construction.
+     * This method is automatically executed after the constructor.
+     */
     @PostConstruct
     private void postConstruct(){
         LOG.info("StartupSingletonService.postConstruct()");
         
-        
-        //create non-owning entities first
-        Group HRGroup = new Group("HR_GROUP","This group represents human resources department access");
+        // Create non-owning entities first
+        Group HRGroup = new Group("HR_GROUP", "This group represents human resources department access");
         Group ITGroup = new Group("IT_GROUP", "This group is dedicated to the IT department for general use and interns");
-        Group adminGroup = new Group("ADMIN_GROUP", "This group is also for the IT department, but includes delete permissions");
+        Group adminGroup = new Group("ADMIN_GROUP", "This group is also for the IT department but includes delete permissions");
         
-        //admin group is highest priviledge. admin has access to IT AND HR
-        //IT has priviledge over IT and HR
-        //HR can only access HR
-        //HR view is just a view-only IT view
+        // Admin group has the highest privilege. Admin has access to IT and HR.
+        // IT has privilege over IT and HR.
+        // HR can only access HR.
+        // HR view is just a view-only IT view.
         groupSvc.create(HRGroup);
         groupSvc.create(ITGroup);
         groupSvc.create(adminGroup);
@@ -72,19 +78,17 @@ public class StartupSingletonService {
         HR1.addGroup(HRGroup);
         userSvc.create(HR1);
         
-        
         User HR2 = new User("HR2", "HR2", true);
         HR2.addGroup(HRGroup);
         userSvc.create(HR2);
         
-        
-        //this IT user is just an intern. they don't need to have admin perms.
+        // This IT user is just an intern. They don't need admin permissions.
         User IT1 = new User("IT1", "IT1", true);
         IT1.addGroup(ITGroup);
         IT1.addGroup(HRGroup);
         userSvc.create(IT1);
         
-        //this IT user is a super user. has admin perms, but is still IT
+        // This IT user is a superuser. Has admin permissions but is still part of IT.
         User IT2 = new User("IT2", "IT2", true);
         IT2.addGroup(ITGroup);
         IT2.addGroup(adminGroup);
@@ -97,17 +101,17 @@ public class StartupSingletonService {
         admin.addGroup(HRGroup);
         userSvc.create(admin);
         
-        
-        //first entitites created are ones that don't own anything else
+        // First entities created are ones that don't own anything else
         
         DockingStation d1 = new DockingStation("F03935", "ZKT1B864", "X98668");
         DockingStation d2 = new DockingStation("F03994", "ZKT1E0D1", "X87812");
         DockingStation d3 = new DockingStation("F03991", "ZKT1E0DD", "X88749");
         
+        
+        
         dockSvc.create(d1);
         dockSvc.create(d2);
         dockSvc.create(d3);
-
         
         Monitor m1 = new Monitor("F04301", "CN0CC0F0TV2002C40ZGBA02", "Dell P2422HE");
         Monitor m2 = new Monitor("F04302", "CN0CC0F0TV2002C40ZDBA02", "Dell P2422HE");
@@ -116,8 +120,6 @@ public class StartupSingletonService {
         monSvc.create(m1);
         monSvc.create(m2);
         monSvc.create(m3);
-        
-        
         
         Cubicle c1 = new Cubicle(520);
         c1.addMonitor(m1);
@@ -152,7 +154,6 @@ public class StartupSingletonService {
         e4.setCubicle(c3);
         e4.setUser(IT2);
         
-        
         empSvc.create(e1);
         empSvc.create(e2);
         empSvc.create(e3);
@@ -169,14 +170,9 @@ public class StartupSingletonService {
         ltSvc.create(t2);
         ltSvc.create(t3);
         
-        
-        
-        
-
-        
         LOG.info("=-=-=-=-=- JPA Relationships =-=-=-=-=-");
         
-        //laptop to employee
+        // Laptop to employee
         for(Laptop l : ltSvc.findAll()){
             LOG.info("=-=-=-=-=- Laptop " + l.getName() + " relationship to Employee =-=-=-=-=-");
             LOG.info(l.toString());
@@ -184,7 +180,7 @@ public class StartupSingletonService {
             LOG.info(" - - - - - - - - - - - - - - - - - - - -");
         }
         
-        //employee to laptops
+        // Employee to laptops
         for (Employee e : empSvc.findAll()) {
             LOG.info("=-=-=-=-=- Employee " + e.getEmployeeID() + " relationship to Laptops =-=-=-=-=-");
             LOG.info(e.toString());
@@ -195,9 +191,8 @@ public class StartupSingletonService {
             LOG.info(" - - - - - - - - - - - - - - - - - - - -");
         }
         
-        
         for(Cubicle c : cbSvc.findAll()){
-            //cubicle to employees
+            // Cubicle to employees
             LOG.info("=-=-=-=-=- Cubicle " + c.getCubicleID() + " relationship to Employees =-=-=-=-=-");
             LOG.info(c.toString());
             for (Employee e : c.getEmployees()) {
@@ -208,12 +203,12 @@ public class StartupSingletonService {
             LOG.info("=-=-=-=-=- Cubicle " + c.getCubicleID()+ " relationship to Monitors & Docking Station =-=-=-=-=-");
             LOG.info(c.toString());
             
-            //cubicle to monitors
+            // Cubicle to monitors
             for (Monitor m : c.getMonitors()) {
                 LOG.info("=-=-=-=-=- Monitor ID:" + m.getMonitorID() + " info  =-=-=-=-=-");
                 LOG.info("\t" + m.toString());
             }
-            //cubicle to docking station
+            // Cubicle to docking station
             LOG.info("=-=-=-=-=- DockingStation ID:" + c.getDockingStation().getDockID()+ " info  =-=-=-=-=-");
             LOG.info("\t" + c.getDockingStation().toString());
             LOG.info(" - - - - - - - - - - - - - - - - - - - -");

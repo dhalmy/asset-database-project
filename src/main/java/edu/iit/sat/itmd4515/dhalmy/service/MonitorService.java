@@ -12,44 +12,49 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * A service class for managing monitors. This class provides methods for CRUD operations
+ * related to monitors and their relationships with cubicles.
  *
  * @author David
  */
 @Named
 @Stateless
-public class MonitorService extends AbstractService<Monitor>{
+public class MonitorService extends AbstractService<Monitor> {
 
     private static final Logger LOG = Logger.getLogger(MonitorService.class.getName());
     
     /**
-     *
+     * Constructs a MonitorService instance.
      */
     public MonitorService() {
         super(Monitor.class);
     }
     
     /**
+     * Retrieves a list of all monitors.
      *
-     * @return
+     * @return A list of all monitors in the database.
      */
     public List<Monitor> findAll(){
         return super.findAll("Monitor.findAll");
     }
     
     /**
+     * Retrieves a list of monitors available for a specific cubicle.
      *
-     * @param cubicleID
-     * @return
+     * @param cubicleID The ID of the cubicle to find available monitors for.
+     * @return A list of monitors available for the specified cubicle.
      */
     public List<Monitor> findAvailableForCubicle(int cubicleID) {
-    return em.createNamedQuery("Monitor.findAvailableForCubicle", Monitor.class)
+        return em.createNamedQuery("Monitor.findAvailableForCubicle", Monitor.class)
              .setParameter("cubicleID", cubicleID)
              .getResultList();
-}
+    }
     
     /**
+     * Deletes a monitor and its relationship with a cubicle.
      *
-     * @param mon
+     * @param mon The monitor to delete.
      */
     public void deleteMonitorWRTRelationships(Monitor mon) {
         Monitor managedMonitorRef = em.getReference(Monitor.class, mon.getMonitorID());
@@ -65,8 +70,9 @@ public class MonitorService extends AbstractService<Monitor>{
     }
 
     /**
+     * Updates a monitor's information while maintaining relationships.
      *
-     * @param mon
+     * @param mon The monitor to update.
      */
     public void updateMonitorWRTRelationships(Monitor mon){
         Monitor managedMonitorRef = em.getReference(Monitor.class, mon.getMonitorID());
@@ -77,5 +83,4 @@ public class MonitorService extends AbstractService<Monitor>{
         
         em.merge(managedMonitorRef);
     }
-    
 }

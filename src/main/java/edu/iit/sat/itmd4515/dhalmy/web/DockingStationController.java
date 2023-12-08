@@ -11,7 +11,11 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
- * JSF controller for -dockingStation.xhtml
+ * JSF controller for managing docking stations in the application. This
+ * controller handles actions related to docking stations, such as displaying,
+ * updating, deleting, and saving docking station information.
+ *
+ * @author David
  */
 @Named
 @SessionScoped
@@ -20,14 +24,15 @@ public class DockingStationController implements Serializable {
     private static final Logger LOG = Logger.getLogger(DockingStationController.class.getName());
     private DockingStation dockingStation;
 
-    @EJB 
+    @EJB
     DockingStationService dsSvc;
 
     @Inject
     private SessionBean sb;
 
     /**
-     *
+     * Constructs a new instance of DockingStationController. This constructor
+     * initializes a new docking station instance.
      */
     public DockingStationController() {
     }
@@ -39,8 +44,9 @@ public class DockingStationController implements Serializable {
     }
 
     /**
+     * A demo action for testing purposes.
      *
-     * @return
+     * @return The navigation outcome to confirmation.xhtml.
      */
     public String demoAction() {
         LOG.info("DockingStationController.demoAction has been invoked with dockingStation " + dockingStation.toString());
@@ -48,11 +54,11 @@ public class DockingStationController implements Serializable {
     }
 
     // MVC action methods
-
     /**
+     * Displays the read page for a specific docking station.
      *
-     * @param ds
-     * @return
+     * @param ds The docking station to be displayed.
+     * @return The navigation outcome to the readDockingStation.xhtml page.
      */
     public String displayReadDockingStationPage(DockingStation ds) {
         this.dockingStation = ds;
@@ -62,9 +68,10 @@ public class DockingStationController implements Serializable {
     }
 
     /**
+     * Displays the update page for a specific docking station.
      *
-     * @param ds
-     * @return
+     * @param ds The docking station to be updated.
+     * @return The navigation outcome to the updateDockingStation.xhtml page.
      */
     public String displayUpdateDockingStationPage(DockingStation ds) {
         this.dockingStation = ds;
@@ -72,38 +79,42 @@ public class DockingStationController implements Serializable {
 
         return "/update-entity/updateDockingStation.xhtml";
     }
-    
+
     /**
+     * Displays the delete page for a specific docking station.
      *
-     * @param ds
-     * @return
+     * @param ds The docking station to be deleted.
+     * @return The navigation outcome to the deleteDockingStation.xhtml page.
      */
-    public String displayDeleteDockingStationPage(DockingStation ds){
+    public String displayDeleteDockingStationPage(DockingStation ds) {
         this.dockingStation = ds;
-        LOG.info("DockingStationController.displayReadDockingStationPage has been invoked with dockingStation" + dockingStation.toString());
-        
+        LOG.info("DockingStationController.displayDeleteDockingStationPage has been invoked with dockingStation" + dockingStation.toString());
+
         return "/delete-entity/deleteDockingStation.xhtml";
     }
 
     /**
+     * Gets the current docking station.
      *
-     * @return
+     * @return The current docking station.
      */
     public DockingStation getDockingStation() {
         return dockingStation;
     }
 
     /**
+     * Sets the current docking station.
      *
-     * @param dockingStation
+     * @param dockingStation The docking station to set.
      */
     public void setDockingStation(DockingStation dockingStation) {
         this.dockingStation = dockingStation;
     }
 
     /**
+     * Updates the information of the current docking station.
      *
-     * @return
+     * @return The navigation outcome based on the success of the update.
      */
     public String updateDockingStation() {
         LOG.info("DockingStationController.updateDockingStation has been invoked with dockingStation " + dockingStation.toString());
@@ -116,8 +127,10 @@ public class DockingStationController implements Serializable {
     }
 
     /**
+     * Deletes the current docking station.
      *
-     * @return
+     * @return The navigation outcome based on the success of the delete
+     * operation.
      */
     public String deleteDockingStation() {
         LOG.info("DockingStationController.deleteDockingStation has been invoked with dockingStation " + dockingStation.toString());
@@ -130,8 +143,10 @@ public class DockingStationController implements Serializable {
     }
 
     /**
+     * Saves a new docking station.
      *
-     * @return
+     * @return The navigation outcome based on the success of the save
+     * operation.
      */
     public String saveDockingStation() {
         LOG.info("DockingStationController.saveDockingStation has been invoked with dockingStation " + dockingStation.toString());

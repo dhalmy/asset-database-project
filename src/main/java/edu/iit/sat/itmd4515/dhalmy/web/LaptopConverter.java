@@ -13,20 +13,22 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 
 /**
- *
- * @author David
+ * JSF converter for converting between Laptop objects and their string representations.
+ * Author: David
  */
 @FacesConverter(value = "laptopConverter", managed = true)
-public class LaptopConverter implements Converter<Laptop>{
-    
-    @EJB LaptopService ltSvc;
+public class LaptopConverter implements Converter<Laptop> {
+
+    @EJB
+    LaptopService ltSvc;
 
     /**
+     * Converts a string value to a Laptop object.
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context   The FacesContext.
+     * @param component The UIComponent.
+     * @param value     The string value to convert.
+     * @return The corresponding Laptop object.
      */
     @Override
     public Laptop getAsObject(FacesContext context, UIComponent component, String value) {
@@ -34,15 +36,16 @@ public class LaptopConverter implements Converter<Laptop>{
     }
 
     /**
+     * Converts a Laptop object to its string representation.
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context   The FacesContext.
+     * @param component The UIComponent.
+     * @param value     The Laptop object to convert.
+     * @return The string representation of the Laptop's ID.
      */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Laptop value) {
         return String.valueOf(value.getLaptopID());
     }
-    
 }
+

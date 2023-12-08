@@ -15,49 +15,52 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * A service class for managing docking stations. It extends the AbstractService class and provides
+ * methods for CRUD operations and custom queries related to docking stations.
  *
  * @author David
  */
 @Named
 @Stateless
-public class DockingStationService extends AbstractService<DockingStation>{
+public class DockingStationService extends AbstractService<DockingStation> {
 
     private static final Logger LOG = Logger.getLogger(DockingStationService.class.getName());
-    
+
     /**
-     *
+     * Constructs a DockingStationService instance.
      */
     public DockingStationService() {
         super(DockingStation.class);
     }
-    
+
     /**
+     * Retrieves a list of all docking stations.
      *
-     * @return
+     * @return A list of all docking stations in the persistence context.
      */
-    public List<DockingStation> findAll(){
+    public List<DockingStation> findAll() {
         return super.findAll("DockingStation.findAll");
     }
-    
-    
+
     /**
+     * Updates the properties of a docking station while maintaining its relationships.
      *
-     * @param ds
+     * @param ds The docking station to update.
      */
-    public void updateDockingStationWRTRelationships(DockingStation ds){
+    public void updateDockingStationWRTRelationships(DockingStation ds) {
         DockingStation managedDockRef = em.getReference(DockingStation.class, ds.getDockID());
-        
+
         managedDockRef.setAssetTag(ds.getAssetTag());
         managedDockRef.setUnlock_key(ds.getUnlock_key());
         managedDockRef.setSerialNum(ds.getSerialNum());
-        
-        
+
         em.merge(managedDockRef);
     }
-    
+
     /**
+     * Deletes a docking station and its relationships, if any, with cubicles.
      *
-     * @param ds
+     * @param ds The docking station to delete.
      */
     public void deleteDockingStationWRTRelationships(DockingStation ds) {
         try {
@@ -82,4 +85,3 @@ public class DockingStationService extends AbstractService<DockingStation>{
         }
     }
 }
-

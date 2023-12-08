@@ -32,8 +32,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
- * @author David
+ * JSF controller for managing user login and role-based access control.
+ * Author: David
  */
 @Named
 @RequestScoped
@@ -49,78 +49,73 @@ public class LoginController {
     @EJB UserService userSvc;
 
     /**
-     *
+     * Default constructor for LoginController.
      */
     public LoginController() {
     }
     
     /**
+     * Check if the user is in the admin role.
      *
-     * @return
+     * @return True if the user is an admin, false otherwise.
      */
     public boolean isAdmin(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.ADMIN_ROLE);
     }
 
     /**
+     * Check if the user is in the IT role.
      *
-     * @return
+     * @return True if the user is in IT, false otherwise.
      */
     public boolean isIT(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.IT_ROLE);
     }
 
     /**
+     * Check if the user is in the HR role.
      *
-     * @return
+     * @return True if the user is in HR, false otherwise.
      */
     public boolean isHR(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.HR_ROLE);
     }
     
-    
-    
+    /**
+     * Initialize the LoginController during post-construction.
+     */
     @PostConstruct
     private void postConstruct(){
         LOG.info("Inside LoginController.postConstruct()");
         user = new User();
     }
     
-    //helper method
-
     /**
+     * Get the username of the currently logged-in user.
      *
-     * @return
+     * @return The username of the current user.
      */
     public String getCurrentUser(){
         return facesContext.getExternalContext().getRemoteUser();
     }
     
-    
-    
-    
-    
-    //action methods
-
     /**
+     * Process user login and authentication.
      *
-     * @return
+     * @return The destination page after login.
      */
     public String login(){
         LOG.info("LoginController.login() with " + user.getUsername());
         
-        //auth JSF-375
+        // Auth JSF-375
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
         
         Credential cred = new UsernamePasswordCredential(this.user.getUsername(), new Password(this.user.getPassword()));
         
-        
         AuthenticationStatus status =
                 securityContext.authenticate(request, response, AuthenticationParameters.withParams().credential(cred));
    
-        
-        
         switch(status){
             case SUCCESS:
             case SEND_CONTINUE:
@@ -133,13 +128,10 @@ public class LoginController {
         
         sb.returnHighestPrivilege();
         return sb.getReturnPage();
-
     }
     
-
     
-        
-        //this was created before isCallerInRole was demod to us in the lecture. it required this bean's scope to change from RequestScoped to SessionScoped
+            //this was created before isCallerInRole was demod to us in the lecture. it required this bean's scope to change from RequestScoped to SessionScoped
         //this workaround required this bean to be SessionScoped. this created a problem with form data persisting after submission
         
 //        User currGroups = userSvc.findUserWithGroupsByUsername(this.getCurrentUser());
@@ -167,16 +159,16 @@ public class LoginController {
 //                
 //            
 //        return "/error.xhtml?faces-redirect=true";
-
+    
+    
+    
+    
     /**
+     * Process user logout.
      *
-     * @return
+     * @return The login page after logout.
      */
-
-
-    
     public String logout() {
-    
         LOG.info("LoginController.logout() with " + this.getCurrentUser());
     
         try {
@@ -190,19 +182,21 @@ public class LoginController {
     }
     
     /**
+     * Get the user object associated with this controller.
      *
-     * @return
+     * @return The User object.
      */
     public User getUser() {
         return user;
     }
 
     /**
+     * Set the user object for this controller.
      *
-     * @param user
+     * @param user The User object to set.
      */
     public void setUser(User user) {
         this.user = user;
     }
-
 }
+

@@ -11,22 +11,25 @@ import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
-
 /**
+ * JSF converter for converting Employee objects to and from their string representations.
+ * This converter is used to convert Employee entities to and from strings in the user interface.
+ * It is managed by the framework and registered with the name "employeeConverter".
  *
- * @author David
+ * Author: David
  */
 @FacesConverter(value = "employeeConverter", managed = true)
 public class EmployeeConverter implements Converter<Employee>{
-    
+
     @EJB EmployeeService emSvc;
 
     /**
+     * Converts a string representation of an Employee ID into an actual Employee object.
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context The FacesContext for the conversion.
+     * @param component The UIComponent that triggered the conversion.
+     * @param value The string value to convert.
+     * @return The corresponding Employee object.
      */
     @Override
     public Employee getAsObject(FacesContext context, UIComponent component, String value) {
@@ -34,15 +37,16 @@ public class EmployeeConverter implements Converter<Employee>{
     }
 
     /**
+     * Converts an Employee object into its string representation (Employee ID).
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context The FacesContext for the conversion.
+     * @param component The UIComponent that triggered the conversion.
+     * @param value The Employee object to convert.
+     * @return The string representation of the Employee's ID.
      */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Employee value) {
         return String.valueOf(value.getEmployeeID());
     }
-    
 }
+

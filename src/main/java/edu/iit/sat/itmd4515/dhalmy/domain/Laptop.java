@@ -21,7 +21,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
- *
+ * Represents a laptop within the organization.
+ * Each laptop is uniquely identified by an ID and has attributes such as asset tag, name, make and model,
+ * serial number, and an associated employee.
+ * 
  * @author David
  */
 @Entity
@@ -33,7 +36,6 @@ import java.util.Objects;
             query = "SELECT l FROM Laptop l WHERE l.employee IS NULL OR l.employee.employeeID = :employeeID")
 @NamedQuery(name = "Laptop.findByEmployeeID", 
             query = "SELECT l FROM Laptop l WHERE l.employee.employeeID = :employeeID")
-
 public class Laptop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,18 +66,19 @@ public class Laptop {
     private Employee employee;
     
     /**
-     *
+     * Constructs a new Laptop object with default values.
      */
     public Laptop() {
     }
 
     /**
-     *
-     * @param assetTag
-     * @param name
-     * @param makeModel
-     * @param serialNum
-     * @param employee
+     * Constructs a new Laptop object with the specified attributes.
+     * 
+     * @param assetTag The asset tag of the laptop.
+     * @param name The name of the laptop.
+     * @param makeModel The make and model of the laptop.
+     * @param serialNum The serial number of the laptop.
+     * @param employee The employee associated with the laptop.
      */
     public Laptop(String assetTag, String name, String makeModel, String serialNum, Employee employee) {
         this.assetTag = assetTag;
@@ -86,10 +89,11 @@ public class Laptop {
     }
 
     /**
-     *
-     * @param name
-     * @param makeModel
-     * @param serialNum
+     * Constructs a new Laptop object with the specified name, make and model, and serial number.
+     * 
+     * @param name The name of the laptop.
+     * @param makeModel The make and model of the laptop.
+     * @param serialNum The serial number of the laptop.
      */
     public Laptop(String name, String makeModel, String serialNum) {
         this.name = name;
@@ -98,8 +102,9 @@ public class Laptop {
     }
 
     /**
-     *
-     * @return
+     * Computes the hash code of the laptop based on its ID.
+     * 
+     * @return The hash code of the laptop.
      */
     @Override
     public int hashCode() {
@@ -109,9 +114,11 @@ public class Laptop {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Compares this laptop to another object for equality.
+     * Two laptops are considered equal if their IDs are equal.
+     * 
+     * @param obj The object to compare with.
+     * @return true if the objects are equal, false otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -126,9 +133,9 @@ public class Laptop {
         }
         final Laptop other = (Laptop) obj;
         
-        //if we are relying on GeneratedValue for ID, we need to check
-        //whether either ID is null in order to rely on the field
-        //iff null, can't be equal
+        // If we are relying on GeneratedValue for ID, we need to check
+        // whether either ID is null in order to rely on the field
+        // iff null, can't be equal
         if (this.laptopID == null || other.laptopID == null) {
             return false;
         }
@@ -136,96 +143,109 @@ public class Laptop {
     }
 
     /**
-     *
-     * @return
+     * Gets the unique identifier (ID) of the laptop.
+     * 
+     * @return The ID of the laptop.
      */
     public Long getLaptopID() {
         return laptopID;
     }
 
     /**
-     *
-     * @param laptopID
+     * Sets the unique identifier (ID) of the laptop.
+     * 
+     * @param laptopID The ID to set for the laptop.
      */
     public void setLaptopID(Long laptopID) {
         this.laptopID = laptopID;
     }
 
     /**
-     *
-     * @return
+     * Gets the asset tag of the laptop.
+     * 
+     * @return The asset tag.
      */
     public String getAssetTag() {
         return assetTag;
     }
 
     /**
-     *
-     * @param assetTag
+     * Sets the asset tag of the laptop.
+     * 
+     * @param assetTag The asset tag to set.
      */
     public void setAssetTag(String assetTag) {
         this.assetTag = assetTag;
     }
 
     /**
-     *
-     * @return
+     * Gets the name of the laptop.
+     * 
+     * @return The name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     *
-     * @param name
+     * Sets the name of the laptop.
+     * 
+     * @param name The name to set.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     *
-     * @return
+     * Gets the make and model of the laptop.
+     * 
+     * @return The make and model.
      */
     public String getMakeModel() {
         return makeModel;
     }
 
     /**
-     *
-     * @param makeModel
+     * Sets the make and model of the laptop.
+     * 
+     * @param makeModel The make and model to set.
      */
     public void setMakeModel(String makeModel) {
         this.makeModel = makeModel;
     }
 
     /**
-     *
-     * @return
+     * Gets the serial number of the laptop.
+     * 
+     * @return The serial number.
      */
     public String getSerialNum() {
         return serialNum;
     }
 
     /**
-     *
-     * @param serialNum
+     * Sets the serial number of the laptop.
+     * 
+     * @param serialNum The serial number to set.
      */
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
     }
 
     /**
-     *
-     * @return
+     * Gets the employee associated with the laptop.
+     * 
+     * @return The associated employee or null if unassigned.
      */
     public Employee getEmployee() {
         return this.employee;
     }
     
     /**
-     *
-     * @param employee
+     * Associates the laptop with an employee.
+     * If the laptop was previously assigned to another employee, it is removed from their list of laptops.
+     * 
+     * @param employee The employee to associate with the laptop.
      */
     public void addEmployee(Employee employee) {
         if(this.employee != null){
@@ -238,7 +258,7 @@ public class Laptop {
     }
     
     /**
-     *
+     * Disassociates the laptop from its current employee, if any.
      */
     public void removeEmployee(){
         if(this.employee != null){
@@ -249,13 +269,13 @@ public class Laptop {
     }
 
     /**
-     *
-     * @return
+     * Returns a string representation of the laptop, including the ID, asset tag, name, make and model,
+     * serial number, and employee ID (if assigned).
+     * 
+     * @return A string representation of the laptop.
      */
     @Override
     public String toString() {
         return "Laptop{" + "laptopID=" + laptopID + ", assetTag=" + assetTag + ", name=" + name + ", makeModel=" + makeModel + ", serialNum=" + serialNum + ", employeeID=" + (employee != null ? employee.getEmployeeID() : "null") + '}';
     }
-
-    
 }

@@ -13,6 +13,8 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 
 /**
+ * JSF converter for converting Monitor objects to and from their String representations.
+ * This converter is used to handle Monitor entities in JSF views.
  *
  * @author David
  */
@@ -22,11 +24,12 @@ public class MonitorConverter implements Converter<Monitor>{
     @EJB MonitorService monSvc;
 
     /**
+     * Converts a String value to a Monitor object.
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context The FacesContext.
+     * @param component The UIComponent.
+     * @param value The String value to convert.
+     * @return The corresponding Monitor object.
      */
     @Override
     public Monitor getAsObject(FacesContext context, UIComponent component, String value) {
@@ -34,11 +37,12 @@ public class MonitorConverter implements Converter<Monitor>{
     }
 
     /**
+     * Converts a Monitor object to its String representation.
      *
-     * @param context
-     * @param component
-     * @param value
-     * @return
+     * @param context The FacesContext.
+     * @param component The UIComponent.
+     * @param value The Monitor object to convert.
+     * @return The String representation of the Monitor's ID.
      */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Monitor value) {

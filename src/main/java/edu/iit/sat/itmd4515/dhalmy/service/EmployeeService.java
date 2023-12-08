@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * A service class for managing employees. This class provides methods for CRUD operations
+ * related to employees and their relationships with cubicles and laptops.
  *
  * @author David
  */
@@ -24,79 +26,83 @@ import java.util.logging.Logger;
 public class EmployeeService {
 
     private static final Logger LOG = Logger.getLogger(EmployeeService.class.getName());
-    
+
     /**
-     *
+     * The entity manager for database interactions.
      */
     @PersistenceContext(name = "itm4515PU")
     protected EntityManager em;
 
     /**
-     *
+     * Constructs an EmployeeService instance.
      */
     public EmployeeService() {
     }
-    
+
     /**
+     * Creates a new employee.
      *
-     * @param e
+     * @param e The employee to create.
      */
-    public void create(Employee e){
+    public void create(Employee e) {
         em.persist(e);
     }
-    
+
     /**
+     * Retrieves an employee by their ID.
      *
-     * @param employeeID
-     * @return
+     * @param employeeID The ID of the employee to retrieve.
+     * @return The employee with the specified ID, or null if not found.
      */
-    public Employee read(Long employeeID){
+    public Employee read(Long employeeID) {
         return em.find(Employee.class, employeeID);
     }
-    
+
     /**
+     * Updates an employee's information while maintaining relationships with laptops.
      *
-     * @param e
+     * @param e The employee to update.
      */
-    public void update(Employee e){
+    public void update(Employee e) {
         em.merge(e);
-        
     }
-    
+
     /**
+     * Finds employees available for a specific cubicle.
      *
-     * @param cubicleId
-     * @return
+     * @param cubicleId The ID of the cubicle to find available employees for.
+     * @return A list of employees available for the specified cubicle.
      */
     public List<Employee> findAvailableForCubicle(int cubicleId) {
         return em.createNamedQuery("Employee.findAvailableForCubicle", Employee.class)
                  .setParameter("cubicleID", cubicleId)
                  .getResultList();
     }
-    
-    
+
     /**
+     * Deletes an employee and their relationships with cubicles and laptops.
      *
-     * @param e
+     * @param e The employee to delete.
      */
     public void deleteEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
         Cubicle cb = managedEmployeeRef.getCubicle();
-        LOG.info("removing employee: " + managedEmployeeRef.getAuto_username() + " from cubicle:" + cb.getCubicleID());
+        LOG.info("Removing employee: " + managedEmployeeRef.getAuto_username() + " from cubicle:" + cb.getCubicleID());
         cb.removeEmployee(managedEmployeeRef);
         em.merge(cb);
-        
-        for(Laptop laptop : new ArrayList<Laptop>(managedEmployeeRef.getLaptops())) {
+
+        for (Laptop laptop : new ArrayList<>(managedEmployeeRef.getLaptops())) {
             LOG.info("Removing laptop from employee: " + laptop.getName());
             laptop.removeEmployee();
             em.merge(laptop);
         }
         em.remove(managedEmployeeRef);
     }
-    
+
     /**
+     * Updates an employee's information while maintaining relationships with laptops.
      *
-     * @param e
+     * @param e The employee to update.
      */
     public void updateEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
@@ -108,18 +114,17 @@ public class EmployeeService {
         managedEmployeeRef.setAuto_username(e.getAuto_username());
         managedEmployeeRef.setEmail(e.getEmail());
         managedEmployeeRef.setLaptops(e.getLaptops());
-        
+
         List<Laptop> currentlyAssignedLaptops = em.createNamedQuery("Laptop.findByEmployeeID", Laptop.class)
                                               .setParameter("employeeID", managedEmployeeRef.getEmployeeID())
                                               .getResultList();
 
-
         for (Laptop laptop : currentlyAssignedLaptops) {
-        if (!e.getLaptops().contains(laptop)) {
-            laptop.removeEmployee();
-            em.merge(laptop);
+            if (!e.getLaptops().contains(laptop)) {
+                laptop.removeEmployee();
+                em.merge(laptop);
+            }
         }
-    }
 
         for (Laptop laptop : e.getLaptops()) {
             if (!currentlyAssignedLaptops.contains(laptop)) {
@@ -131,22 +136,23 @@ public class EmployeeService {
         managedEmployeeRef.setLaptops(e.getLaptops());
 
         em.merge(managedEmployeeRef);
-        
     }
-    
+
     /**
+     * Deletes an employee.
      *
-     * @param e
+     * @param e The employee to delete.
      */
-    public void delete(Employee e){
+    public void delete(Employee e) {
         em.remove(em.merge(e));
     }
-    
+
     /**
+     * Retrieves a list of all employees.
      *
-     * @return
+     * @return A list of all employees in the database.
      */
-    public List<Employee> findAll(){
+    public List<Employee> findAll() {
         return em.createNamedQuery("Employee.findAll", Employee.class).getResultList();
     }
 }

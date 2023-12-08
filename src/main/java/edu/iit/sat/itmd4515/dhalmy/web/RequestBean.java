@@ -12,7 +12,9 @@ import java.io.Serializable;
 
 
 /**
- *
+ * JSF RequestBean for managing request-related operations.
+ * This bean is used to act as a way to retrieve the URL and display certain things accordingly.
+ * 
  * @author David
  */
 @Named
@@ -20,14 +22,15 @@ import java.io.Serializable;
 public class RequestBean {
     
     /**
-     *
+     * Constructor for RequestBean.
      */
     public RequestBean() {
     }
 
     /**
-     *
-     * @return
+     * Checks if the current request is for an update operation.
+     * 
+     * @return True if the request is for an update, false otherwise.
      */
     public boolean isUpdate() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -38,8 +41,9 @@ public class RequestBean {
     }
     
     /**
-     *
-     * @return
+     * Checks if the current request is for a delete operation.
+     * 
+     * @return True if the request is for a delete, false otherwise.
      */
     public boolean isDelete() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

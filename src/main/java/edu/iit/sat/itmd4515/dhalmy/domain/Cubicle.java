@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
+ * Represents a cubicle in an office environment. Each cubicle may contain
+ * monitors, employees, and may be associated with a docking station. The
+ * cubicle is identified by a unique ID. Cubicle numbers range from 415 to 635
  *
  * @author David
  */
@@ -37,80 +40,69 @@ import java.util.logging.Logger;
 public class Cubicle {
 
     private static final Logger LOG = Logger.getLogger(Cubicle.class.getName());
-    
+
     @Id
     @Column(name = "Cubicle_Number")
     @Min(value = 415, message = "Cubicle ID must be at least 415")
     @Max(value = 635, message = "Cubicle ID must be at most 635")
     private int cubicleID;
-    //there's a pre-set list of room/cubicle numbers to choose from, so no need to autogenerate ID
-    
-    
-    //not sure if this is the right setup. i dont think this follows database convention
-    //but i dont know how else to make it so one cubicle contains two different monitors
-    //i could make it a "monitor pair" but it wouldn't be very modular, say if one monitor needs replacement
-    //i would need to insert the new pair instead of removing the one old monitor and replacing with the new
-    
-    
-    
+
+    // There's a pre-set list of room/cubicle numbers to choose from, so no need to autogenerate ID
     @OneToMany
     @JoinColumn(name = "cubicle_id")
     private List<Monitor> monitors = new ArrayList<>();
-    
-//now inverse side?
-//    @OneToMany(mappedBy = "cubicle")
-//    private List<Monitor> monitors;
 
-    //i want the center of the database to be focused around the employee. from the employee
-    //you know their laptop, their cube, and from their cube you can find out the cube's information
     @OneToMany(mappedBy = "cubicle")
     private List<Employee> employees = new ArrayList<>();
-    
+
     @OneToOne
     @JoinColumn(name = "Dock_ID")
     private DockingStation dockingStation;
- 
+
     /**
-     *
+     * Constructs a new Cubicle object with default values.
      */
     public Cubicle() {
     }
 
     /**
+     * Constructs a new Cubicle object with the specified cubicle ID.
      *
-     * @param cubicleID
+     * @param cubicleID The unique identifier for the cubicle.
      */
     public Cubicle(int cubicleID) {
         this.cubicleID = cubicleID;
     }
-    
-    //helper methods
 
+    // Helper methods
     /**
+     * Adds a monitor to the list of monitors in this cubicle.
      *
-     * @param m
+     * @param m The monitor to be added.
      */
-    public void addMonitor(Monitor m){
-        if(m != null && !this.monitors.contains(m)){
-            this.monitors.add(m);       
+    public void addMonitor(Monitor m) {
+        if (m != null && !this.monitors.contains(m)) {
+            this.monitors.add(m);
             m.setCubicle(this);
         }
     }
-    
+
     /**
+     * Removes a monitor from the list of monitors in this cubicle.
      *
-     * @param m
+     * @param m The monitor to be removed.
      */
-    public void removeMonitor(Monitor m){
-        if(m != null && this.monitors.contains(m)){
-            this.monitors.remove(m);    
+    public void removeMonitor(Monitor m) {
+        if (m != null && this.monitors.contains(m)) {
+            this.monitors.remove(m);
             m.setCubicle(null);
         }
     }
-    
+
     /**
+     * Adds a docking station to this cubicle.
      *
-     * @param dockingStation
+     * @param dockingStation The docking station to be added.
      */
     public void addDockingStation(DockingStation dockingStation) {
         if (dockingStation != null && this.dockingStation != dockingStation) {
@@ -120,7 +112,7 @@ public class Cubicle {
     }
 
     /**
-     *
+     * Removes the docking station from this cubicle.
      */
     public void removeDockingStation() {
         if (this.dockingStation != null) {
@@ -129,10 +121,10 @@ public class Cubicle {
     }
 
     /**
+     * Adds an employee to this cubicle.
      *
-     * @param e
+     * @param e The employee to be added.
      */
-    
     public void addEmployee(Employee e) {
         if (e != null && !this.employees.contains(e)) {
             this.employees.add(e);
@@ -141,8 +133,9 @@ public class Cubicle {
     }
 
     /**
+     * Removes an employee from this cubicle.
      *
-     * @param e
+     * @param e The employee to be removed.
      */
     public void removeEmployee(Employee e) {
         if (e != null && this.employees.contains(e)) {
@@ -150,76 +143,83 @@ public class Cubicle {
             e.setCubicle(null);
         }
     }
-    
+
     /**
+     * Gets the cubicle's unique identifier.
      *
-     * @return
+     * @return The cubicle's ID.
      */
     public int getCubicleID() {
         return cubicleID;
     }
 
     /**
+     * Sets the cubicle's unique identifier.
      *
-     * @param cubicleID
+     * @param cubicleID The unique identifier to set.
      */
     public void setCubicleID(int cubicleID) {
         this.cubicleID = cubicleID;
     }
 
     /**
+     * Gets the list of monitors in this cubicle.
      *
-     * @return
+     * @return The list of monitors.
      */
     public List<Monitor> getMonitors() {
         return monitors;
     }
 
     /**
+     * Sets the list of monitors in this cubicle.
      *
-     * @param monitors
+     * @param monitors The list of monitors to set.
      */
     public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 
     /**
+     * Gets the list of employees associated with this cubicle.
      *
-     * @return
+     * @return The list of employees.
      */
     public List<Employee> getEmployees() {
         return employees;
     }
 
     /**
+     * Sets the list of employees associated with this cubicle.
      *
-     * @param employees
+     * @param employees The list of employees to set.
      */
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
 
     /**
+     * Gets the docking station associated with this cubicle.
      *
-     * @return
+     * @return The docking station.
      */
     public DockingStation getDockingStation() {
-//        LOG.info("inside Cubicle.getDockingStation with " + dockingStation.getDockID());
         return dockingStation;
     }
 
     /**
+     * Sets the docking station associated with this cubicle.
      *
-     * @param dockingStation
+     * @param dockingStation The docking station to set.
      */
     public void setDockingStation(DockingStation dockingStation) {
-//        LOG.info("inside Cubicle.setDockingStation " + dockingStation.getDockID());
         this.dockingStation = dockingStation;
     }
 
     /**
-     *
-     * @return
+     * Returns a string representation of this cubicle, including its ID, monitors, employees, and docking station.
+     * 
+     * @return A string representation of the cubicle.
      */
     @Override
     public String toString() {
