@@ -27,7 +27,10 @@ import java.util.Objects;
 @Table(name = "Monitors")
 @XmlRootElement
 @NamedQuery(name = "Monitor.findAll", query = "select m from Monitor m")
-//@NamedQuery(name = "Monitor.findCubicleByMonitorId", query = "SELECT c FROM Cubicle c JOIN c.monitors m WHERE m.monitorID = :monitorID")
+@NamedQuery(name = "Monitor.findAvailableForCubicle", 
+            query = "SELECT m FROM Monitor m WHERE m.cubicle IS NULL OR m.cubicle.cubicleID = :cubicleID")
+@NamedQuery(name = "Monitor.findByCubicleID", 
+            query = "SELECT m FROM Monitor m WHERE m.cubicle.cubicleID = :cubicleID")
 public class Monitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

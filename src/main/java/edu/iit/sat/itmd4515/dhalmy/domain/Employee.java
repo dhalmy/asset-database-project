@@ -39,7 +39,11 @@ import java.util.List;
 @Table(name = "Employees")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQuery(name = "Employee.findAvailableForCubicle", 
+            query = "SELECT e FROM Employee e WHERE e.cubicle IS NULL OR e.cubicle.cubicleID = :cubicleID")
 @NamedQuery(name = "Employee.findAll", query = "select e from Employee e")
+@NamedQuery(name = "Employee.findByCubicleID", 
+            query = "SELECT e FROM Employee e WHERE e.cubicle.cubicleID = :cubicleID")
 public class Employee {
 
     @Id
@@ -352,7 +356,7 @@ public class Employee {
      */
     @Override
     public String toString() {
-        return "Employee{" + "employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + auto_username + ", hireDate=" + hireDate + ", type=" + type + ", email=" + email + ", cubicle=" + cubicle + ", laptops=" + laptops + '}';
+        return "Employee{" + "employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + auto_username + ", hireDate=" + hireDate + ", type=" + type + ", email=" + email + ", cubicle=" + "not to show" + ", laptops=" + laptops + '}';
     }
 
     /**

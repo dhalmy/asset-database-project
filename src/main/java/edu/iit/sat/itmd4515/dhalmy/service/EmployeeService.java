@@ -65,6 +65,18 @@ public class EmployeeService {
     
     /**
      *
+     * @param cubicleId
+     * @return
+     */
+    public List<Employee> findAvailableForCubicle(int cubicleId) {
+        return em.createNamedQuery("Employee.findAvailableForCubicle", Employee.class)
+                 .setParameter("cubicleID", cubicleId)
+                 .getResultList();
+    }
+    
+    
+    /**
+     *
      * @param e
      */
     public void deleteEmployeeWRTRelationships(Employee e) {
@@ -116,6 +128,7 @@ public class EmployeeService {
                 em.merge(managedLaptopRef);
             }
         }
+        managedEmployeeRef.setLaptops(e.getLaptops());
 
         em.merge(managedEmployeeRef);
         

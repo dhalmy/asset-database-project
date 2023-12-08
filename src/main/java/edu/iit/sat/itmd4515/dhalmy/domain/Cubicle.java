@@ -108,6 +108,10 @@ public class Cubicle {
         }
     }
     
+    /**
+     *
+     * @param dockingStation
+     */
     public void addDockingStation(DockingStation dockingStation) {
         if (dockingStation != null && this.dockingStation != dockingStation) {
             removeDockingStation();
@@ -115,6 +119,9 @@ public class Cubicle {
         }
     }
 
+    /**
+     *
+     */
     public void removeDockingStation() {
         if (this.dockingStation != null) {
             this.dockingStation = null;
@@ -209,14 +216,13 @@ public class Cubicle {
 //        LOG.info("inside Cubicle.setDockingStation " + dockingStation.getDockID());
         this.dockingStation = dockingStation;
     }
-    
+
     /**
      *
      * @return
      */
     @Override
     public String toString() {
-        return "Cubicle{" + "cubicleID=" + cubicleID + ", monitors=" + monitors + ", dockingStation=" + dockingStation + '}';
+        return "Cubicle{" + "cubicleID=" + cubicleID + ", monitors=" + monitors + ", employees=" + employees + ", dockingStation=" + dockingStation + '}';
     }
-    
 }

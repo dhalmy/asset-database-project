@@ -38,6 +38,17 @@ public class MonitorService extends AbstractService<Monitor>{
     
     /**
      *
+     * @param cubicleID
+     * @return
+     */
+    public List<Monitor> findAvailableForCubicle(int cubicleID) {
+    return em.createNamedQuery("Monitor.findAvailableForCubicle", Monitor.class)
+             .setParameter("cubicleID", cubicleID)
+             .getResultList();
+}
+    
+    /**
+     *
      * @param mon
      */
     public void deleteMonitorWRTRelationships(Monitor mon) {

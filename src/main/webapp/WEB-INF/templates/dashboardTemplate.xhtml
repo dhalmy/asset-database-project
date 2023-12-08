@@ -313,18 +313,6 @@
                                     <h:outputText value=" #{eachlt.name}"/>
                                 </ui:repeat>
                             </h:column>
-                            <h:column>
-                                <f:facet name="header">Cubicle Monitors</f:facet>
-                                <ui:repeat value="#{employee.cubicle.monitors}" var="eachmon">
-                                    <h:outputText value=" #{eachmon.assetTag}"/>
-                                </ui:repeat>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">Monitors Make and Model</f:facet>
-                                <ui:repeat value="#{employee.cubicle.monitors}" var="eachmonitor">
-                                    <h:outputText value=" #{eachmonitor.makeModel}"/>
-                                </ui:repeat>
-                            </h:column>
 
                             <!--                            <h:column>
                                                             <h:form>
@@ -428,6 +416,12 @@
                                 <h:outputText value="#{cube.cubicleID}" />
                             </h:column>
                             <h:column>
+                                <f:facet name="header">Employees</f:facet>
+                                <ui:repeat value="#{cube.employees}" var="eachemp">
+                                    <h:outputText value=" #{eachemp.firstName} #{eachemp.lastName}"/>
+                                </ui:repeat>
+                            </h:column>
+                            <h:column>
                                 <f:facet name="header">Dock Asset Tag</f:facet>
                                 <h:outputText value="#{cube.dockingStation.assetTag}" />
                             </h:column>
@@ -439,6 +433,18 @@
                                 <f:facet name="header">Monitor Tags</f:facet>
                                 <ui:repeat value="#{cube.monitors}" var="eachmon">
                                     <h:outputText value=" #{eachmon.assetTag}"/>
+                                </ui:repeat>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cubicle Monitors</f:facet>
+                                <ui:repeat value="#{cube.monitors}" var="eachmon">
+                                    <h:outputText value=" #{eachmon.assetTag}"/>
+                                </ui:repeat>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Monitors Make and Model</f:facet>
+                                <ui:repeat value="#{cube.monitors}" var="eachmonitor">
+                                    <h:outputText value=" #{eachmonitor.makeModel}"/>
                                 </ui:repeat>
                             </h:column>
 

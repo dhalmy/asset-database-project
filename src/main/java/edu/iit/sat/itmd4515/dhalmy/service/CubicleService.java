@@ -6,6 +6,7 @@ package edu.iit.sat.itmd4515.dhalmy.service;
 
 import edu.iit.sat.itmd4515.dhalmy.domain.Cubicle;
 import edu.iit.sat.itmd4515.dhalmy.domain.DockingStation;
+import edu.iit.sat.itmd4515.dhalmy.domain.Employee;
 import edu.iit.sat.itmd4515.dhalmy.domain.Laptop;
 import edu.iit.sat.itmd4515.dhalmy.domain.Monitor;
 import jakarta.ejb.Stateless;
@@ -39,6 +40,11 @@ public class CubicleService extends AbstractService<Cubicle> {
         return super.findAll("Cubicle.findAll");
     }
     
+    /**
+     *
+     * @param currentDockId
+     * @return
+     */
     public List<DockingStation> findAvailableDockingStations(Long currentDockId) {
         List<DockingStation> availableDocks = em.createQuery("SELECT d FROM DockingStation d", DockingStation.class)
                 .getResultList();
@@ -65,12 +71,60 @@ public class CubicleService extends AbstractService<Cubicle> {
      *
      * @param cb
      */
-    public void updateCubicleWRTRelationships(Cubicle cb){
+    public void updateCubicleWRTRelationships(Cubicle cb) {
         Cubicle managedCubicleRef = em.getReference(Cubicle.class, cb.getCubicleID());
-        LOG.info("managedCubicleRef docking station: " + cb.toString());
-        managedCubicleRef.addDockingStation(cb.getDockingStation());
-        //todo monitor
-        //todo employee
+
+        // updates docking station
+        managedCubicleRef.setDockingStation(cb.getDockingStation());
+
+        // update monitors
+        List<Monitor> currentlyAssignedMonitors = em.createNamedQuery("Monitor.findByCubicleID", Monitor.class)
+                .setParameter("cubicleID", managedCubicleRef.getCubicleID())
+                .getResultList();
+
+        // removes outdated monitors
+        for (Monitor monitor : currentlyAssignedMonitors) {
+            if (!cb.getMonitors().contains(monitor)) {
+                monitor.setCubicle(null);
+                em.merge(monitor);
+            }
+        }
+
+        // updates / adds new monitors
+        for (Monitor monitor : cb.getMonitors()) {
+            if (!currentlyAssignedMonitors.contains(monitor)) {
+                Monitor managedMonitorRef = em.find(Monitor.class, monitor.getMonitorID());
+                managedMonitorRef.setCubicle(managedCubicleRef);
+                em.merge(managedMonitorRef);
+            }
+        }
+        
+        managedCubicleRef.setMonitors(cb.getMonitors());
+
+        // updates employees
+        List<Employee> currentlyAssignedEmployees = em.createNamedQuery("Employee.findByCubicleID", Employee.class)
+                .setParameter("cubicleID", managedCubicleRef.getCubicleID())
+                .getResultList();
+
+        // removes outdated employees
+        for (Employee employee : currentlyAssignedEmployees) {
+            if (!cb.getEmployees().contains(employee)) {
+                employee.setCubicle(null);
+                em.merge(employee);
+            }
+        }
+
+        // updates / adds new employees
+        for (Employee employee : cb.getEmployees()) {
+            if (!currentlyAssignedEmployees.contains(employee)) {
+                Employee managedEmployeeRef = em.find(Employee.class, employee.getEmployeeID());
+                managedEmployeeRef.setCubicle(managedCubicleRef);
+                em.merge(managedEmployeeRef);
+            }
+        }
+        
+        managedCubicleRef.setEmployees(cb.getEmployees());
+
         em.merge(managedCubicleRef);
     }
     

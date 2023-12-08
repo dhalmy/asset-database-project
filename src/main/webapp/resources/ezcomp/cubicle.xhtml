@@ -51,24 +51,43 @@
 
 
 
-<!--       <p>
-                <h:panelGroup layout="block" rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}">
-                    <h:outputLabel for="laptops" value="Laptops" />
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="employees" value="Employees" />
                     <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
-                                      disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
-                                      id="laptops" 
-                                      value="#{cc.attrs.employee.laptops}"
-                                      converter="laptopConverter">
+                                          disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                          id="employees" 
+                                          value="#{cc.attrs.cubicle.employees}"
+                                          converter="employeeConverter">
 
-                        <f:selectItems value="#{laptopService.findAllAvailableForEmployee(cc.attrs.employee.employeeID)}"
-                                       var="laptop"
-                                       itemLabel="#{laptop.name}"
-                                       itemValue="#{laptop}" />
+                        <f:selectItems value="#{employeeService.findAvailableForCubicle(cc.attrs.cubicle.cubicleID)}"
+                                       var="employee"
+                                       itemLabel="#{employee.firstName} #{employee.lastName}"
+                                       itemValue="#{employee}" />
 
                     </h:selectManyCheckbox>
-                    <h:message for="laptops" />
+                    <h:message for="employees" />
                 </h:panelGroup>
-                        </p>-->
+            </p>
+            
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="monitors" value="Monitors" />
+                    <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                          disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                          id="monitors" 
+                                          value="#{cc.attrs.cubicle.monitors}"
+                                          converter="monitorConverter">
+
+                        <f:selectItems value="#{monitorService.findAvailableForCubicle(cc.attrs.cubicle.cubicleID)}"
+                                       var="monitor"
+                                       itemLabel="#{monitor.assetTag}"
+                                       itemValue="#{monitor}" />
+
+                    </h:selectManyCheckbox>
+                    <h:message for="monitors" />
+                </h:panelGroup>
+            </p>
 
             <p>
                 <h:commandButton
