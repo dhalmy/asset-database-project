@@ -94,6 +94,8 @@ public class EmployeeService {
         managedEmployeeRef.setFirstName(e.getFirstName());
         managedEmployeeRef.setLastName(e.getLastName());
         managedEmployeeRef.setAuto_username(e.getAuto_username());
+        managedEmployeeRef.setEmail(e.getEmail());
+        managedEmployeeRef.setLaptops(e.getLaptops());
         
         List<Laptop> currentlyAssignedLaptops = em.createNamedQuery("Laptop.findByEmployeeID", Laptop.class)
                                               .setParameter("employeeID", managedEmployeeRef.getEmployeeID())

@@ -51,9 +51,11 @@ public class EmployeeController implements Serializable{
      *
      * @return
      */
-    public String demoAction(){
-        LOG.info("EmployeeController.demoAction has been invoked with employee " + employee.toString());
-        return "confirmation.xhtml";
+    public String redundantGenerateAction(){
+        LOG.info("EmployeeController.redundantGenerateAction has been invoked with employee " + employee.toString());
+        generateUsername();
+        getGenerateEmail();
+        return "success";
     }
     
     
@@ -116,6 +118,7 @@ public class EmployeeController implements Serializable{
      * @return
      */
     public String updateEmployee(){
+        redundantGenerateAction();
         LOG.info("EmployeeController.updateEmployee has been invoked with employee " + employee.toString());
         
         emSvc.updateEmployeeWRTRelationships(employee);
@@ -144,6 +147,7 @@ public class EmployeeController implements Serializable{
      * @return
      */
     public String saveEmployee(){
+        redundantGenerateAction();
         LOG.info("EmployeeController.saveEmployee has been invoked with employee " + employee.toString());
         
         emSvc.create(employee);
@@ -172,7 +176,7 @@ public class EmployeeController implements Serializable{
      *
      * @return
      */
-    public String getGeneratedEmail() {
+    public String getGenerateEmail() {
     if (employee.getAuto_username() != null && !employee.getAuto_username().isEmpty()) {
         employee.setEmail(employee.getAuto_username() + "@cats.illinois.gov");
         return employee.getAuto_username() + "@cats.illinois.gov";
