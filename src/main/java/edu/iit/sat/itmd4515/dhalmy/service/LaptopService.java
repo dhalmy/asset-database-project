@@ -22,26 +22,44 @@ public class LaptopService extends AbstractService<Laptop> {
 
     private static final Logger LOG = Logger.getLogger(LaptopService.class.getName());
     
-    
-    
+    /**
+     *
+     */
     public LaptopService(){
         super(Laptop.class);
     }
     
+    /**
+     *
+     * @return
+     */
     public List<Laptop> findAll(){
         return super.findAll("Laptop.findAll");
     }
     
+    /**
+     *
+     * @return
+     */
     public List<Laptop> findAllUnused() {
         return em.createNamedQuery("Laptop.findAllUnused", Laptop.class).getResultList();
     }
     
+    /**
+     *
+     * @param employeeID
+     * @return
+     */
     public List<Laptop> findAllAvailableForEmployee(Long employeeID) {
         return em.createNamedQuery("Laptop.findAllAvailableForEmployee", Laptop.class)
                 .setParameter("employeeID", employeeID)
                 .getResultList();
     }
     
+    /**
+     *
+     * @param lt
+     */
     public void deleteLaptopWRTRelationships(Laptop lt) {
         Laptop managedLaptopRef = em.getReference(Laptop.class, lt.getLaptopID());
         if(managedLaptopRef.getEmployee() != null){
@@ -55,6 +73,10 @@ public class LaptopService extends AbstractService<Laptop> {
         em.remove(managedLaptopRef); 
     }
     
+    /**
+     *
+     * @param lt
+     */
     public void updateLaptopWRTRelationships(Laptop lt){
         Laptop managedLaptopRef = em.getReference(Laptop.class, lt.getLaptopID());
         

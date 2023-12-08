@@ -8,7 +8,7 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="laptop" type="edu.iit.sat.itmd4515.dhalmy.domain.Laptop" required="true" />
+        <cc:attribute name="monitor" type="edu.iit.sat.itmd4515.dhalmy.domain.Monitor" required="true" />
         <cc:attribute name="action" method-signature="java.lang.String action()" required="false" />
         <cc:attribute name="operation" type="java.lang.String" required="true" />
     </cc:interface>
@@ -20,26 +20,22 @@
 
             <p>       
                 <h:panelGroup layout="block" rendered="#{not cc.attrs.operation.equalsIgnoreCase('create')}">
-                    <h:outputLabel for="laptopID" value="Laptop ID #{cc.attrs.laptop.laptopID}" />
-                    <h:inputHidden id="laptopID" value="#{cc.attrs.laptop.laptopID}" />
-                    <h:message for="laptopID"/>
+                    <h:outputLabel for="monitorID" value="Monitor ID #{cc.attrs.monitor.monitorID}" />
+                    <h:inputHidden id="monitorID" value="#{cc.attrs.monitor.monitorID}" />
+                    <h:message for="monitorID"/>
                 </h:panelGroup>
             </p>
 
 
 
-
-
-
-
             <p>       
                 <h:panelGroup layout="block">
-                    <h:outputLabel for="assetTag" value="Laptop Asset Tag"></h:outputLabel>
+                    <h:outputLabel for="assetTag" value="Monitor Asset Tag"></h:outputLabel>
                     <h:inputText id="assetTag"
-                                 value="#{cc.attrs.laptop.assetTag}"
+                                 value="#{cc.attrs.monitor.assetTag}"
                                  readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
                                  style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
-                        <!--<f:ajax event="blur" listener="#{laptopController}" render="assetTag"/>-->
+                        <!--<f:ajax event="blur" listener="#{monitorController}" render="assetTag"/>-->
                     </h:inputText>
                     <h:message for="assetTag"/>
                 </h:panelGroup>
@@ -47,33 +43,9 @@
 
             <p>
                 <h:panelGroup layout="block">
-                    <h:outputLabel for="serialNum" value="Laptop Serial Number"></h:outputLabel>
-                    <h:inputText id="serialNum"
-                                 value="#{cc.attrs.laptop.serialNum}"
-                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
-                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
-                    </h:inputText>
-                    <h:message for="serialNum"/>
-                </h:panelGroup>
-            </p>
-
-            <p>
-                <h:panelGroup layout="block">
-                    <h:outputLabel for="ADName" value="Active Directory Name"></h:outputLabel>
-                    <h:inputText id="ADName"
-                                 value="#{cc.attrs.laptop.name}"
-                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
-                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
-                    </h:inputText>
-                    <h:message for="ADName"/>
-                </h:panelGroup>
-            </p>
-            
-            <p>
-                <h:panelGroup layout="block">
                     <h:outputLabel for="makeModel" value="Make and Model"></h:outputLabel>
                     <h:inputText id="makeModel"
-                                 value="#{cc.attrs.laptop.makeModel}"
+                                 value="#{cc.attrs.monitor.makeModel}"
                                  readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
                                  style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
                     </h:inputText>
@@ -81,24 +53,37 @@
                 </h:panelGroup>
             </p>
 
+            <p>
+                <h:panelGroup layout="block">
+                    <h:outputLabel for="serialNum" value="Monitor Serial Number"></h:outputLabel>
+                    <h:inputText id="serialNum"
+                                 value="#{cc.attrs.monitor.serialNum}"
+                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
+                    </h:inputText>
+                    <h:message for="serialNum"/>
+                </h:panelGroup>
+            </p>
+
+
 
             <p>
                 <h:commandButton
                     rendered="#{cc.attrs.operation.equalsIgnoreCase('create')}"
                     action="#{cc.attrs.action}"
-                    value="Create Laptop"/>
+                    value="Create Monitor"/>
             </p>
             <p>
                 <h:commandButton
                     rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}"
                     action="#{cc.attrs.action}"
-                    value="Update Laptop"/>
+                    value="Update Monitor"/>
             </p>
             <p>
                 <h:commandButton
                     rendered="#{cc.attrs.operation.equalsIgnoreCase('delete')}"
                     action="#{cc.attrs.action}"
-                    value="Delete Laptop"/>
+                    value="Delete Monitor"/>
             </p>
 
 

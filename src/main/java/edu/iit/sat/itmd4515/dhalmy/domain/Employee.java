@@ -22,6 +22,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -33,6 +37,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Employees")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQuery(name = "Employee.findAll", query = "select e from Employee e")
 public class Employee {
 
@@ -63,7 +69,7 @@ public class Employee {
     //validator not needed because email is statically generated based off of the auto_username
     private String email;
     
-    
+    @XmlTransient
     @OneToOne
     @JoinColumn(name = "user")
     private User user;
@@ -77,16 +83,27 @@ public class Employee {
     
     //had difficulty implementing employee as the owner of laptops and keep it bidrectional. can't have
     //manyToOne and be the inverse
+    
     @OneToMany(mappedBy = "employee")
 //    @JoinColumn(name = "laptop_id")
+    @XmlTransient
     private List<Laptop> laptops = new ArrayList<>();
 
-
+    /**
+     *
+     */
     public Employee() {
 
     }
     
-
+    /**
+     *
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param hireDate
+     * @param type
+     */
     public Employee(String firstName, String lastName, String username, LocalDate hireDate, EmployeeDepartment type) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -97,6 +114,13 @@ public class Employee {
     }
 
     //only must have requirements to add a employee
+
+    /**
+     *
+     * @param firstName
+     * @param lastName
+     * @param username
+     */
     public Employee(String firstName, String lastName, String username) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -106,6 +130,11 @@ public class Employee {
 
     
     //helper methods
+
+    /**
+     *
+     * @param lt
+     */
     public void addLaptop(Laptop lt) {
         if (lt != null && !this.laptops.contains(lt)) {
             this.laptops.add(lt);
@@ -113,6 +142,10 @@ public class Employee {
         }
     }
     
+    /**
+     *
+     * @param lt
+     */
     public void removeLaptop(Laptop lt) {
         if (lt != null && this.laptops.contains(lt)) {
             this.laptops.remove(lt);
@@ -120,6 +153,10 @@ public class Employee {
         }
     }
     
+    /**
+     *
+     * @param c
+     */
     public void addCubicle(Cubicle c){
         //checks if there's already a cubicle attached; if yes remove then add. if not just add.
         if(c != null && (this.cubicle == null || !this.cubicle.equals(c))){
@@ -131,6 +168,9 @@ public class Employee {
         }
     }
     
+    /**
+     *
+     */
     public void removeCubicle() {
         if (this.cubicle != null) {
             this.cubicle.removeEmployee(this);
@@ -155,55 +195,106 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     *
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     *
+     * @param lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAuto_username() {
         return auto_username;
     }
 
+    /**
+     *
+     * @param auto_username
+     */
     public void setAuto_username(String auto_username) {
         this.auto_username = auto_username;
     }
 
+    /**
+     *
+     * @return
+     */
     public LocalDate getHireDate() {
         return hireDate;
     }
 
+    /**
+     *
+     * @param hireDate
+     */
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public EmployeeDepartment getType() {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(EmployeeDepartment type) {
         this.type = type;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -211,6 +302,11 @@ public class Employee {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -234,26 +330,43 @@ public class Employee {
         return Objects.equals(this.employeeID, other.employeeID);
     }
 
-
-
-
+    /**
+     *
+     * @return
+     */
     public List<Laptop> getLaptops() {
         return laptops;
     }
 
+    /**
+     *
+     * @param laptops
+     */
     public void setLaptops(List<Laptop> laptops) {
         this.laptops = laptops;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Employee{" + "employeeID=" + employeeID + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + auto_username + ", hireDate=" + hireDate + ", type=" + type + ", email=" + email + ", cubicle=" + cubicle + ", laptops=" + laptops + '}';
     }
 
+    /**
+     *
+     * @return
+     */
     public Cubicle getCubicle() {
         return cubicle;
     }
 
+    /**
+     *
+     * @param newCubicle
+     */
     public void setCubicle(Cubicle newCubicle) {
         if (this.cubicle != null) {
             this.cubicle.getEmployees().remove(this);
@@ -264,9 +377,18 @@ public class Employee {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public User getUser() {
         return user;
     }
+
+    /**
+     *
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }

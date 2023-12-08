@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Monitors")
+@XmlRootElement
 @NamedQuery(name = "Monitor.findAll", query = "select m from Monitor m")
+//@NamedQuery(name = "Monitor.findCubicleByMonitorId", query = "SELECT c FROM Cubicle c JOIN c.monitors m WHERE m.monitorID = :monitorID")
 public class Monitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,19 +49,23 @@ public class Monitor {
     @Pattern(regexp = "^[a-zA-Z0-9 ]*", message = "Make and model must contain only letters and numbers")
     @Column(nullable = false, name = "Make_and_Model")
     private String makeModel;
-//    
-//    @ManyToOne
-//    @JoinColumn(name = "cubicle_id")
-//    private Cubicle cubicle;
     
+    @ManyToOne
+    @JoinColumn(name = "cubicle_id")
+    private Cubicle cubicle;
     
-
-
-    
-
+    /**
+     *
+     */
     public Monitor() {
     }
 
+    /**
+     *
+     * @param assetTag
+     * @param serialNum
+     * @param makeModel
+     */
     public Monitor(String assetTag, String serialNum, String makeModel) {
         this.assetTag = assetTag;
         this.serialNum = serialNum;
@@ -66,19 +73,37 @@ public class Monitor {
     }
 
     //only must have requirements to add a monitor
+
+    /**
+     *
+     * @param serialNum
+     * @param makeModel
+     */
     public Monitor(String serialNum, String makeModel) {
         this.serialNum = serialNum;
         this.makeModel = makeModel;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getMonitorID() {
         return monitorID;
     }
 
+    /**
+     *
+     * @param monitorID
+     */
     public void setMonitorID(Long monitorID) {
         this.monitorID = monitorID;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 5;
@@ -86,6 +111,11 @@ public class Monitor {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -107,36 +137,81 @@ public class Monitor {
         }
         return Objects.equals(this.monitorID, other.monitorID);
     }
+
+    /**
+     *
+     * @return
+     */
     public String getSerialNum() {
         return serialNum;
     }
+
+    /**
+     *
+     * @param serialNum
+     */
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getMakeModel() {
         return makeModel;
     }
+
+    /**
+     *
+     * @param makeModel
+     */
     public void setMakeModel(String makeModel) {
         this.makeModel = makeModel;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getAssetTag() {
         return assetTag;
     }
+
+    /**
+     *
+     * @param assetTag
+     */
     public void setAssetTag(String assetTag) {
         this.assetTag = assetTag;
     }
     
-//    public Cubicle getCubicle() {
-//        return cubicle;
-//    }
-//
-//    public void setCubicle(Cubicle cubicle) {
-//        this.cubicle = cubicle;
-//    }
+    /**
+     *
+     * @return
+     */
+    public Cubicle getCubicle() {
+        return cubicle;
+    }
 
+    /**
+     *
+     * @param cubicle
+     */
+    public void setCubicle(Cubicle cubicle) {
+        this.cubicle = cubicle;
+    }
+
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Monitor{" + "monitorID=" + monitorID + ", assetTag=" + assetTag + ", serialNum=" + serialNum + ", makeModel=" + makeModel + '}';
     }
+
+    
+
     
 }

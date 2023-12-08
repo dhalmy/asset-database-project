@@ -13,6 +13,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,6 +27,8 @@ import java.util.logging.Logger;
  */
 @Entity
 @Table(name = "SEC_USER")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQuery(name = "User.findAll", query = "select u from User u")
 @NamedQuery(name = "User.findByUsernameWithGroups", query = "select u from User u left join fetch u.groups where u.username = :username")
 @EntityListeners(UserPasswordHash.class)
@@ -39,18 +45,25 @@ public class User {
     
     
     //owning side
+    @XmlTransient
     @ManyToMany
     @JoinTable(name = "SEC_USER_GROUPS",
             joinColumns = @JoinColumn(name = "USERNAME"),
             inverseJoinColumns = @JoinColumn(name = "GROUPNAME"))
     private List<Group> groups = new ArrayList<>();
 
-
-    
-    
+    /**
+     *
+     */
     public User() {
     }
 
+    /**
+     *
+     * @param userName
+     * @param password
+     * @param enabled
+     */
     public User(String userName, String password, Boolean enabled) {
         this.username = userName;
         this.password = password;
@@ -58,6 +71,11 @@ public class User {
     }
     
     //helper methods
+
+    /**
+     *
+     * @param g
+     */
     public void addGroup(Group g) {
         if (g != null && !this.groups.contains(g)) {
             this.groups.add(g);
@@ -67,6 +85,10 @@ public class User {
         }
     }
     
+    /**
+     *
+     * @param g
+     */
     public void removeGroup(Group g) {
         if (g != null && this.groups.contains(g)) {
             this.groups.remove(g);
@@ -94,21 +116,51 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
+
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /**
+     *
+     * @return
+     */
     public Boolean isEnabled() {
         return enabled;
     }
+
+    /**
+     *
+     * @param enabled
+     */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<Group> getGroups() {
         return groups;
     }
+
+    /**
+     *
+     * @param groups
+     */
     public void setGroups(List<Group> groups) {
         this.groups = groups;
     }

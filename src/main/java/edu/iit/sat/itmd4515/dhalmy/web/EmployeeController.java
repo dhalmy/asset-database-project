@@ -35,6 +35,9 @@ public class EmployeeController implements Serializable{
     @Inject
     private SessionBean sb;
 
+    /**
+     *
+     */
     public EmployeeController() {
     }
     
@@ -44,7 +47,10 @@ public class EmployeeController implements Serializable{
         employee = new Employee();
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public String demoAction(){
         LOG.info("EmployeeController.demoAction has been invoked with employee " + employee.toString());
         return "confirmation.xhtml";
@@ -52,6 +58,12 @@ public class EmployeeController implements Serializable{
     
     
     //MVC action methods
+
+    /**
+     *
+     * @param e
+     * @return
+     */
     public String displayReadEmployeePage(Employee e){
         this.employee = e;
         LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
@@ -59,6 +71,11 @@ public class EmployeeController implements Serializable{
         return "/read-entity/readEmployee.xhtml";
     }
     
+    /**
+     *
+     * @param e
+     * @return
+     */
     public String displayUpdateEmployeePage(Employee e){
         this.employee = e;
         LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
@@ -66,6 +83,11 @@ public class EmployeeController implements Serializable{
         return "/update-entity/updateEmployee.xhtml";
     }
     
+    /**
+     *
+     * @param e
+     * @return
+     */
     public String displayDeleteEmployeePage(Employee e){
         this.employee = e;
         LOG.info("EmployeeController.displayReadEmployeePage has been invoked with employee" + employee.toString());
@@ -73,18 +95,26 @@ public class EmployeeController implements Serializable{
         return "/delete-entity/deleteEmployee.xhtml";
     }
     
-    
-    
-    
-    
+    /**
+     *
+     * @return
+     */
     public Employee getEmployee() {
         return employee;
     }
     
+    /**
+     *
+     * @param employee
+     */
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
     
+    /**
+     *
+     * @return
+     */
     public String updateEmployee(){
         LOG.info("EmployeeController.updateEmployee has been invoked with employee " + employee.toString());
         
@@ -95,6 +125,10 @@ public class EmployeeController implements Serializable{
         return returnPage;
     }
     
+    /**
+     *
+     * @return
+     */
     public String deleteEmployee(){
         LOG.info("EmployeeController.deleteEmployee has been invoked with employee " + employee.toString());
         
@@ -105,6 +139,10 @@ public class EmployeeController implements Serializable{
         return returnPage;
     }
     
+    /**
+     *
+     * @return
+     */
     public String saveEmployee(){
         LOG.info("EmployeeController.saveEmployee has been invoked with employee " + employee.toString());
         
@@ -122,11 +160,18 @@ public class EmployeeController implements Serializable{
     
     
     //helper method to auto-fill email
+
+    /**
+     *
+     */
     public void initEmployee(){
         employee = new Employee();
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public String getGeneratedEmail() {
     if (employee.getAuto_username() != null && !employee.getAuto_username().isEmpty()) {
         employee.setEmail(employee.getAuto_username() + "@cats.illinois.gov");
@@ -135,6 +180,10 @@ public class EmployeeController implements Serializable{
     return "";
 }
     //helper method to auto-fill username
+
+    /**
+     *
+     */
     public void generateUsername() {
     LOG.info("Inside the generateUsername method");
     String firstName = employee.getFirstName();

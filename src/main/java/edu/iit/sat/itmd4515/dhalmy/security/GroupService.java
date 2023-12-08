@@ -15,10 +15,17 @@ import java.util.List;
 @Stateless
 public class GroupService extends AbstractService<Group> {
     
+    /**
+     *
+     */
     public GroupService() {
         super(Group.class);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Group> findAll() {
         return super.findAll("Group.findAll");
     }

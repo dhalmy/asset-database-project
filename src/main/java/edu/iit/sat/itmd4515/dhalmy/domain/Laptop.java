@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -25,6 +26,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Laptops")
+@XmlRootElement
 @NamedQuery(name = "Laptop.findAll", query = "select a from Laptop a")
 @NamedQuery(name = "Laptop.findAllUnused", query = "SELECT l FROM Laptop l WHERE l.employee IS NULL")
 @NamedQuery(name = "Laptop.findAllAvailableForEmployee", 
@@ -61,12 +63,20 @@ public class Laptop {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     
-    
-    
-    
+    /**
+     *
+     */
     public Laptop() {
     }
 
+    /**
+     *
+     * @param assetTag
+     * @param name
+     * @param makeModel
+     * @param serialNum
+     * @param employee
+     */
     public Laptop(String assetTag, String name, String makeModel, String serialNum, Employee employee) {
         this.assetTag = assetTag;
         this.name = name;
@@ -75,17 +85,22 @@ public class Laptop {
         this.employee = employee;
     }
 
+    /**
+     *
+     * @param name
+     * @param makeModel
+     * @param serialNum
+     */
     public Laptop(String name, String makeModel, String serialNum) {
         this.name = name;
         this.makeModel = makeModel;
         this.serialNum = serialNum;
     }
 
-
-
-
-
-
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -93,6 +108,11 @@ public class Laptop {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -115,49 +135,98 @@ public class Laptop {
         return Objects.equals(this.laptopID, other.laptopID);
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getLaptopID() {
         return laptopID;
     }
 
+    /**
+     *
+     * @param laptopID
+     */
     public void setLaptopID(Long laptopID) {
         this.laptopID = laptopID;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAssetTag() {
         return assetTag;
     }
 
+    /**
+     *
+     * @param assetTag
+     */
     public void setAssetTag(String assetTag) {
         this.assetTag = assetTag;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMakeModel() {
         return makeModel;
     }
 
+    /**
+     *
+     * @param makeModel
+     */
     public void setMakeModel(String makeModel) {
         this.makeModel = makeModel;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String getSerialNum() {
         return serialNum;
     }
+
+    /**
+     *
+     * @param serialNum
+     */
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
     }
+
+    /**
+     *
+     * @return
+     */
     public Employee getEmployee() {
         return this.employee;
     }
     
+    /**
+     *
+     * @param employee
+     */
     public void addEmployee(Employee employee) {
         if(this.employee != null){
             this.employee.getLaptops().remove(this);
@@ -168,6 +237,9 @@ public class Laptop {
         }
     }
     
+    /**
+     *
+     */
     public void removeEmployee(){
         if(this.employee != null){
             Employee tempEmployee = this.employee;
@@ -176,6 +248,10 @@ public class Laptop {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Laptop{" + "laptopID=" + laptopID + ", assetTag=" + assetTag + ", name=" + name + ", makeModel=" + makeModel + ", serialNum=" + serialNum + ", employeeID=" + (employee != null ? employee.getEmployeeID() : "null") + '}';

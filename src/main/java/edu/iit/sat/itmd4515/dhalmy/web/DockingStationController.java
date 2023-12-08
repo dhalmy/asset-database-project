@@ -26,6 +26,9 @@ public class DockingStationController implements Serializable {
     @Inject
     private SessionBean sb;
 
+    /**
+     *
+     */
     public DockingStationController() {
     }
 
@@ -35,12 +38,22 @@ public class DockingStationController implements Serializable {
         dockingStation = new DockingStation();
     }
 
+    /**
+     *
+     * @return
+     */
     public String demoAction() {
         LOG.info("DockingStationController.demoAction has been invoked with dockingStation " + dockingStation.toString());
         return "confirmation.xhtml";
     }
 
     // MVC action methods
+
+    /**
+     *
+     * @param ds
+     * @return
+     */
     public String displayReadDockingStationPage(DockingStation ds) {
         this.dockingStation = ds;
         LOG.info("DockingStationController.displayReadDockingStationPage has been invoked with dockingStation" + dockingStation.toString());
@@ -48,6 +61,11 @@ public class DockingStationController implements Serializable {
         return "/read-entity/readDockingStation.xhtml";
     }
 
+    /**
+     *
+     * @param ds
+     * @return
+     */
     public String displayUpdateDockingStationPage(DockingStation ds) {
         this.dockingStation = ds;
         LOG.info("DockingStationController.displayUpdateDockingStationPage has been invoked with dockingStation" + dockingStation.toString());
@@ -55,6 +73,11 @@ public class DockingStationController implements Serializable {
         return "/update-entity/updateDockingStation.xhtml";
     }
     
+    /**
+     *
+     * @param ds
+     * @return
+     */
     public String displayDeleteDockingStationPage(DockingStation ds){
         this.dockingStation = ds;
         LOG.info("DockingStationController.displayReadDockingStationPage has been invoked with dockingStation" + dockingStation.toString());
@@ -62,15 +85,26 @@ public class DockingStationController implements Serializable {
         return "/delete-entity/deleteDockingStation.xhtml";
     }
 
-
+    /**
+     *
+     * @return
+     */
     public DockingStation getDockingStation() {
         return dockingStation;
     }
 
+    /**
+     *
+     * @param dockingStation
+     */
     public void setDockingStation(DockingStation dockingStation) {
         this.dockingStation = dockingStation;
     }
 
+    /**
+     *
+     * @return
+     */
     public String updateDockingStation() {
         LOG.info("DockingStationController.updateDockingStation has been invoked with dockingStation " + dockingStation.toString());
 
@@ -81,6 +115,10 @@ public class DockingStationController implements Serializable {
         return returnPage;
     }
 
+    /**
+     *
+     * @return
+     */
     public String deleteDockingStation() {
         LOG.info("DockingStationController.deleteDockingStation has been invoked with dockingStation " + dockingStation.toString());
 
@@ -91,6 +129,10 @@ public class DockingStationController implements Serializable {
         return returnPage;
     }
 
+    /**
+     *
+     * @return
+     */
     public String saveDockingStation() {
         LOG.info("DockingStationController.saveDockingStation has been invoked with dockingStation " + dockingStation.toString());
 

@@ -31,6 +31,9 @@ public class LaptopController implements Serializable{
     @Inject
     private SessionBean sb;
 
+    /**
+     *
+     */
     public LaptopController() {
     }
     
@@ -40,7 +43,10 @@ public class LaptopController implements Serializable{
         laptop = new Laptop();
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public String demoAction(){
         LOG.info("LaptopController.demoAction has been invoked with laptop " + laptop.toString());
         return "confirmation.xhtml";
@@ -48,6 +54,12 @@ public class LaptopController implements Serializable{
     
     
     //MVC action methods
+
+    /**
+     *
+     * @param l
+     * @return
+     */
     public String displayReadLaptopPage(Laptop l){
         this.laptop = l;
         LOG.info("LaptopController.displayReadLaptopPage has been invoked with laptop" + laptop.toString());
@@ -55,6 +67,11 @@ public class LaptopController implements Serializable{
         return "/read-entity/readLaptop.xhtml";
     }
     
+    /**
+     *
+     * @param l
+     * @return
+     */
     public String displayUpdateLaptopPage(Laptop l){
         this.laptop = l;
         LOG.info("LaptopController.displayUpdateLaptopPage has been invoked with laptop" + laptop.toString());
@@ -62,6 +79,11 @@ public class LaptopController implements Serializable{
         return "/update-entity/updateLaptop.xhtml";
     }
     
+    /**
+     *
+     * @param l
+     * @return
+     */
     public String displayDeleteLaptopPage(Laptop l){
         this.laptop = l;
         LOG.info("LaptopController.displayReadLaptopPage has been invoked with laptop" + laptop.toString());
@@ -69,16 +91,26 @@ public class LaptopController implements Serializable{
         return "/delete-entity/deleteLaptop.xhtml";
     }
     
+    /**
+     *
+     * @return
+     */
     public Laptop getLaptop() {
         return laptop;
     }
 
+    /**
+     *
+     * @param laptop
+     */
     public void setLaptop(Laptop laptop) {
         this.laptop = laptop;
     }
     
-
-    
+    /**
+     *
+     * @return
+     */
     public String updateLaptop(){
         LOG.info("LaptopController.updateLaptop has been invoked with laptop " + laptop.toString());
         
@@ -89,6 +121,10 @@ public class LaptopController implements Serializable{
         return returnPage;
     }
     
+    /**
+     *
+     * @return
+     */
     public String deleteLaptop(){
         LOG.info("LaptopController.deleteLaptop has been invoked with laptop " + laptop.toString());
         
@@ -99,6 +135,10 @@ public class LaptopController implements Serializable{
         return returnPage;
     }
     
+    /**
+     *
+     * @return
+     */
     public String saveLaptop(){
         LOG.info("LaptopController.saveLaptop has been invoked with laptop " + laptop.toString());
         

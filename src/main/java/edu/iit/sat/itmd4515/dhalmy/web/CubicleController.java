@@ -26,6 +26,9 @@ public class CubicleController implements Serializable {
     @Inject
     private SessionBean sb;
 
+    /**
+     *
+     */
     public CubicleController() {
     }
 
@@ -35,12 +38,22 @@ public class CubicleController implements Serializable {
         cubicle = new Cubicle();
     }
 
+    /**
+     *
+     * @return
+     */
     public String demoAction() {
         LOG.info("CubicleController.demoAction has been invoked with cubicle " + cubicle.toString());
         return "confirmation.xhtml";
     }
 
     // MVC action methods
+
+    /**
+     *
+     * @param c
+     * @return
+     */
     public String displayReadCubiclePage(Cubicle c) {
         this.cubicle = c;
         LOG.info("CubicleController.displayReadCubiclePage has been invoked with cubicle" + cubicle.toString());
@@ -48,6 +61,11 @@ public class CubicleController implements Serializable {
         return "/read-entity/readCubicle.xhtml";
     }
 
+    /**
+     *
+     * @param c
+     * @return
+     */
     public String displayUpdateCubiclePage(Cubicle c) {
         this.cubicle = c;
         LOG.info("CubicleController.displayUpdateCubiclePage has been invoked with cubicle" + cubicle.toString());
@@ -55,15 +73,26 @@ public class CubicleController implements Serializable {
         return "/update-entity/updateCubicle.xhtml";
     }
 
-
+    /**
+     *
+     * @return
+     */
     public Cubicle getCubicle() {
         return cubicle;
     }
 
+    /**
+     *
+     * @param cubicle
+     */
     public void setCubicle(Cubicle cubicle) {
         this.cubicle = cubicle;
     }
 
+    /**
+     *
+     * @return
+     */
     public String updateCubicle() {
         LOG.info("CubicleController.updateCubicle has been invoked with cubicle " + cubicle.toString());
 
@@ -84,6 +113,11 @@ public class CubicleController implements Serializable {
 //        sb.returnHighestPrivilege();
 //        return returnPage;
 //    }
+
+    /**
+     *
+     * @return
+     */
 
     public String saveCubicle() {
         LOG.info("CubicleController.saveCubicle has been invoked with cubicle " + cubicle.toString());

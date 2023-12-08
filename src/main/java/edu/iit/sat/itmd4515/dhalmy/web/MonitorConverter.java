@@ -4,8 +4,8 @@
  */
 package edu.iit.sat.itmd4515.dhalmy.web;
 
-import edu.iit.sat.itmd4515.dhalmy.domain.Laptop;
-import edu.iit.sat.itmd4515.dhalmy.service.LaptopService;
+import edu.iit.sat.itmd4515.dhalmy.domain.Monitor;
+import edu.iit.sat.itmd4515.dhalmy.service.MonitorService;
 import jakarta.ejb.EJB;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -16,10 +16,10 @@ import jakarta.faces.convert.FacesConverter;
  *
  * @author David
  */
-@FacesConverter(value = "laptopConverter", managed = true)
-public class LaptopConverter implements Converter<Laptop>{
+@FacesConverter(value = "monitorConverter", managed = true)
+public class MonitorConverter implements Converter<Monitor>{
     
-    @EJB LaptopService ltSvc;
+    @EJB MonitorService monSvc;
 
     /**
      *
@@ -29,8 +29,8 @@ public class LaptopConverter implements Converter<Laptop>{
      * @return
      */
     @Override
-    public Laptop getAsObject(FacesContext context, UIComponent component, String value) {
-        return ltSvc.read(Long.valueOf(value));
+    public Monitor getAsObject(FacesContext context, UIComponent component, String value) {
+        return monSvc.read(Long.valueOf(value));
     }
 
     /**
@@ -41,8 +41,8 @@ public class LaptopConverter implements Converter<Laptop>{
      * @return
      */
     @Override
-    public String getAsString(FacesContext context, UIComponent component, Laptop value) {
-        return String.valueOf(value.getLaptopID());
+    public String getAsString(FacesContext context, UIComponent component, Monitor value) {
+        return String.valueOf(value.getMonitorID());
     }
     
 }

@@ -28,13 +28,17 @@ public class Group {
     @ManyToMany(mappedBy = "groups")
     private List<User> users = new ArrayList<>();
 
-
-
-
-    
+    /**
+     *
+     */
     public Group() {
     }
 
+    /**
+     *
+     * @param groupName
+     * @param groupProperty
+     */
     public Group(String groupName, String groupProperty) {
         this.groupName = groupName;
         this.groupDescription = groupProperty;
@@ -50,6 +54,11 @@ public class Group {
     }
     
     //helper methods
+
+    /**
+     *
+     * @param u
+     */
     public void addUser(User u) {
         if (u != null && !this.users.contains(u)) {
             this.users.add(u);
@@ -59,6 +68,10 @@ public class Group {
         }
     }
 
+    /**
+     *
+     * @param u
+     */
     public void removeUser(User u) {
         if (u != null && this.users.contains(u)) {
             this.users.remove(u);
@@ -76,15 +89,35 @@ public class Group {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getGroupDescription() {
         return groupDescription;
     }
+
+    /**
+     *
+     * @param groupDescription
+     */
     public void setGroupDescription(String groupDescription) {
         this.groupDescription = groupDescription;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<User> getUsers() {
         return users;
     }
+
+    /**
+     *
+     * @param users
+     */
     public void setUsers(List<User> users) {
         this.users = users;
     }

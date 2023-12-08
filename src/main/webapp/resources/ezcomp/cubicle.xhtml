@@ -21,7 +21,7 @@
             <p>       
                 <h:panelGroup layout="block" rendered="#{not cc.attrs.operation.equalsIgnoreCase('create')}">
                     <h:outputLabel for="cubicleID" value="Cubicle Number #{cc.attrs.cubicle.cubicleID}" />
-                    <h:inputHidden id="cubicleID" value="#{cc.attrs.laptop.cubicleID}" />
+                    <h:inputHidden id="cubicleID" value="#{cc.attrs.cubicle.cubicleID}" />
                     <h:message for="cubicleID"/>
                 </h:panelGroup>
             </p>
@@ -34,16 +34,41 @@
 
             <p>       
                 <h:panelGroup layout="block">
-                    <h:outputLabel for="dockID" value="Docking Station ID"></h:outputLabel>
-                    <h:inputText id="dockID"
-                                 value="#{cc.attrs.cubicle.dockingStation.dockID}"
-                                 readonly="#{cc.attrs.operation.equalsIgnoreCase('read')}"
-                                 style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
-                    </h:inputText>
-                    <h:message for="dockID"/>
+                    <h:outputLabel for="dockID" value="Docking Station ID" />
+                    <h:selectOneMenu id="dockID" value="#{cc.attrs.cubicle.dockingStation}"
+                                     disabled="#{cc.attrs.operation.equalsIgnoreCase('read')}"
+                                     converter="dockingStationConverter">
+                        <f:selectItems value="#{cubicleService.findAvailableDockingStations(cc.attrs.cubicle.dockingStation.dockID)}"
+                                       var="dock"
+                                       itemValue="#{dock}"
+                                       itemLabel="#{dock.dockID}" />
+                    </h:selectOneMenu>
+                    <h:message for="dockID" />
                 </h:panelGroup>
             </p>
 
+
+
+
+
+<!--       <p>
+                <h:panelGroup layout="block" rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}">
+                    <h:outputLabel for="laptops" value="Laptops" />
+                    <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      id="laptops" 
+                                      value="#{cc.attrs.employee.laptops}"
+                                      converter="laptopConverter">
+
+                        <f:selectItems value="#{laptopService.findAllAvailableForEmployee(cc.attrs.employee.employeeID)}"
+                                       var="laptop"
+                                       itemLabel="#{laptop.name}"
+                                       itemValue="#{laptop}" />
+
+                    </h:selectManyCheckbox>
+                    <h:message for="laptops" />
+                </h:panelGroup>
+                        </p>-->
 
             <p>
                 <h:commandButton

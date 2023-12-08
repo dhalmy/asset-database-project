@@ -18,6 +18,10 @@ import java.time.LocalDate;
  */
 public class Demo {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
 
         Employee e = new Employee("Sam", "Smith", "ssmith", LocalDate.of(2022, 12, 05), EmployeeDepartment.IT);

@@ -42,7 +42,9 @@ public class StartupSingletonService {
     @EJB UserService userSvc;
     @EJB GroupService groupSvc;
     
-    
+    /**
+     *
+     */
     public StartupSingletonService() {
         //not in control of when this instance is constructed, payara controls this
         

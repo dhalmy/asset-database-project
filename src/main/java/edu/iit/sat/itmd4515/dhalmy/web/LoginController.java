@@ -48,16 +48,32 @@ public class LoginController {
     @Inject FacesContext facesContext;
     @EJB UserService userSvc;
 
-    
+    /**
+     *
+     */
     public LoginController() {
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isAdmin(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.ADMIN_ROLE);
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isIT(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.IT_ROLE);
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isHR(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.HR_ROLE);
     }
@@ -71,6 +87,11 @@ public class LoginController {
     }
     
     //helper method
+
+    /**
+     *
+     * @return
+     */
     public String getCurrentUser(){
         return facesContext.getExternalContext().getRemoteUser();
     }
@@ -80,6 +101,11 @@ public class LoginController {
     
     
     //action methods
+
+    /**
+     *
+     * @return
+     */
     public String login(){
         LOG.info("LoginController.login() with " + user.getUsername());
         
@@ -142,6 +168,11 @@ public class LoginController {
 //            
 //        return "/error.xhtml?faces-redirect=true";
 
+    /**
+     *
+     * @return
+     */
+
 
     
     public String logout() {
@@ -158,10 +189,18 @@ public class LoginController {
         return "/login.xhtml?faces-redirect=true";
     }
     
+    /**
+     *
+     * @return
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     *
+     * @param user
+     */
     public void setUser(User user) {
         this.user = user;
     }

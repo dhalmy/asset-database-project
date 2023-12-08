@@ -24,14 +24,26 @@ public class DockingStationService extends AbstractService<DockingStation>{
 
     private static final Logger LOG = Logger.getLogger(DockingStationService.class.getName());
     
+    /**
+     *
+     */
     public DockingStationService() {
         super(DockingStation.class);
     }
     
+    /**
+     *
+     * @return
+     */
     public List<DockingStation> findAll(){
         return super.findAll("DockingStation.findAll");
     }
     
+    
+    /**
+     *
+     * @param ds
+     */
     public void updateDockingStationWRTRelationships(DockingStation ds){
         DockingStation managedDockRef = em.getReference(DockingStation.class, ds.getDockID());
         
@@ -43,6 +55,10 @@ public class DockingStationService extends AbstractService<DockingStation>{
         em.merge(managedDockRef);
     }
     
+    /**
+     *
+     * @param ds
+     */
     public void deleteDockingStationWRTRelationships(DockingStation ds) {
         try {
             Cubicle cube = em.createNamedQuery("Cubicle.findCubicleByDockingStationID", Cubicle.class)

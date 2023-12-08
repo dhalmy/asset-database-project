@@ -15,6 +15,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
 /**
@@ -23,7 +24,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Docks")
+@XmlRootElement
 @NamedQuery(name = "DockingStation.findAll", query = "select d from DockingStation d")
+//@NamedQuery(name = "DockingStation.findAvailable", query = "SELECT d FROM DockingStation d WHERE d.cubicle IS NULL OR d = :currentDock")
 public class DockingStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,34 +45,61 @@ public class DockingStation {
     
     
     @Column(unique = true)
-    @Pattern(regexp = "^X[0-9]*", message = "Key must start with 'X' and contain only numbers")
+    @Pattern(regexp = "^X[0-9]*|^$", message = "Key must start with 'X' and contain only numbers or be blank")
     private String unlock_key;
 
     
 //    @OneToOne(mappedBy = "dockingStation")
 //    private Cubicle cubicle;
 
+    /**
+     *
+     */
+
     public DockingStation() {
     }
 
+    /**
+     *
+     * @param assetTag
+     * @param serialNum
+     * @param unlock_key
+     */
     public DockingStation(String assetTag, String serialNum, String unlock_key) {
         this.assetTag = assetTag;
         this.serialNum = serialNum;
         this.unlock_key = unlock_key;
     }
     //only must have requirements to add a dock
+
+    /**
+     *
+     * @param serialNum
+     */
     public DockingStation(String serialNum) {
         this.serialNum = serialNum;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getDockID() {
         return dockID;
     }
 
+    /**
+     *
+     * @param dockID
+     */
     public void setDockID(Long dockID) {
         this.dockID = dockID;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -77,6 +107,11 @@ public class DockingStation {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -98,21 +133,51 @@ public class DockingStation {
         }
         return Objects.equals(this.dockID, other.dockID);
     }
+
+    /**
+     *
+     * @return
+     */
     public String getAssetTag() {
         return assetTag;
     }
+
+    /**
+     *
+     * @param assetTag
+     */
     public void setAssetTag(String assetTag) {
         this.assetTag = assetTag;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getSerialNum() {
         return serialNum;
     }
+
+    /**
+     *
+     * @param serialNum
+     */
     public void setSerialNum(String serialNum) {
         this.serialNum = serialNum;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getKey() {
         return unlock_key;
     }
+
+    /**
+     *
+     * @param unlock_key
+     */
     public void setKey(String unlock_key) {
         this.unlock_key = unlock_key;
     }
@@ -125,15 +190,28 @@ public class DockingStation {
 //        this.cubicle = cubicle;
 //    }
 
+    /**
+     *
+     * @return
+     */
+
     @Override
     public String toString() {
         return "DockingStation{" + "dockID=" + dockID + ", assetTag=" + assetTag + ", serialNum=" + serialNum + ", unlock_key=" + unlock_key + '}';
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUnlock_key() {
         return unlock_key;
     }
 
+    /**
+     *
+     * @param unlock_key
+     */
     public void setUnlock_key(String unlock_key) {
         this.unlock_key = unlock_key;
     }

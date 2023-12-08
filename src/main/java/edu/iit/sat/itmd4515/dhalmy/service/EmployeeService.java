@@ -25,25 +25,48 @@ public class EmployeeService {
 
     private static final Logger LOG = Logger.getLogger(EmployeeService.class.getName());
     
+    /**
+     *
+     */
     @PersistenceContext(name = "itm4515PU")
     protected EntityManager em;
 
+    /**
+     *
+     */
     public EmployeeService() {
     }
     
+    /**
+     *
+     * @param e
+     */
     public void create(Employee e){
         em.persist(e);
     }
     
+    /**
+     *
+     * @param employeeID
+     * @return
+     */
     public Employee read(Long employeeID){
         return em.find(Employee.class, employeeID);
     }
     
+    /**
+     *
+     * @param e
+     */
     public void update(Employee e){
         em.merge(e);
         
     }
     
+    /**
+     *
+     * @param e
+     */
     public void deleteEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
         Cubicle cb = managedEmployeeRef.getCubicle();
@@ -59,7 +82,10 @@ public class EmployeeService {
         em.remove(managedEmployeeRef);
     }
     
-    
+    /**
+     *
+     * @param e
+     */
     public void updateEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
 
@@ -93,10 +119,18 @@ public class EmployeeService {
         
     }
     
+    /**
+     *
+     * @param e
+     */
     public void delete(Employee e){
         em.remove(em.merge(e));
     }
     
+    /**
+     *
+     * @return
+     */
     public List<Employee> findAll(){
         return em.createNamedQuery("Employee.findAll", Employee.class).getResultList();
     }

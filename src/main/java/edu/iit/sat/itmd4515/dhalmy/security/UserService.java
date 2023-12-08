@@ -15,14 +15,26 @@ import java.util.List;
 @Stateless
 public class UserService extends AbstractService<User> {
 
+    /**
+     *
+     */
     public UserService() {
         super(User.class);
     }
     
+    /**
+     *
+     * @return
+     */
     public List<User> findAll(){
         return super.findAll("User.findAll");
     }
     
+    /**
+     *
+     * @param username
+     * @return
+     */
     public User findUserWithGroupsByUsername(String username) {
         try {
             return em.createNamedQuery("User.findByUsernameWithGroups", User.class)

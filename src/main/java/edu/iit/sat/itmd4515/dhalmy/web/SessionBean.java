@@ -29,20 +29,39 @@ public class SessionBean implements Serializable {
     @Inject SecurityContext securityContext;
     String returnPage = "";
 
+    /**
+     *
+     */
     public SessionBean() {
     }
     
-
+    /**
+     *
+     * @return
+     */
     public boolean isAdmin(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.ADMIN_ROLE);
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isIT(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.IT_ROLE);
     }
+
+    /**
+     *
+     * @return
+     */
     public boolean isHR(){
         return securityContext.isCallerInRole(Itmd4515SecurityRoles.HR_ROLE);
     }
     
+    /**
+     *
+     */
     public void returnHighestPrivilege(){
 //        LOG.info("SESSION BEANS ARE BEING SET:");
         
@@ -60,10 +79,18 @@ public class SessionBean implements Serializable {
             setReturnPage("/error.xhtml?faces-redirect=true");
     }
 
+    /**
+     *
+     * @return
+     */
     public String getReturnPage() {
         return returnPage;
     }
 
+    /**
+     *
+     * @param returnPage
+     */
     public void setReturnPage(String returnPage) {
         this.returnPage = returnPage;
     }
