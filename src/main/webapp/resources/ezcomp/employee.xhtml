@@ -39,7 +39,7 @@
                                  value="#{cc.attrs.employee.firstName}"
                                  readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
                                  style="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete') ? 'background-color: #e0e0e0; border-color: #e0e0e0;' : ''}">
-                        <f:ajax event="blur" listener="#{employeeController}" render="employeeUsername"/>
+                        <f:ajax event="blur" listener="#{employeeController.generateUsername()}" render="employeeUsername"/>
                     </h:inputText>
                     <h:message for="employeeFirstName"/>
                 </h:panelGroup>
@@ -122,7 +122,26 @@
             </p>
 
             <p>
-                <h:panelGroup layout="block">
+                <h:panelGroup layout="block" rendered="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}">
+                    <h:outputLabel for="mylaptops" value="Laptops" />
+                    <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
+                                      id="mylaptops" 
+                                      value="#{cc.attrs.employee.laptops}"
+                                      converter="laptopConverter">
+
+                        <f:selectItems value="#{laptopService.findByEmployeeID(cc.attrs.employee.employeeID)}"
+                                       var="mylaptops"
+                                       itemLabel="#{mylaptops.name}"
+                                       itemValue="#{mylaptops}" />
+
+                    </h:selectManyCheckbox>
+                    <h:message for="laptops" />
+                </h:panelGroup>
+            </p>
+            
+            <p>
+                <h:panelGroup layout="block" rendered="#{cc.attrs.operation.equalsIgnoreCase('update')}">
                     <h:outputLabel for="laptops" value="Laptops" />
                     <h:selectManyCheckbox readonly="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"
                                       disabled="#{cc.attrs.operation.equalsIgnoreCase('read') or cc.attrs.operation.equalsIgnoreCase('delete')}"

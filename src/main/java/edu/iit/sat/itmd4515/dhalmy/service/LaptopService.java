@@ -50,6 +50,19 @@ public class LaptopService extends AbstractService<Laptop> {
     }
     
     /**
+     * Retrieves a list of employee's current laptops.
+     *
+     * @return a list of employee's current laptops in the database.
+     */
+    public List<Laptop> findByEmployeeID(Long employeeID) {
+        return em.createNamedQuery("Laptop.findByEmployeeID", Laptop.class)
+                .setParameter("employeeID", employeeID)
+                .getResultList();
+    }
+    
+    
+    
+    /**
      * Retrieves a list of laptops available for a specific employee.
      *
      * @param employeeID The ID of the employee to find available laptops for.

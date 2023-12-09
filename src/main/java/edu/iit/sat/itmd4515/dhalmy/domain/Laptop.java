@@ -85,7 +85,7 @@ public class Laptop {
         this.name = name;
         this.makeModel = makeModel;
         this.serialNum = serialNum;
-        this.employee = employee;
+        this.employee = null;
     }
 
     /**
