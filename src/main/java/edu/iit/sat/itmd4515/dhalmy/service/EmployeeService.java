@@ -86,10 +86,13 @@ public class EmployeeService {
      */
     public void deleteEmployeeWRTRelationships(Employee e) {
         Employee managedEmployeeRef = em.getReference(Employee.class, e.getEmployeeID());
-        Cubicle cb = managedEmployeeRef.getCubicle();
-        LOG.info("Removing employee: " + managedEmployeeRef.getAuto_username() + " from cubicle:" + cb.getCubicleID());
-        cb.removeEmployee(managedEmployeeRef);
-        em.merge(cb);
+        if(e.getCubicle() != null){
+            Cubicle cb = managedEmployeeRef.getCubicle();
+            LOG.info("Removing employee: " + managedEmployeeRef.getAuto_username() + " from cubicle:" + cb.getCubicleID());
+            cb.removeEmployee(managedEmployeeRef);
+            em.merge(cb);
+        }
+        
 
         for (Laptop laptop : new ArrayList<>(managedEmployeeRef.getLaptops())) {
             LOG.info("Removing laptop from employee: " + laptop.getName());

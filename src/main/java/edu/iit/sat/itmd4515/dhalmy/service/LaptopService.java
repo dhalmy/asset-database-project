@@ -52,6 +52,7 @@ public class LaptopService extends AbstractService<Laptop> {
     /**
      * Retrieves a list of employee's current laptops.
      *
+     * @param employeeID employee's ID
      * @return a list of employee's current laptops in the database.
      */
     public List<Laptop> findByEmployeeID(Long employeeID) {

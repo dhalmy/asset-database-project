@@ -105,6 +105,7 @@ public class Laptop {
     /**
      * Constructs a new Laptop object with the specified name, make and model, and serial number.
      * 
+     * @param assetTag The asset tag of the laptop.
      * @param name The name of the laptop.
      * @param makeModel The make and model of the laptop.
      * @param serialNum The serial number of the laptop.

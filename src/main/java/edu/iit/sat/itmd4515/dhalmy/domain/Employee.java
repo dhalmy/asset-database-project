@@ -137,7 +137,6 @@ public class Employee {
      * 
      * @param firstName The first name of the employee.
      * @param lastName The last name of the employee.
-     * @param username The username of the employee.
      */
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
