@@ -100,6 +100,21 @@ public class Laptop {
         this.makeModel = makeModel;
         this.serialNum = serialNum;
     }
+    
+    
+    /**
+     * Constructs a new Laptop object with the specified name, make and model, and serial number.
+     * 
+     * @param name The name of the laptop.
+     * @param makeModel The make and model of the laptop.
+     * @param serialNum The serial number of the laptop.
+     */
+    public Laptop(String assetTag, String serialNum, String name, String makeModel) {
+        this.assetTag = assetTag;
+        this.name = name;
+        this.makeModel = makeModel;
+        this.serialNum = serialNum;
+    }
 
     /**
      * Computes the hash code of the laptop based on its ID.

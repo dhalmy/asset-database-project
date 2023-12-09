@@ -131,6 +131,21 @@ public class Employee {
         this.auto_username = username;
         this.email = username + "@cats.illinois.gov";
     }
+    
+    /**
+     * Constructs a new Employee object with the specified first name, last name, and username without taking username parameter.
+     * 
+     * @param firstName The first name of the employee.
+     * @param lastName The last name of the employee.
+     * @param username The username of the employee.
+     */
+    public Employee(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        String user = (firstName.substring(0, 1) + lastName).toLowerCase();
+        this.auto_username = user;
+        this.email = user + "@cats.illinois.gov";
+    }
 
     //helper methods
 
@@ -390,16 +405,22 @@ public class Employee {
     }
 
     /**
-     * Sets the cubicle associated with the employee.
-     * 
+     * Sets the cubicle associated with the employee, managing both sides of the
+     * relationship.
+     *
      * @param newCubicle The cubicle to associate with.
      */
     public void setCubicle(Cubicle newCubicle) {
-        if (this.cubicle != null) {
+        // If currently associated with a different cubicle, remove the association.
+        if (this.cubicle != null && !this.cubicle.equals(newCubicle)) {
             this.cubicle.getEmployees().remove(this);
         }
+
+        // Update the cubicle reference.
         this.cubicle = newCubicle;
-        if (newCubicle != null) {
+
+        // If the new cubicle is not null and does not already contain this employee, add the employee.
+        if (newCubicle != null && !newCubicle.getEmployees().contains(this)) {
             newCubicle.getEmployees().add(this);
         }
     }
