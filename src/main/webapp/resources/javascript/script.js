@@ -8,6 +8,13 @@ function performSearch(event) {
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
     tables = document.getElementsByTagName("table");
+    
+    if (!input.value.trim()) {
+        showAllContent();
+        return;
+    }
+    
+    
 
     //loops through all tables
     for (var k = 0; k < tables.length; k++) {
@@ -42,6 +49,25 @@ function performSearch(event) {
             if (tableContainer.previousElementSibling && tableContainer.previousElementSibling.tagName === "H2") {
                 tableContainer.previousElementSibling.style.display = "none";
             }
+        }
+    }
+}
+
+function showAllContent() {
+    var tables = document.getElementsByTagName("table");
+
+    for (var k = 0; k < tables.length; k++) {
+        var tableContainer = tables[k].parentElement;
+        
+        var tr = tables[k].getElementsByTagName("tr");
+        for (var i = 1; i < tr.length; i++) {
+            tr[i].style.display = "";
+        }
+
+        tableContainer.style.display = "";
+
+        if (tableContainer.previousElementSibling && tableContainer.previousElementSibling.tagName === "H2") {
+            tableContainer.previousElementSibling.style.display = "";
         }
     }
 }
