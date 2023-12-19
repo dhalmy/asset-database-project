@@ -23,15 +23,7 @@ These are the accounts usernames designed to work with login, along with the per
 
 iwitty HR
 
-kreigster HR
-
-jusionator ADMIN
-
 gcolossalmer IT INTERN
-
-sbarksalot ADMIN
-
-apedrazzle ADMIN
 
 dhalmy ADMIN
 
