@@ -2,32 +2,46 @@
 ![Dashboard - right after ADMIN login](https://github.com/itmd4515/itmd4515-f23-fp-dhalmy/assets/91496056/0ee28ae5-6e64-40ac-af13-de2589f98cd5)
 
 
-<img src="https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b" width="100" height="100">
 
-
+Click to view each table:
 <details>
-  <summary>Employees table</summary>
+  <summary>Employees Table</summary>
   <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b">
 </details>
 
-![image](https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b=250x250)
+<details>
+  <summary>Laptops Table</summary>
+  <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/e034de08-2418-4bd2-bdea-2a7b7045c74d">
+</details>
 
-![image](https://github.com/dhalmy/asset-database-project/assets/91496056/e034de08-2418-4bd2-bdea-2a7b7045c74d)
+<details>
+  <summary>Cubicles Table</summary>
+  <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/5a4bd8f7-c936-4fc6-a4c2-bc4683a8a849">
+</details>
 
-![image](https://github.com/dhalmy/asset-database-project/assets/91496056/5a4bd8f7-c936-4fc6-a4c2-bc4683a8a849)
+<details>
+  <summary>Monitors Table</summary>
+  <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/3375cdb3-31eb-4b62-92d8-2fba5461c1c9">
+</details>
 
-![image](https://github.com/dhalmy/asset-database-project/assets/91496056/3375cdb3-31eb-4b62-92d8-2fba5461c1c9)
+<details>
+  <summary>Docking Stations Table</summary>
+  <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/a53dcb1f-88bb-4807-83c5-2c2f3a92e20f">
+</details>
 
-![image](https://github.com/dhalmy/asset-database-project/assets/91496056/a53dcb1f-88bb-4807-83c5-2c2f3a92e20f)
 
 
-• Project Summary 
+<br>
+
+• **Project Summary** 
 
 I created a fully functional asset tracking database for primarily for the IT department. This asset tracker acts as a portal for three different kinds of users: Admin users, IT users, and HR users. 
 Admin users have full Create, Read, Update, and Delete functionality. IT users have Create, Read and Update permissions, while HR only has view permissions.
 This database holds all the necessary information about employees, laptops, monitors, and docking stations.
 
-• Design 
+<br>
+
+• **Design** 
 
 The project supports all CRUD operations on employees, laptops, and monitors and read and update for cubicles spaces.
 There is a table for each main entity, including a "General View Table" which serves as a go-to place to look at for information about employees and the important information regarding them.
@@ -36,7 +50,9 @@ While the General View Table serves as the place for employee-centric informatio
 
 There is search functionality built into the project, where any searched item pulls from all the attributes and returns successful hits, in each respective table.
 
-• Requirements
+<br>
+
+• **Requirements**
 
 These are a few of the accounts usernames designed to work with login, along with the permissions assigned to each. The password for each account was set to be the same as the username for simplicity.
 
@@ -52,7 +68,9 @@ Once in NetBeans, you will have to attatch the Payara server by going to Service
 Then go to file > import project from ZIP > and import my project file.
 Then, run the application by clicking the green arrow.
 
-• Screen Captures 
+<br>
+
+• **Screen Captures** 
 
 Here's a demonstration through screenshots of a normal workflow in this project.
 Signing in: 
