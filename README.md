@@ -11,15 +11,16 @@ This database holds all the necessary information about employees, laptops, moni
 
 • Design 
 
-The project supports all CRUD operations on employees, laptops, and monitors. The project doesn't support creating cubicles or deleting cubicles since it doesn't support any needs.
-You cannot physically create or delete cubicles, so no need to implement that ability.
+The project supports all CRUD operations on employees, laptops, and monitors and read and update for cubicles spaces.
 There is a table for each main entity, including a "General View Table" which serves as a go-to place to look at for information about employees and the important information regarding them.
+
 While the General View Table serves as the place for employee-centric information, the Cubicles table was designed for a Cubicle-centric view for information, displaying important information regarding each cube such as who sits there, what monitors are there, and what docking stations are there.
+
 There is search functionality built into the project, where any searched item pulls from all the attributes and returns successful hits, in each respective table.
 
 • Requirements
 
-These are the accounts usernames designed to work with login, along with the permissions assigned to each. The password for each account is the same as the username.
+These are a few of the accounts usernames designed to work with login, along with the permissions assigned to each. The password for each account was set to be the same as the username for simplicity.
 
 iwitty HR
 
