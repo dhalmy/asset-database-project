@@ -2,6 +2,24 @@
 ![Dashboard - right after ADMIN login](https://github.com/itmd4515/itmd4515-f23-fp-dhalmy/assets/91496056/0ee28ae5-6e64-40ac-af13-de2589f98cd5)
 
 
+<img src="https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b" width="100" height="100">
+
+
+<details>
+  <summary>Employees table</summary>
+  <img src="https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b">
+</details>
+
+![image](https://github.com/dhalmy/asset-database-project/assets/91496056/3c6baae8-49a0-408b-8023-6ecaf464496b=250x250)
+
+![image](https://github.com/dhalmy/asset-database-project/assets/91496056/e034de08-2418-4bd2-bdea-2a7b7045c74d)
+
+![image](https://github.com/dhalmy/asset-database-project/assets/91496056/5a4bd8f7-c936-4fc6-a4c2-bc4683a8a849)
+
+![image](https://github.com/dhalmy/asset-database-project/assets/91496056/3375cdb3-31eb-4b62-92d8-2fba5461c1c9)
+
+![image](https://github.com/dhalmy/asset-database-project/assets/91496056/a53dcb1f-88bb-4807-83c5-2c2f3a92e20f)
+
 
 • Project Summary 
 
